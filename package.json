@@ -1,0 +1,19 @@
+{
+  "name": "pain-store",
+  "version": "1.0.0",
+  "description": "Backend para la e-commerce de pain store",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/NicoGoux/pain-store.git"
+  },
+  "author": "Nicolás Goux <nicolasgoux2000@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NicoGoux/pain-store/issues"
+  },
+  "homepage": "https://github.com/NicoGoux/pain-store#readme"
+}
