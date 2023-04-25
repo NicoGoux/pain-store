@@ -10,8 +10,8 @@ const productService = ProductService.getInstance();
 const categoryService = CategoryService.getInstance();
 const marketHashService = MarketHashService.getInstance();
 
-//Get all products
-productsRouter.get('/', (req, res) => {
+// Get all products
+productsRouter.get('/all', (req, res) => {
 	try {
 		const { limit, offset } = req.query;
 		const products = productService.getAllProducts();
@@ -22,16 +22,16 @@ productsRouter.get('/', (req, res) => {
 });
 
 //Get products with category
-productsRouter.get('/categories/:id', (req, res) => {
+productsRouter.get('/:category', (req, res) => {
 	return;
 });
 
-//Get products with filter
+// Get products with filter
 productsRouter.get('/', (req, res) => {
 	return;
 });
 
-//Get a product
+// Get a product
 productsRouter.get('/:id', (req, res) => {
 	const { id } = req.params;
 	return;

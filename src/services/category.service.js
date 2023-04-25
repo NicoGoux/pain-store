@@ -16,6 +16,10 @@ class CategoryService {
 		this.categoryDAO = new CategoryDAO();
 	}
 
+	getCategories() {
+		return this.categoryDAO.getCategories();
+	}
+
 	getCategory(category) {
 		return this.categoryDAO.getCategory(category);
 	}
