@@ -1,19 +1,31 @@
 {
-  "name": "pain-store",
-  "version": "1.0.0",
-  "description": "Backend para la e-commerce de pain store",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/NicoGoux/pain-store.git"
-  },
-  "author": "Nicolás Goux <nicolasgoux2000@gmail.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/NicoGoux/pain-store/issues"
-  },
-  "homepage": "https://github.com/NicoGoux/pain-store#readme"
+	"name": "pain-store",
+	"version": "1.0.0",
+	"description": "Backend para la e-commerce de pain store",
+	"main": "index.js",
+	"type": "module",
+	"scripts": {
+		"dev": "nodemon index.js",
+		"debug": "nodemon --inspect index.js",
+		"start": "node index.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+ssh://git@github.com/NicoGoux/pain-store.git"
+	},
+	"author": "Nicolás Goux <nicolasgoux2000@gmail.com>",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/NicoGoux/pain-store/issues"
+	},
+	"homepage": "https://github.com/NicoGoux/pain-store#readme",
+	"dependencies": {
+		"@supabase/supabase-js": "^2.21.0",
+		"dotenv": "^16.0.3",
+		"express": "^4.18.2",
+		"moment": "^2.29.4"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.22"
+	}
 }
