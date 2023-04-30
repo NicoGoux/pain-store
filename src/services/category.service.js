@@ -1,4 +1,4 @@
-import { CategoryDAO } from '../supabase/modelDAO/CategoryDAO.js';
+import { CategoryDAO } from '../database/modelDAO/CategoryDAO.js';
 
 let instance;
 

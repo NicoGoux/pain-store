@@ -1,13 +1,16 @@
 import express from 'express';
 
-import { productsRouter } from './products.router.js';
-import { categoryRouter } from './categories.router.js';
+import { productsRouter } from './product/products.router.js';
+
+const router = express.Router();
 
 function routerApi(app) {
-	const router = express.Router();
 	app.use('/api/v1', router);
 	router.use('/products', productsRouter);
-	router.use('/categories', categoryRouter);
 }
 
 export { routerApi };
+
+router.get('/', (req, res) => {
+	res.send('[Server] connected');
+});
