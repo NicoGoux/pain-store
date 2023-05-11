@@ -3,13 +3,15 @@ import dotenv from 'dotenv';
 
 //Config
 import { connectDB } from './src/config/database.js';
-import cLog from './src/config/cLog.js';
+import cLog from './src/utils/cLog.js';
 
+//Routes
 import { routerApi } from './src/routes/index.js';
 
 //import middleware
 import { boomErrorHandler, logError } from './src/middlewares/error.handler.js';
 import { errorHandler } from './src/middlewares/error.handler.js';
+import passport from 'passport';
 
 const app = express();
 dotenv.config();
@@ -20,6 +22,8 @@ const port = process.env.SERVER_PORT || '3000';
 connectDB();
 
 app.use(express.json());
+
+app.use(passport.initialize());
 
 routerApi(app);
 

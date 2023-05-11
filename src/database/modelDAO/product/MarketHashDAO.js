@@ -1,4 +1,4 @@
-import { MarketHashDTO } from '../model/product/MarketHash.js';
+import { MarketHashDTO } from '../../model/product/MarketHash.js';
 import { CategoryDAO } from './CategoryDAO.js';
 import boom from '@hapi/boom';
 
@@ -8,11 +8,11 @@ class MarketHashDAO {
 	async getMarketHash(marketHash) {
 		return await MarketHashDTO.findOne({
 			marketHashString: marketHash.marketHashString,
-		}).populate('category');
+		});
 	}
 
 	async getMarketHashes() {
-		return await MarketHashDTO.find().populate('category');
+		return await MarketHashDTO.find();
 	}
 
 	async insertMarketHash(marketHash) {
@@ -31,8 +31,8 @@ class MarketHashDAO {
 			marketHash.category = category;
 			const marketHashDTO = new MarketHashDTO(marketHash);
 			return await marketHashDTO.save();
-		} catch (error) {
-			throw error;
+		} catch (err) {
+			throw err;
 		}
 	}
 
@@ -40,8 +40,8 @@ class MarketHashDAO {
 	async insertMarketHashes(marketHashes) {
 		const marketHashesInserted = await Promise.all(
 			marketHashes.map(await this.insertMarketHash)
-		).catch((error) => {
-			throw boom.boomify(error, {
+		).catch((err) => {
+			throw boom.boomify(err, {
 				message: 'Conflict on insert market hash',
 				statusCode: 409,
 			});

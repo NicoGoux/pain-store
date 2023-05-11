@@ -1,4 +1,4 @@
-import { ProductStatusDTO } from '../model/product/ProductStatus.js';
+import { ProductStatusDTO } from '../../model/product/ProductStatus.js';
 
 class ProductStatusDAO {
 	constructor() {}
@@ -16,16 +16,16 @@ class ProductStatusDAO {
 			if (productStatusSaved) {
 				return productStatus;
 			}
-		} catch (error) {
-			throw error;
+		} catch (err) {
+			throw err;
 		}
 	}
 
 	async insertProductStatuses(productStatuses) {
 		const productStatusInserted = await Promise.all(
 			productStatuses.map(await this.insertProductStatus)
-		).catch((error) => {
-			throw boom.boomify(error, {
+		).catch((err) => {
+			throw boom.boomify(err, {
 				message: 'Conflict on insert product status',
 				statusCode: 409,
 			});

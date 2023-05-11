@@ -21,6 +21,15 @@ const CategorySchema = new Schema({
 	},
 });
 
+function autopopulate(next) {
+	this.populate('parentCategory');
+	next();
+}
+
+CategorySchema.pre('findById', autopopulate);
+CategorySchema.pre('findOne', autopopulate);
+CategorySchema.pre('find', autopopulate);
+
 const CategoryDTO = mongoose.model('category', CategorySchema);
 
 export { CategoryDTO };

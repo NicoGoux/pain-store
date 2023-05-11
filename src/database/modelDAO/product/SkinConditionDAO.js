@@ -1,4 +1,4 @@
-import { SkinConditionDTO } from '../model/product/SkinCondition.js';
+import { SkinConditionDTO } from '../../model/product/SkinCondition.js';
 
 class SkinConditionDAO {
 	constructor() {}
@@ -20,16 +20,16 @@ class SkinConditionDAO {
 			if (skinConditionSaved) {
 				return skinCondition;
 			}
-		} catch (error) {
-			throw error;
+		} catch (err) {
+			throw err;
 		}
 	}
 
 	async insertSkinConditions(skinConditions) {
 		const skinConditionsInserted = await Promise.all(
 			skinConditions.map(await this.insertSkinCondition)
-		).catch((error) => {
-			throw boom.boomify(error, {
+		).catch((err) => {
+			throw boom.boomify(err, {
 				message: 'Conflict on insert skin conditions',
 				statusCode: 409,
 			});

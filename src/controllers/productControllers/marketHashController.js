@@ -1,4 +1,4 @@
-import { MarketHashService } from '../services/marketHash.service.js';
+import { MarketHashService } from '../../services/product/marketHash.service.js';
 
 const marketHashService = MarketHashService.getInstance();
 

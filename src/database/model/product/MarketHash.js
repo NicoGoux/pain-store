@@ -17,6 +17,15 @@ const MarketHashSchema = new Schema({
 	},
 });
 
+function autopopulate(next) {
+	this.populate('category');
+	next();
+}
+
+MarketHashSchema.pre('findById', autopopulate);
+MarketHashSchema.pre('findOne', autopopulate);
+MarketHashSchema.pre('find', autopopulate);
+
 const MarketHashDTO = mongoose.model('market_hash', MarketHashSchema);
 
 export { MarketHashDTO };

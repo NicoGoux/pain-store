@@ -1,4 +1,4 @@
-import cLog from '../config/cLog.js';
+import cLog from '../utils/cLog.js';
 
 function logError(err, req, res, next) {
 	cLog.red(err);

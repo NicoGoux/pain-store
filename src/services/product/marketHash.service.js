@@ -1,4 +1,4 @@
-import { MarketHashDAO } from '../database/modelDAO/MarketHashDAO.js';
+import { MarketHashDAO } from '../../database/modelDAO/product/MarketHashDAO.js';
 
 let instance;
 

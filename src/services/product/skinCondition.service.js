@@ -1,4 +1,4 @@
-import { SkinConditionDAO } from '../database/modelDAO/SkinConditionDAO.js';
+import { SkinConditionDAO } from '../../database/modelDAO/product/SkinConditionDAO.js';
 
 let instance;
 

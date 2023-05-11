@@ -1,4 +1,4 @@
-import { CategoryDAO } from '../database/modelDAO/CategoryDAO.js';
+import { CategoryDAO } from '../../database/modelDAO/product/CategoryDAO.js';
 
 let instance;
 

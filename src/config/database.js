@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import cLog from './cLog.js';
+import cLog from '../utils/cLog.js';
 
 const connectDB = async () => {
 	try {
@@ -11,9 +11,9 @@ const connectDB = async () => {
 			useUnifiedTopology: true,
 		});
 		cLog.cyan(`[Mongoose] Database connected\n`);
-	} catch (error) {
+	} catch (err) {
 		cLog.red(`[Mongoose] Error connecting to database`);
-		throw error;
+		throw err;
 	}
 };
 

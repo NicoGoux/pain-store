@@ -1,5 +1,5 @@
-import { SkinConditionDAO } from '../database/modelDAO/SkinConditionDAO.js';
-import { SkinConditionService } from '../services/skinCondition.service.js';
+import { SkinConditionDAO } from '../../database/modelDAO/product/SkinConditionDAO.js';
+import { SkinConditionService } from '../../services/product/skinCondition.service.js';
 
 const skinConditionService = SkinConditionService.getInstance();
 
@@ -12,6 +12,10 @@ const getAll = async (req, res, next) => {
 	}
 };
 
+/**
+ *
+ * @description: Only for initial populate
+ */
 const populateSkinConditions = async (req, res, next) => {
 	const skinConditions = [
 		{ skinConditionString: 'Factory New' },

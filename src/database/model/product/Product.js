@@ -43,6 +43,15 @@ const ProductSchema = new Schema(
 	{ timestamps: true }
 );
 
+function autopopulate(next) {
+	this.populate(['marketHash', 'skinCondition', 'productStatus']);
+	next();
+}
+
+ProductSchema.pre('findById', autopopulate);
+ProductSchema.pre('findOne', autopopulate);
+ProductSchema.pre('find', autopopulate);
+
 const ProductDTO = mongoose.model('product', ProductSchema);
 
 export { ProductDTO };

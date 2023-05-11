@@ -2,17 +2,17 @@ import boom from '@hapi/boom';
 import { MarketHashDAO } from './MarketHashDAO.js';
 import { SkinConditionDAO } from './SkinConditionDAO.js';
 import { ProductStatusDAO } from './ProductStatusDAO.js';
-import { ProductDTO } from '../model/product/Product.js';
+import { ProductDTO } from '../../model/product/Product.js';
 
 class ProductDAO {
 	constructor() {}
 
 	async getProducts() {
-		return await ProductDTO.find().populate();
+		return await ProductDTO.find().lean();
 	}
 
 	async getProduct(id) {
-		return await ProductDTO.findById(id).populate().lean();
+		return await ProductDTO.findById(id).lean();
 	}
 
 	async insertProduct(product) {
@@ -45,9 +45,9 @@ class ProductDAO {
 			const productDTO = new ProductDTO(product);
 			const productCreated = await productDTO.save();
 			return productCreated;
-		} catch (error) {
-			throw boom.boomify(error, {
-				message: 'Conflict on insert insert product',
+		} catch (err) {
+			throw boom.boomify(err, {
+				message: 'Conflict on insert product',
 				statusCode: 409,
 			});
 		}
@@ -58,8 +58,8 @@ class ProductDAO {
 			const productUpdated = await ProductDTO.findByIdAndUpdate(id, patch, { new: true });
 
 			return productUpdated;
-		} catch (error) {
-			throw boom.boomify(error, {
+		} catch (err) {
+			throw boom.boomify(err, {
 				message: 'Conflict on update product',
 				statusCode: 409,
 			});

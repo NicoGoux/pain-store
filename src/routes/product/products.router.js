@@ -1,61 +1,66 @@
 import express from 'express';
 
-import { categoryRouter } from './categories.router.js';
-import { skinConditionRouter } from './skinCondition.router.js';
+// Subroutes
+import { categoriesRouter } from './categories.router.js';
+import { skinConditionsRouter } from './skinConditions.router.js';
+import { marketHashesRouter } from './marketHashes.router.js';
 
+// Controllers
 import {
 	addProduct,
-	updateProduct,
-	getProducts,
 	getProduct,
-	populateProductStatuses,
-} from '../../controllers/productsController.js';
+	getProducts,
+	updateProduct,
+} from '../../controllers/productControllers/productsController.js';
 
 // Validator middleware
 import { validatorHandler } from '../../middlewares/validator.handler.js';
-import {
-	createProductSchema,
-	updateProductSchema,
-} from '../../validator/schemas/product.joi.schema.js';
+import { createProductSchema, updateProductSchema } from '../../schemas/product.joi.schema.js';
 
-// Populate middlewares
-import { populateCategories } from '../../controllers/categoriesController.js';
-import { populateSkinConditions } from '../../controllers/skinConditionsController.js';
-import { getMarketHashes, insertMarketHash } from '../../controllers/marketHashController.js';
+// Populate middlewares / only for init database
+import { populateRouter } from './populate.router.js';
+import { passportAuthJwt } from '../../config/auth/passportAuth.js';
+import { checkRoles } from '../../middlewares/auth.handler.js';
+import { accessLevel } from '../../config/auth/accessLevel.js';
 
 const productsRouter = express.Router();
 
 // Categories router
-productsRouter.use('/categories', categoryRouter);
-productsRouter.use('/skin_conditions', skinConditionRouter);
+productsRouter.use('/categories', categoriesRouter);
+
+// Skin conditions router
+productsRouter.use('/skin_conditions', skinConditionsRouter);
+
+// Market hashes router
+productsRouter.use('/market_hashes', marketHashesRouter);
+
+/**
+ * @description: Only for initial populate
+ */
+productsRouter.use('/populate', passportAuthJwt, checkRoles(accessLevel.LEVEL_1), populateRouter);
 
 // Get products
 productsRouter.get('/', getProducts);
 
-// Get products
+// Get product by id
 productsRouter.get('/:id', getProduct);
 
 //Add product
-productsRouter.post('/', validatorHandler(createProductSchema, 'body'), addProduct);
-
-//Update product
-productsRouter.patch('/:id', validatorHandler(updateProductSchema, 'body'), updateProduct);
-
-//Get market hashes
-productsRouter.get('/market_hashes', getMarketHashes);
-
-//TODO Only for populate
 productsRouter.post(
-	'/populate',
-	populateCategories,
-	populateSkinConditions,
-	populateProductStatuses,
-	(req, res, next) => {
-		res.send('Populate complete');
-	}
+	'/',
+	passportAuthJwt,
+	checkRoles(accessLevel.LEVEL_1),
+	validatorHandler(createProductSchema, 'body'),
+	addProduct
 );
 
-//TODO Only for test
-productsRouter.post('/market_hash', insertMarketHash);
+//Update product
+productsRouter.patch(
+	'/:id',
+	passportAuthJwt,
+	checkRoles(accessLevel.LEVEL_1),
+	validatorHandler(updateProductSchema, 'body'),
+	updateProduct
+);
 
 export { productsRouter };

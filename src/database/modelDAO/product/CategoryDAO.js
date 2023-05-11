@@ -1,11 +1,11 @@
 import boom from '@hapi/boom';
-import { CategoryDTO } from '../model/product/Category.js';
+import { CategoryDTO } from '../../model/product/Category.js';
 
 class CategoryDAO {
 	constructor() {}
 
 	async getCategory(category) {
-		return await CategoryDTO.findOne({ name: category.name }).populate();
+		return await CategoryDTO.findOne({ name: category.name });
 	}
 
 	async getCategories() {
@@ -18,7 +18,7 @@ class CategoryDAO {
 				// Search parent
 				const parent = await CategoryDTO.findOne({
 					name: category.parentCategory,
-				}).populate();
+				});
 
 				if (!parent) {
 					throw boom.conflict('Parent not found');
@@ -28,8 +28,8 @@ class CategoryDAO {
 			}
 			const categoryDTO = new CategoryDTO(category);
 			return await categoryDTO.save();
-		} catch (error) {
-			throw error;
+		} catch (err) {
+			throw err;
 		}
 	}
 
@@ -37,8 +37,8 @@ class CategoryDAO {
 	async insertCategories(categories) {
 		const categoriesInserted = await Promise.all(
 			categories.map(await this.insertCategory)
-		).catch((error) => {
-			throw boom.boomify(error, {
+		).catch((err) => {
+			throw boom.boomify(err, {
 				message: 'Conflict on insert category',
 				statusCode: 409,
 			});

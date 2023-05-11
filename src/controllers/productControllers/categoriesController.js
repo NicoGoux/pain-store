@@ -1,5 +1,5 @@
-import { CategoryDAO } from '../database/modelDAO/CategoryDAO.js';
-import { CategoryService } from '../services/category.service.js';
+import { CategoryDAO } from '../../database/modelDAO/product/CategoryDAO.js';
+import { CategoryService } from '../../services/product/category.service.js';
 
 const categoryService = CategoryService.getInstance();
 
@@ -12,6 +12,10 @@ const getAll = async (req, res, next) => {
 	}
 };
 
+/**
+ *
+ * @description: Only for initial populate
+ */
 const populateCategories = async (req, res, next) => {
 	const categories = [
 		{
