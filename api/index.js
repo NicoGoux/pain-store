@@ -40,5 +40,5 @@ app.use(boomErrorHandler);
 app.use(errorHandler);
 
 app.listen(port, () => {
-	cLog.cyan(`\n[Server] Listening on ${ip}:${port}\n`);
+	cLog.cyan(`\n[Server] Listening on ${port}\n`);
 });
