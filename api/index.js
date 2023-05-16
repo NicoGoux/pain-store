@@ -2,15 +2,15 @@ import express from 'express';
 import dotenv from 'dotenv';
 
 //Config
-import { connectDB } from './src/config/database.js';
-import cLog from './src/utils/cLog.js';
+import { connectDB } from './config/database.js';
+import cLog from './utils/cLog.js';
 
 //Routes
-import { routerApi } from './src/routes/index.js';
+import { routerApi } from './routes/index.js';
 
 //import middleware
-import { boomErrorHandler, logError } from './src/middlewares/error.handler.js';
-import { errorHandler } from './src/middlewares/error.handler.js';
+import { boomErrorHandler, logError } from './middlewares/error.handler.js';
+import { errorHandler } from './middlewares/error.handler.js';
 import passport from 'passport';
 
 const app = express();
