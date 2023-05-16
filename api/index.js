@@ -25,11 +25,15 @@ app.use(express.json());
 
 app.use(passport.initialize());
 
-routerApi(app);
+app.get('/', (req, res) => {
+	res.send('[Express] server running - ruta: /');
+});
 
 app.get('/api', (req, res) => {
-	res.send('[Express] server running');
+	res.send('[Express] server running - ruta: /api');
 });
+
+routerApi(app);
 
 //add middleware in order
 app.use(logError);
