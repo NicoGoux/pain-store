@@ -28,7 +28,7 @@ app.use(passport.initialize());
 routerApi(app);
 
 app.get('/', (req, res) => {
-	req.send('[Express] server running');
+	res.send('[Express] server running');
 });
 
 //add middleware in order
