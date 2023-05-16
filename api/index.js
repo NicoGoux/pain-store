@@ -16,7 +16,6 @@ import passport from 'passport';
 const app = express();
 dotenv.config();
 
-const ip = process.env.SERVER_IP || 'localhost';
 const port = process.env.PORT || '3030';
 
 connectDB();
@@ -40,6 +39,6 @@ app.use(logError);
 app.use(boomErrorHandler);
 app.use(errorHandler);
 
-app.listen(port, ip, () => {
+app.listen(port, () => {
 	cLog.cyan(`\n[Server] Listening on ${ip}:${port}\n`);
 });
