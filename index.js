@@ -17,7 +17,7 @@ const app = express();
 dotenv.config();
 
 const ip = process.env.SERVER_IP || 'localhost';
-const port = process.env.PORT || '3000';
+const port = process.env.PORT || '3030';
 
 connectDB();
 
@@ -26,6 +26,10 @@ app.use(express.json());
 app.use(passport.initialize());
 
 routerApi(app);
+
+app.get('/', (req, res) => {
+	req.send('[Express] server running');
+});
 
 //add middleware in order
 app.use(logError);
