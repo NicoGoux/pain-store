@@ -1,8 +1,17 @@
 import express from 'express';
 import dotenv from 'dotenv';
 
-import { initSupabase } from './src/supabase/SupabaseClient.js';
+//Config
+import { connectDB } from './src/config/database.js';
+import cLog from './src/utils/cLog.js';
+
+//Routes
 import { routerApi } from './src/routes/index.js';
+
+//import middleware
+import { boomErrorHandler, logError } from './src/middlewares/error.handler.js';
+import { errorHandler } from './src/middlewares/error.handler.js';
+import passport from 'passport';
 
 const app = express();
 dotenv.config();
@@ -10,19 +19,19 @@ dotenv.config();
 const ip = process.env.SERVER_IP || 'localhost';
 const port = process.env.SERVER_PORT || '3000';
 
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_KEY;
-
-initSupabase(supabaseUrl, supabaseKey);
+connectDB();
 
 app.use(express.json());
 
+app.use(passport.initialize());
+
 routerApi(app);
 
-app.get('/', (req, res) => {
-	res.send('[Server] connected');
-});
+//add middleware in order
+app.use(logError);
+app.use(boomErrorHandler);
+app.use(errorHandler);
 
 app.listen(port, ip, () => {
-	console.log(`[Server] escuchando en ${ip}:${port}`);
+	cLog.cyan(`\n[Server] Listening on ${ip}:${port}\n`);
 });
