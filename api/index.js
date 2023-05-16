@@ -21,12 +21,7 @@ const port = process.env.PORT || '3030';
 connectDB();
 
 app.use(express.json());
-
 app.use(passport.initialize());
-
-app.get('/', (req, res) => {
-	res.send('[Express] server running - ruta: /');
-});
 
 app.get('/api', (req, res) => {
 	res.send('[Express] server running - ruta: /api');
