@@ -25,7 +25,9 @@ connectDB();
 const whitelist = [
 	'http://localhost:3000',
 	'https://painstore.netlify.app',
-	'http://190.246.87.32',
+	'http://190.246.87.32:5173',
+	'http://190.246.87.32:*',
+	'192.168.1.155:*',
 ];
 const cordsOptions = {
 	origin: function (origin, callback) {
