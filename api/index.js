@@ -29,7 +29,7 @@ const whitelist = [
 ];
 const cordsOptions = {
 	origin: function (origin, callback) {
-		cLog(`[connection] from: ${origin}`);
+		cLog.yellow(`[connection] from: ${origin}`);
 		if (whitelist.includes(origin) || !origin) {
 			callback(null, true);
 		} else {
@@ -39,7 +39,6 @@ const cordsOptions = {
 };
 
 app.use(cors(cordsOptions));
-//Routing
 
 app.use(express.json());
 app.use(passport.initialize());
