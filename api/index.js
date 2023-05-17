@@ -22,25 +22,26 @@ const port = process.env.PORT || '3030';
 connectDB();
 
 //cors
-const whitelist = [
-	'http://localhost:3000',
-	'https://painstore.netlify.app',
-	'http://190.246.87.32:5173',
-	'http://190.246.87.32:*',
-	'192.168.1.155:*',
-];
-const cordsOptions = {
-	origin: function (origin, callback) {
-		cLog.yellow(`[connection] from: ${origin}`);
-		if (whitelist.includes(origin) || !origin) {
-			callback(null, true);
-		} else {
-			callback(new Error('CORS Error'));
-		}
-	},
-};
+// TODO
+// const whitelist = [
+// 	'http://localhost:3000',
+// 	'https://painstore.netlify.app',
+// 	'http://190.246.87.32:5173',
+// 	'http://190.246.87.32:*',
+// 	'192.168.1.155:*',
+// ];
+// const cordsOptions = {
+// 	origin: function (origin, callback) {
+// 		cLog.yellow(`[connection] from: ${origin}`);
+// 		if (whitelist.includes(origin) || !origin) {
+// 			callback(null, true);
+// 		} else {
+// 			callback(new Error('CORS Error'));
+// 		}
+// 	},
+// };
 
-app.use(cors(cordsOptions));
+app.use(cors({ origin: '*' }));
 
 app.use(express.json());
 app.use(passport.initialize());
