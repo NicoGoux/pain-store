@@ -37,7 +37,7 @@ usersRouter.post(
 // Login user
 usersRouter.post('/login', validatorHandler(loginUserSchema, 'body'), passportAuthLocal, loginUser);
 
-usersRouter.post('/autologin', passportAuthJwt, autoLoginUser);
+usersRouter.get('/autologin', passportAuthJwt, autoLoginUser);
 
 // Confirm email
 usersRouter.get(

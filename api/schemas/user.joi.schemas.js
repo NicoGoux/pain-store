@@ -47,7 +47,7 @@ const registerUserSchema = Joi.object({
 		lastName: lastName.required(),
 		password: password
 			.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/) // one digit and one number in any position
-			.min(4)
+			.min(6)
 			.messages({
 				'string.base': 'Password must be a string',
 				'string.empty': 'Password cannot be empty',
