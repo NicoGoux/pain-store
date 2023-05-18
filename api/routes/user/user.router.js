@@ -12,10 +12,11 @@ import {
 } from '../../controllers/userController/userController.js';
 import {
 	loginUserSchema,
-	emailSchema,
+	recoveryEmailSchema,
 	recoveryPasswordSchema,
 	registerUserSchema,
 	confirmEmailSchema,
+	sendConfirmEmailSchema,
 } from '../../schemas/user.joi.schemas.js';
 import { passportAuthJwt, passportAuthLocal } from '../../config/auth/passportAuth.js';
 import { checkRoles } from '../../middlewares/auth.handler.js';
@@ -40,10 +41,11 @@ usersRouter.post('/login', validatorHandler(loginUserSchema, 'body'), passportAu
 usersRouter.get('/autologin', passportAuthJwt, autoLoginUser);
 
 // Confirm email
-usersRouter.get(
-	'/confirm-email',
+usersRouter.post(
+	'/send-confirm-email',
 	passportAuthJwt,
 	checkRoles(accessLevel.LEVEL_2),
+	validatorHandler(sendConfirmEmailSchema, 'body'),
 	sendEmailConfirm
 );
 
@@ -56,7 +58,7 @@ usersRouter.post(
 );
 
 // Recovery password
-usersRouter.post('/recovery', validatorHandler(emailSchema, 'body'), emailPasswordRecovery);
+usersRouter.post('/recovery', validatorHandler(recoveryEmailSchema, 'body'), emailPasswordRecovery);
 
 usersRouter.post(
 	'/recovery/change-password',

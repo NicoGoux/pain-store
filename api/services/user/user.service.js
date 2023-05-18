@@ -47,7 +47,7 @@ class UserService {
 	//#endregion
 
 	//#region confirm email
-	async sendConfirmEmail(user) {
+	async sendConfirmEmail(user, email) {
 		try {
 			const userFound = await this.userDAO.getUserById(user.sub);
 
@@ -76,7 +76,7 @@ class UserService {
 			}
 
 			//TODO
-			const link = `http://myfrontend.com/confirm-email?token=${emailConfirmToken}`;
+			const link = `http://${domain}/#/confirm-email?token=${emailConfirmToken}`;
 
 			// email message
 			const infoEmail = {
@@ -121,7 +121,7 @@ class UserService {
 	//#endregion
 
 	//#region password recovery
-	async sendPasswordRecovery(email) {
+	async sendPasswordRecovery(email, domain) {
 		try {
 			const user = await this.userDAO.getUserByEmail(email);
 
@@ -143,7 +143,7 @@ class UserService {
 			}
 
 			//TODO
-			const link = `http://myfrontend.com/recovery?token=${recoveryToken}`;
+			const link = `http://${domain}/#/recovery-password?token=${recoveryToken}`;
 
 			// email message
 			const infoEmail = {

@@ -49,7 +49,8 @@ const autoLoginUser = async (req, res, next) => {
 const sendEmailConfirm = async (req, res, next) => {
 	try {
 		const user = req.user;
-		const message = await userService.sendConfirmEmail(user);
+		const { domain } = req.body;
+		const message = await userService.sendConfirmEmail(user, domain);
 		return res.json(message);
 	} catch (error) {
 		next(error);
@@ -70,8 +71,8 @@ const emailConfirm = async (req, res, next) => {
 //#region Password recovery
 const emailPasswordRecovery = async (req, res, next) => {
 	try {
-		const { email } = req.body;
-		const message = await userService.sendPasswordRecovery(email);
+		const { email, domain } = req.body;
+		const message = await userService.sendPasswordRecovery(email, domain);
 		return res.json(message);
 	} catch (error) {
 		next(error);

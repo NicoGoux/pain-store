@@ -3,7 +3,7 @@ import { CategoryService } from '../../services/product/category.service.js';
 
 const categoryService = CategoryService.getInstance();
 
-const getAll = async (req, res, next) => {
+const getAllCategories = async (req, res, next) => {
 	try {
 		const categories = await categoryService.getCategories();
 		return res.json(categories);
@@ -84,4 +84,4 @@ const populateCategories = async (req, res, next) => {
 	}
 };
 
-export { getAll, populateCategories };
+export { getAllCategories, populateCategories };

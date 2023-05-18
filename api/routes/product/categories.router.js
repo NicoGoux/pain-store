@@ -1,10 +1,10 @@
 import express from 'express';
 
 //Categories controller
-import { getAll } from '../../controllers/productControllers/categoriesController.js';
+import { getAllCategories } from '../../controllers/productControllers/categoriesController.js';
 
 const categoriesRouter = express.Router();
 
-categoriesRouter.get('/', getAll);
+categoriesRouter.get('/', getAllCategories);
 
 export { categoriesRouter };

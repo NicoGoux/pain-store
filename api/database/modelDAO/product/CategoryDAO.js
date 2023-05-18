@@ -5,11 +5,23 @@ class CategoryDAO {
 	constructor() {}
 
 	async getCategory(category) {
-		return await CategoryDTO.findOne({ name: category.name });
+		return await CategoryDTO.findOne({ name: category.name }).lean();
 	}
 
 	async getCategories() {
-		return await CategoryDTO.find();
+		return await CategoryDTO.find().lean();
+	}
+
+	async getCategoriesWithoutParent() {
+		return await CategoryDTO.find({ parentCategory: null }, { _id: 1, name: 1, order: 1 })
+			.select('-parentCategory -__v')
+			.lean();
+	}
+
+	async getCategoriesWithParent(parent) {
+		return await CategoryDTO.find({ parentCategory: parent })
+			.select('-parentCategory -v')
+			.lean();
 	}
 
 	async insertCategory(category) {

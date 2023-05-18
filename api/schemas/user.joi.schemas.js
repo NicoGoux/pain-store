@@ -69,6 +69,15 @@ const emailSchema = Joi.object({
 	email: email.required(),
 });
 
+const recoveryEmailSchema = Joi.object({
+	email: email.required(),
+	domain: Joi.string().required(),
+});
+
+const sendConfirmEmailSchema = Joi.object({
+	domain: Joi.string().required(),
+});
+
 const confirmEmailSchema = Joi.object({
 	emailConfirmToken: Joi.string().required(),
 });
@@ -93,6 +102,8 @@ export {
 	registerUserSchema,
 	loginUserSchema,
 	emailSchema,
+	recoveryEmailSchema,
+	sendConfirmEmailSchema,
 	confirmEmailSchema,
 	recoveryPasswordSchema,
 };
