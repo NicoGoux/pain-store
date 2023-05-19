@@ -9,6 +9,12 @@ const SkinConditionSchema = new Schema({
 		required: true,
 		unique: true,
 	},
+	initials: {
+		type: String,
+		trim: true,
+		required: true,
+		unique: true,
+	},
 });
 
 const SkinConditionDTO = mongoose.model('skin_condition', SkinConditionSchema);

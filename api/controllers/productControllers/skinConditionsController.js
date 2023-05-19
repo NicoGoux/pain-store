@@ -18,18 +18,22 @@ const getAll = async (req, res, next) => {
  */
 const populateSkinConditions = async (req, res, next) => {
 	const skinConditions = [
-		{ skinConditionString: 'Factory New' },
-		{ skinConditionString: 'Minimal Wear' },
-		{ skinConditionString: 'Field-Tested' },
-		{ skinConditionString: 'Well-Worn' },
-		{ skinConditionString: 'Battle-Scarred' },
-		{ skinConditionString: 'Vanilla' },
+		{ skinConditionString: 'Factory New', initials: 'FN' },
+		{ skinConditionString: 'Minimal Wear', initials: 'MW' },
+		{ skinConditionString: 'Field-Tested', initials: 'FT' },
+		{ skinConditionString: 'Well-Worn', initials: 'WW' },
+		{ skinConditionString: 'Battle-Scarred', initials: 'BS' },
+		{ skinConditionString: 'Vanilla', initials: 'V' },
 	];
 
 	try {
 		const skinConditionDAO = new SkinConditionDAO();
-		await skinConditionDAO.insertSkinConditions(skinConditions);
-		next();
+		const log = await skinConditionDAO.updateSkinCondition({
+			skinConditionString: 'Factory New',
+			initials: 'FN',
+		});
+		console.log(log);
+		res.json(log);
 		return;
 	} catch (err) {
 		next(err);

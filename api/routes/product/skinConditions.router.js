@@ -1,5 +1,8 @@
 import express from 'express';
-import { getAll } from '../../controllers/productControllers/skinConditionsController.js';
+import {
+	getAll,
+	populateSkinConditions,
+} from '../../controllers/productControllers/skinConditionsController.js';
 
 const skinConditionsRouter = express.Router();
 

@@ -37,6 +37,14 @@ class SkinConditionDAO {
 
 		return skinConditionsInserted;
 	}
+
+	async updateSkinCondition(skinCondition) {
+		console.log('entra');
+		return SkinConditionDTO.updateOne(
+			{ skinConditionString: skinCondition.skinConditionString },
+			{ initials: skinCondition.initials }
+		);
+	}
 }
 
 export { SkinConditionDAO };
