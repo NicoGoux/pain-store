@@ -10,7 +10,7 @@ class SkinConditionDAO {
 	}
 
 	async getSkinConditions() {
-		return await SkinConditionDTO.find();
+		return await SkinConditionDTO.find().sort({ order: 1 });
 	}
 
 	async insertSkinCondition(skinCondition) {
@@ -42,7 +42,7 @@ class SkinConditionDAO {
 		console.log('entra');
 		return SkinConditionDTO.updateOne(
 			{ skinConditionString: skinCondition.skinConditionString },
-			{ initials: skinCondition.initials }
+			{ initials: skinCondition.initials, order: skinCondition.order }
 		);
 	}
 }

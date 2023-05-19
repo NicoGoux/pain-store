@@ -15,6 +15,10 @@ const SkinConditionSchema = new Schema({
 		required: true,
 		unique: true,
 	},
+	order: {
+		type: Number,
+		required: true,
+	},
 });
 
 const SkinConditionDTO = mongoose.model('skin_condition', SkinConditionSchema);
