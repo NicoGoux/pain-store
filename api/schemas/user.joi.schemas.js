@@ -83,7 +83,7 @@ const confirmEmailSchema = Joi.object({
 });
 
 const recoveryPasswordSchema = Joi.object({
-	recoveryPasswordtoken: Joi.string().required(),
+	recoveryPasswordToken: Joi.string().required(),
 	password: password
 		.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/) // one digit and one number in any position
 		.min(4)
