@@ -143,7 +143,7 @@ class UserService {
 			}
 
 			//TODO
-			const link = `http://${domain}/#/recovery-password?token=${recoveryToken}`;
+			const link = `http://${domain}/#/login/recovery/password?token=${recoveryToken}`;
 
 			// email message
 			const infoEmail = {
