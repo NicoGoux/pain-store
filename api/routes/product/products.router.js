@@ -29,7 +29,7 @@ const productsRouter = express.Router();
 productsRouter.use('/categories', categoriesRouter);
 
 // Skin conditions router
-productsRouter.use('/skin_conditions', skinConditionsRouter);
+productsRouter.use('/skin-conditions', skinConditionsRouter);
 
 // Market hashes router
 productsRouter.use('/market_hashes', marketHashesRouter);
