@@ -33,6 +33,7 @@ class UserCartDAO {
 			}
 
 			cart.products.push(product);
+
 			await cart.save();
 			return { message: 'inserted' };
 		} catch (err) {
@@ -57,7 +58,11 @@ class UserCartDAO {
 			});
 
 			let newProductCart = [...cart.products];
-			newProductCart.splice(newProductCart.indexOf(product, 1));
+
+			newProductCart = newProductCart.filter((productInCart) => {
+				return productInCart._id.toString() != product._id.toString();
+			});
+
 			cart.products = [...newProductCart];
 
 			await cart.save();
