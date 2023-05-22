@@ -41,6 +41,9 @@ class MarketHashDAO {
 		const marketHashesInserted = await Promise.all(
 			marketHashes.map(await this.insertMarketHash)
 		).catch((err) => {
+			if (err.isBoom) {
+				throw err;
+			}
 			throw boom.boomify(err, {
 				message: 'Conflict on insert market hash',
 				statusCode: 409,

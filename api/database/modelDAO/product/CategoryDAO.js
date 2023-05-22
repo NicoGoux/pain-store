@@ -50,6 +50,9 @@ class CategoryDAO {
 		const categoriesInserted = await Promise.all(
 			categories.map(await this.insertCategory)
 		).catch((err) => {
+			if (err.isBoom) {
+				throw err;
+			}
 			throw boom.boomify(err, {
 				message: 'Conflict on insert category',
 				statusCode: 409,

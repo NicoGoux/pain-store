@@ -10,45 +10,66 @@ class UserCartDAO {
 
 	//#region get cart
 	async insertProductToCart(userId, productId) {
-		// get user cart
-		const cart = await this.getUserCartById(userId);
+		try {
+			// get user cart
+			const cart = await this.getUserCartById(userId);
 
-		// Check if product is in the cart
-		const isProductInCart = cart.products.some((productInCart) => {
-			return productInCart._id.toString() === productId;
-		});
+			// Check if product is in the cart
+			const isProductInCart = cart.products.some((productInCart) => {
+				return productInCart._id.toString() === productId;
+			});
 
-		if (isProductInCart) {
-			return await cart.save();
+			if (isProductInCart) {
+				return { message: 'inserted' };
+			}
+
+			// get product
+			const productDAO = new ProductDAO();
+			const product = await productDAO.getProduct(productId);
+
+			// product
+			if (product.productStatus.productStatusString != productStatusStrings.DISPONIBLE) {
+				throw boom.conflict(`product status isn't ${productStatusStrings.DISPONIBLE}`);
+			}
+
+			cart.products.push(product);
+			await cart.save();
+			return { message: 'inserted' };
+		} catch (err) {
+			if (err.isBoom) {
+				throw err;
+			}
+			throw boom.boomify(err, {
+				statusCode: 409,
+				message: 'conflict on insert product to cart',
+			});
 		}
-
-		// get product
-		const productDAO = new ProductDAO();
-		const product = await productDAO.getProduct(productId);
-
-		// product
-		if (product.productStatus.productStatusString != productStatusStrings.DISPONIBLE) {
-			throw boom.conflict(`product status isn't ${productStatusStrings.DISPONIBLE}`);
-		}
-
-		cart.products.push(product);
-		return await cart.save();
 	}
 
 	//#region get cart
 	async removeProductToCart(userId, productId) {
-		// get user cart
-		const cart = await this.getUserCartById(userId);
+		try {
+			// get user cart
+			const cart = await this.getUserCartById(userId);
 
-		const product = cart.products.find((productInCart) => {
-			return productInCart._id.toString() === productId;
-		});
+			const product = cart.products.find((productInCart) => {
+				return productInCart._id.toString() === productId;
+			});
 
-		let newProductCart = [...cart.products];
-		newProductCart.splice(newProductCart.indexOf(product, 1));
-		cart.products = [...newProductCart];
+			let newProductCart = [...cart.products];
+			newProductCart.splice(newProductCart.indexOf(product, 1));
+			cart.products = [...newProductCart];
 
-		return await cart.save();
+			return await cart.save();
+		} catch (err) {
+			if (err.isBoom) {
+				throw err;
+			}
+			throw boom.boomify(err, {
+				statusCode: 409,
+				message: 'conflict on insert product to cart',
+			});
+		}
 	}
 
 	async getUserCartById(userId) {

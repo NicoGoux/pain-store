@@ -25,6 +25,9 @@ class ProductStatusDAO {
 		const productStatusInserted = await Promise.all(
 			productStatuses.map(await this.insertProductStatus)
 		).catch((err) => {
+			if (err.isBoom) {
+				throw err;
+			}
 			throw boom.boomify(err, {
 				message: 'Conflict on insert product status',
 				statusCode: 409,

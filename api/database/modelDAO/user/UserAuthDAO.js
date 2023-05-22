@@ -12,6 +12,9 @@ class UserAuthDAO {
 			delete newUserRegistered._doc.password;
 			return newUserRegistered;
 		} catch (err) {
+			if (err.isBoom) {
+				throw err;
+			}
 			throw boom.boomify(err, {
 				message: 'Conflict on insert user',
 				statusCode: 409,
@@ -47,6 +50,9 @@ class UserAuthDAO {
 				{ returnOriginal: false }
 			);
 		} catch (err) {
+			if (err.isBoom) {
+				throw err;
+			}
 			throw boom.boomify(err, {
 				message: 'Conflict on save emailConfirmToken',
 				statusCode: 409,
@@ -62,6 +68,9 @@ class UserAuthDAO {
 				{ returnOriginal: false }
 			);
 		} catch (err) {
+			if (err.isBoom) {
+				throw err;
+			}
 			throw boom.boomify(err, {
 				message: 'Conflict on confirm email',
 				statusCode: 409,
@@ -79,6 +88,9 @@ class UserAuthDAO {
 				{ returnOriginal: false }
 			);
 		} catch (err) {
+			if (err.isBoom) {
+				throw err;
+			}
 			throw boom.boomify(err, {
 				message: 'Conflict on save recoveryToken',
 				statusCode: 409,
@@ -94,6 +106,9 @@ class UserAuthDAO {
 				{ returnOriginal: false }
 			);
 		} catch (err) {
+			if (err.isBoom) {
+				throw err;
+			}
 			throw boom.boomify(err, {
 				message: 'Conflict on update password',
 				statusCode: 409,

@@ -29,6 +29,9 @@ class SkinConditionDAO {
 		const skinConditionsInserted = await Promise.all(
 			skinConditions.map(await this.insertSkinCondition)
 		).catch((err) => {
+			if (err.isBoom) {
+				throw err;
+			}
 			throw boom.boomify(err, {
 				message: 'Conflict on insert skin conditions',
 				statusCode: 409,

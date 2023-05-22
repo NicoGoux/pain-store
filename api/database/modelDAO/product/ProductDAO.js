@@ -51,6 +51,9 @@ class ProductDAO {
 			const productCreated = await productDTO.save();
 			return productCreated;
 		} catch (err) {
+			if (err.isBoom) {
+				throw err;
+			}
 			throw boom.boomify(err, {
 				message: 'Conflict on insert product',
 				statusCode: 409,
@@ -64,6 +67,9 @@ class ProductDAO {
 
 			return productUpdated;
 		} catch (err) {
+			if (err.isBoom) {
+				throw err;
+			}
 			throw boom.boomify(err, {
 				message: 'Conflict on update product',
 				statusCode: 409,

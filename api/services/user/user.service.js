@@ -92,7 +92,6 @@ class UserService {
 			};
 			return await sendEmail(infoEmail);
 		} catch (err) {
-			// throw boom.conflict();
 			throw boom.boomify(err, {
 				message: 'unauthorized',
 				statusCode: 409,
