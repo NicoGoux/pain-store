@@ -1,7 +1,7 @@
 import boom from '@hapi/boom';
 import { UserDTO } from '../../model/User/User.js';
 
-class UserDAO {
+class UserAuthDAO {
 	constructor() {}
 
 	//#region insert user
@@ -103,4 +103,4 @@ class UserDAO {
 	//#endregion
 }
 
-export { UserDAO };
+export { UserAuthDAO };

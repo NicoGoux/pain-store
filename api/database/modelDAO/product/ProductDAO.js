@@ -3,6 +3,7 @@ import { MarketHashDAO } from './MarketHashDAO.js';
 import { SkinConditionDAO } from './SkinConditionDAO.js';
 import { ProductStatusDAO } from './ProductStatusDAO.js';
 import { ProductDTO } from '../../model/product/Product.js';
+import { productStatusStrings } from '../../../config/productStatus.js';
 
 class ProductDAO {
 	constructor() {}
@@ -12,7 +13,11 @@ class ProductDAO {
 	}
 
 	async getProduct(id) {
-		return await ProductDTO.findById(id).lean();
+		try {
+			return await ProductDTO.findById(id).lean();
+		} catch (error) {
+			throw boom.notFound('Product not found');
+		}
 	}
 
 	async insertProduct(product) {
@@ -64,6 +69,26 @@ class ProductDAO {
 				statusCode: 409,
 			});
 		}
+	}
+
+	async getAvailableProductsFromList(products) {
+		const productsAvailable = [];
+
+		await Promise.all(
+			products.map(async (product) => {
+				const isAvailable = await this.checkAvailableStatus(product);
+				if (isAvailable) {
+					productsAvailable.push(product);
+				}
+			})
+		);
+
+		return productsAvailable;
+	}
+
+	async checkAvailableStatus(product) {
+		const productFound = await this.getProduct(product._id);
+		return productFound.productStatus.productStatusString === productStatusStrings.DISPONIBLE;
 	}
 }
 

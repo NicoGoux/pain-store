@@ -21,6 +21,11 @@ import {
 import { passportAuthJwt, passportAuthLocal } from '../../config/auth/passportAuth.js';
 import { checkRoles } from '../../middlewares/auth.handler.js';
 import { accessLevel } from '../../config/auth/accessLevel.js';
+import {
+	getUserCart,
+	insertProductToCart,
+	removeProductToCart,
+} from '../../controllers/userController/userCartController.js';
 
 const usersRouter = express.Router();
 
@@ -64,6 +69,18 @@ usersRouter.post(
 	'/recovery/change-password',
 	validatorHandler(recoveryPasswordSchema, 'body'),
 	passwordRecovery
+);
+
+// User cart
+usersRouter.get('/cart', passportAuthJwt, checkRoles(accessLevel.LEVEL_2), getUserCart);
+
+usersRouter.post('/cart', passportAuthJwt, checkRoles(accessLevel.LEVEL_2), insertProductToCart);
+
+usersRouter.post(
+	'/cart/remove',
+	passportAuthJwt,
+	checkRoles(accessLevel.LEVEL_2),
+	removeProductToCart
 );
 
 export { usersRouter };

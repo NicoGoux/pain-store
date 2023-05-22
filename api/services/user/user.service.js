@@ -1,8 +1,9 @@
 import bcrypt from 'bcrypt';
-import { UserDAO } from '../../database/modelDAO/user/UserDAO.js';
+import { UserAuthDAO } from '../../database/modelDAO/user/UserAuthDAO.js';
 import boom from '@hapi/boom';
 import jwt from 'jsonwebtoken';
 import { sendEmail } from '../../utils/nodemailer.js';
+import { UserCartDAO } from '../../database/modelDAO/user/UserCartDAO.js';
 
 let instance;
 
@@ -17,24 +18,25 @@ class UserService {
 	}
 
 	constructor() {
-		this.userDAO = new UserDAO();
+		this.userAuthDAO = new UserAuthDAO();
+		this.userCartDAO = new UserCartDAO();
 	}
 
 	//#region  Register user
 	registerUser(newUser) {
 		const hash = bcrypt.hashSync(newUser.password, 10);
-		return this.userDAO.createUser({ ...newUser, password: hash });
+		return this.userAuthDAO.createUser({ ...newUser, password: hash });
 	}
 
 	registerAdmin(newUser) {
 		const hash = bcrypt.hashSync(newUser.password, 10);
-		return this.userDAO.createUser({ ...newUser, role: 'ADMIN', password: hash });
+		return this.userAuthDAO.createUser({ ...newUser, role: 'ADMIN', password: hash });
 	}
 	//#endregion
 
 	//#region Login user
 	async loginUserByEmail(email, password) {
-		const user = await this.userDAO.getUserByEmail(email);
+		const user = await this.userAuthDAO.getUserByEmail(email);
 
 		const passwordMatch = await bcrypt.compare(password, user.password);
 		if (!passwordMatch) {
@@ -49,7 +51,7 @@ class UserService {
 	//#region confirm email
 	async sendConfirmEmail(user, email) {
 		try {
-			const userFound = await this.userDAO.getUserById(user.sub);
+			const userFound = await this.userAuthDAO.getUserById(user.sub);
 
 			if (userFound.emailConfirm === true) {
 				return { message: 'email confirmed' };
@@ -65,7 +67,7 @@ class UserService {
 			);
 
 			// Add token to the user
-			const userUpdated = await this.userDAO.updateEmailConfirmToken(
+			const userUpdated = await this.userAuthDAO.updateEmailConfirmToken(
 				userFound.id,
 				emailConfirmToken
 			);
@@ -101,12 +103,12 @@ class UserService {
 	async confirmEmail(token) {
 		try {
 			const payload = jwt.verify(token, process.env.JWT_SEC_CONFIRM_EMAIL);
-			const user = await this.userDAO.getUserById(payload.sub);
+			const user = await this.userAuthDAO.getUserById(payload.sub);
 			if (user.emailConfirmToken != token) {
 				throw boom.unauthorized();
 			}
 
-			const userUpdated = await this.userDAO.updateEmailConfirm(user.id);
+			const userUpdated = await this.userAuthDAO.updateEmailConfirm(user.id);
 
 			// Check update
 			if (user.emailConfirm == userUpdated.emailConfirm) {
@@ -123,7 +125,7 @@ class UserService {
 	//#region password recovery
 	async sendPasswordRecovery(email, domain) {
 		try {
-			const user = await this.userDAO.getUserByEmail(email);
+			const user = await this.userAuthDAO.getUserByEmail(email);
 
 			// Create recovery password token for the user
 			const recoveryToken = jwt.sign(
@@ -135,7 +137,7 @@ class UserService {
 			);
 
 			// Add token to the user
-			const userUpdated = await this.userDAO.updateRecoveryToken(user.id, recoveryToken);
+			const userUpdated = await this.userAuthDAO.updateRecoveryToken(user.id, recoveryToken);
 
 			// Check update
 			if (user.recoveryToken == userUpdated.recoveryToken) {
@@ -164,7 +166,7 @@ class UserService {
 	async passwordRecovery(token, newPassword) {
 		try {
 			const payload = jwt.verify(token, process.env.JWT_SEC_RECOVERY);
-			const user = await this.userDAO.getUserById(payload.sub);
+			const user = await this.userAuthDAO.getUserById(payload.sub);
 			if (user.recoveryToken != token) {
 				throw boom.unauthorized();
 			}
@@ -172,7 +174,7 @@ class UserService {
 			// New password hash
 			const newPasswordHash = bcrypt.hashSync(newPassword, 10);
 
-			const userUpdated = await this.userDAO.updatePassword(user.id, newPasswordHash);
+			const userUpdated = await this.userAuthDAO.updatePassword(user.id, newPasswordHash);
 
 			// Check update
 			if (user.password == userUpdated.password) {
@@ -184,7 +186,7 @@ class UserService {
 			throw boom.unauthorized();
 		}
 	}
-	//#region
+	//#endregion
 
 	async sendEmail(infoEmail) {
 		return await sendRecoveryEmail(infoEmail);
@@ -207,6 +209,20 @@ class UserService {
 	decodeToken(token) {
 		return jwt.decode(token, process.env.JWT_SEC);
 	}
+
+	//#region user cart
+	getUserCart(user) {
+		return this.userCartDAO.getUserCartById(user.sub);
+	}
+
+	insertProductToCart(user, productId) {
+		return this.userCartDAO.insertProductToCart(user.sub, productId);
+	}
+
+	removeProductToCart(user, productId) {
+		return this.userCartDAO.removeProductToCart(user.sub, productId);
+	}
+	//#endregion
 }
 
 export { UserService };

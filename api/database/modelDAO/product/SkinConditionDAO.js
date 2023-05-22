@@ -38,13 +38,14 @@ class SkinConditionDAO {
 		return skinConditionsInserted;
 	}
 
-	async updateSkinCondition(skinCondition) {
-		console.log('entra');
-		return SkinConditionDTO.updateOne(
-			{ skinConditionString: skinCondition.skinConditionString },
-			{ initials: skinCondition.initials, order: skinCondition.order }
-		);
-	}
+	//TODO
+
+	// async updateSkinCondition(skinCondition) {
+	// 	return SkinConditionDTO.updateOne(
+	// 		{ skinConditionString: skinCondition.skinConditionString },
+	// 		{ initials: skinCondition.initials, order: skinCondition.order }
+	// 	);
+	// }
 }
 
 export { SkinConditionDAO };

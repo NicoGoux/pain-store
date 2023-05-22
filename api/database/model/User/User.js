@@ -54,15 +54,6 @@ const UserSchema = new Schema(
 	{ timestamps: true }
 );
 
-// function autopopulate(next) {
-// 	this.populate('parentCategory');
-// 	next();
-// }
-
-// UserSchema.pre('findById', autopopulate);
-// UserSchema.pre('findOne', autopopulate);
-// UserSchema.pre('find', autopopulate);
-
 const UserDTO = mongoose.model('user', UserSchema);
 
 export { UserDTO };
