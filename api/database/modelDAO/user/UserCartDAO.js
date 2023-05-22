@@ -60,7 +60,8 @@ class UserCartDAO {
 			newProductCart.splice(newProductCart.indexOf(product, 1));
 			cart.products = [...newProductCart];
 
-			return await cart.save();
+			await cart.save();
+			return { message: 'removed' };
 		} catch (err) {
 			if (err.isBoom) {
 				throw err;
