@@ -15,6 +15,10 @@ class MarketHashDAO {
 		return await MarketHashDTO.find();
 	}
 
+	async getMarketHashesInCategory(category) {
+		return await MarketHashDTO.find({ category: category });
+	}
+
 	async insertMarketHash(marketHash) {
 		try {
 			const existingMarketHash = await this.getMarketHash(marketHash);

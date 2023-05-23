@@ -15,8 +15,8 @@ class ProductService {
 		this.productDAO = new ProductDAO();
 	}
 
-	getProducts() {
-		return this.productDAO.getProducts();
+	getProducts(filters) {
+		return this.productDAO.getProducts(filters);
 	}
 
 	getProduct(id) {

@@ -5,13 +5,11 @@ const productService = ProductService.getInstance();
 
 const getProducts = async (req, res, next) => {
 	try {
-		const products = await productService.getProducts();
+		const filters = req.query;
 
-		const productsWithImages = products.map((p) => {
-			return { ...p, imageUrl: getUrlImg(p) };
-		});
+		const products = await productService.getProducts(filters);
 
-		return res.json(productsWithImages);
+		return res.json(products);
 	} catch (err) {
 		next(err);
 	}
@@ -21,8 +19,6 @@ const getProduct = async (req, res, next) => {
 	try {
 		const { id } = req.params;
 		const product = await productService.getProduct(id);
-
-		const productWithImage = { ...product, imageUrl: getUrlImg(product) };
 
 		console.log(productWithImage);
 		return res.json(productWithImage);
@@ -57,10 +53,6 @@ const updateProduct = async (req, res, next) => {
 // const reserveProduct;
 // const ocultProduct;
 // const sellProduct;
-
-const getUrlImg = (product) => {
-	return `${process.env.IMAGEAPI_URL}/${product.marketHash.marketHashString} (${product.skinCondition.skinConditionString})`;
-};
 
 // Status controller
 /**
