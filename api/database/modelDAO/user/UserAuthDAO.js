@@ -42,6 +42,26 @@ class UserAuthDAO {
 	}
 	//#endregion
 
+	//#region change password
+	async changePassword(id, newPasswordHash) {
+		try {
+			return await UserDTO.findByIdAndUpdate(
+				id,
+				{ password: newPasswordHash },
+				{ returnOriginal: false }
+			);
+		} catch (err) {
+			if (err.isBoom) {
+				throw err;
+			}
+			throw boom.boomify(err, {
+				message: 'Conflict on update password',
+				statusCode: 409,
+			});
+		}
+	}
+	//#endregion
+
 	//#region confirm email
 	async updateEmailConfirmToken(id, emailConfirmToken) {
 		try {

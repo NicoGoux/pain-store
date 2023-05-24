@@ -127,6 +127,23 @@ class UserService {
 	}
 	//#endregion
 
+	//#region change password
+	async changePassword(user, password, newPassword) {
+		const userFound = await this.userAuthDAO.getUserById(user.sub);
+		const passwordMatch = await bcrypt.compare(password, userFound.password);
+		if (!passwordMatch) {
+			throw boom.unauthorized('Incorrect password');
+		}
+
+		userFound.password = newPassword;
+		const newPasswordHash = bcrypt.hashSync(userFound.password, 10);
+
+		await this.userAuthDAO.changePassword(userFound._id, newPasswordHash);
+
+		return { message: 'password changed' };
+	}
+	//#endregion
+
 	//#region password recovery
 	async sendPasswordRecovery(email, domain) {
 		try {

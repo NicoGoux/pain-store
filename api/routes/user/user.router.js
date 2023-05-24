@@ -10,6 +10,7 @@ import {
 	emailConfirm,
 	sendEmailConfirm,
 	getUserLogged,
+	changePassword,
 } from '../../controllers/userController/userController.js';
 import {
 	loginUserSchema,
@@ -75,7 +76,17 @@ usersRouter.post(
 	passwordRecovery
 );
 
+// Change password
+//TODO validator
+usersRouter.patch(
+	'/change-password',
+	passportAuthJwt,
+	checkRoles(accessLevel.LEVEL_2),
+	changePassword
+);
+
 // User cart
+//TODO validator
 usersRouter.get('/cart', passportAuthJwt, checkRoles(accessLevel.LEVEL_2), getUserCart);
 
 usersRouter.post('/cart', passportAuthJwt, checkRoles(accessLevel.LEVEL_2), insertProductToCart);

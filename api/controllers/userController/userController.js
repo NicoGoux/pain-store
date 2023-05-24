@@ -62,8 +62,8 @@ const sendEmailConfirm = async (req, res, next) => {
 		const { domain } = req.body;
 		const message = await userService.sendConfirmEmail(user, domain);
 		return res.json(message);
-	} catch (error) {
-		next(error);
+	} catch (err) {
+		next(err);
 	}
 };
 
@@ -72,11 +72,22 @@ const emailConfirm = async (req, res, next) => {
 		const { emailConfirmToken } = req.body;
 		const message = await userService.confirmEmail(emailConfirmToken);
 		return res.json(message);
-	} catch (error) {
-		next(error);
+	} catch (err) {
+		next(err);
 	}
 };
 //#endregion
+
+const changePassword = async (req, res, next) => {
+	try {
+		const user = req.user;
+		const { password, newPassword } = req.body;
+		const message = await userService.changePassword(user, password, newPassword);
+		res.json(message);
+	} catch (err) {
+		next(err);
+	}
+};
 
 //#region Password recovery
 const emailPasswordRecovery = async (req, res, next) => {
@@ -84,8 +95,8 @@ const emailPasswordRecovery = async (req, res, next) => {
 		const { email, domain } = req.body;
 		const message = await userService.sendPasswordRecovery(email, domain);
 		return res.json(message);
-	} catch (error) {
-		next(error);
+	} catch (err) {
+		next(err);
 	}
 };
 
@@ -94,8 +105,8 @@ const passwordRecovery = async (req, res, next) => {
 		const { recoveryPasswordToken, password } = req.body;
 		const message = await userService.passwordRecovery(recoveryPasswordToken, password);
 		return res.json(message);
-	} catch (error) {
-		next(error);
+	} catch (err) {
+		next(err);
 	}
 };
 
@@ -106,6 +117,7 @@ export {
 	registerAdmin,
 	loginUser,
 	getUserLogged,
+	changePassword,
 	autoLoginUser,
 	sendEmailConfirm,
 	emailConfirm,

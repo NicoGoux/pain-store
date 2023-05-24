@@ -9,8 +9,8 @@ function checkRoles(roles) {
 			} else {
 				next(boom.forbidden('Permission denied'));
 			}
-		} catch (error) {
-			next(error);
+		} catch (err) {
+			next(err);
 		}
 	};
 }
