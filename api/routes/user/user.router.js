@@ -9,6 +9,7 @@ import {
 	passwordRecovery,
 	emailConfirm,
 	sendEmailConfirm,
+	getUserLogged,
 } from '../../controllers/userController/userController.js';
 import {
 	loginUserSchema,
@@ -43,7 +44,10 @@ usersRouter.post(
 // Login user
 usersRouter.post('/login', validatorHandler(loginUserSchema, 'body'), passportAuthLocal, loginUser);
 
-usersRouter.get('/autologin', passportAuthJwt, autoLoginUser);
+usersRouter.get('/autologin', passportAuthJwt, checkRoles(accessLevel.LEVEL_2), autoLoginUser);
+
+// get user
+usersRouter.get('/user-logged', passportAuthJwt, checkRoles(accessLevel.LEVEL_2), getUserLogged);
 
 // Confirm email
 usersRouter.post(

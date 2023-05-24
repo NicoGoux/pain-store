@@ -46,6 +46,10 @@ class UserService {
 		delete user._doc.password;
 		return user;
 	}
+
+	getUserById(userId) {
+		return this.userAuthDAO.getUserById(userId);
+	}
 	//#endregion
 
 	//#region confirm email

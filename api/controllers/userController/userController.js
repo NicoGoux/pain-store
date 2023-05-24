@@ -43,6 +43,16 @@ const autoLoginUser = async (req, res, next) => {
 		next(err);
 	}
 };
+
+const getUserLogged = async (req, res, next) => {
+	try {
+		const user = req.user;
+		const userFound = await userService.getUserById(user.sub);
+		res.json(userFound);
+	} catch (err) {
+		next(err);
+	}
+};
 //#endregion
 
 //#region Confirm email
@@ -95,6 +105,7 @@ export {
 	registerUser,
 	registerAdmin,
 	loginUser,
+	getUserLogged,
 	autoLoginUser,
 	sendEmailConfirm,
 	emailConfirm,

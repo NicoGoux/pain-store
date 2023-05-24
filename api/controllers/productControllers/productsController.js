@@ -19,8 +19,6 @@ const getProduct = async (req, res, next) => {
 	try {
 		const { id } = req.params;
 		const product = await productService.getProduct(id);
-
-		console.log(productWithImage);
 		return res.json(productWithImage);
 	} catch (err) {
 		next(err);
