@@ -37,6 +37,7 @@ class UserAuthDAO {
 		if (!user) {
 			throw boom.notFound('User not found');
 		}
+
 		return user;
 	}
 	//#endregion

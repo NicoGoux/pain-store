@@ -47,8 +47,10 @@ class UserService {
 		return user;
 	}
 
-	getUserById(userId) {
-		return this.userAuthDAO.getUserById(userId);
+	async getUserById(userId) {
+		const user = await this.userAuthDAO.getUserById(userId);
+		delete user._doc.password;
+		return user;
 	}
 	//#endregion
 
