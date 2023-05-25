@@ -50,9 +50,18 @@ usersRouter.get('/autologin', passportAuthJwt, checkRoles(accessLevel.LEVEL_2), 
 // get user
 usersRouter.get('/user-logged', passportAuthJwt, checkRoles(accessLevel.LEVEL_2), getUserLogged);
 
+// Change password
+//TODO validator
+usersRouter.patch(
+	'/change-password',
+	passportAuthJwt,
+	checkRoles(accessLevel.LEVEL_2),
+	changePassword
+);
+
 // Confirm email
 usersRouter.post(
-	'/send-confirm-email',
+	'/send-validate-email',
 	passportAuthJwt,
 	checkRoles(accessLevel.LEVEL_2),
 	validatorHandler(sendConfirmEmailSchema, 'body'),
@@ -60,7 +69,7 @@ usersRouter.post(
 );
 
 usersRouter.post(
-	'/confirm-email',
+	'/validate-email',
 	passportAuthJwt,
 	checkRoles(accessLevel.LEVEL_2),
 	validatorHandler(confirmEmailSchema, 'body'),
@@ -74,15 +83,6 @@ usersRouter.post(
 	'/recovery/change-password',
 	validatorHandler(recoveryPasswordSchema, 'body'),
 	passwordRecovery
-);
-
-// Change password
-//TODO validator
-usersRouter.patch(
-	'/change-password',
-	passportAuthJwt,
-	checkRoles(accessLevel.LEVEL_2),
-	changePassword
 );
 
 // User cart
