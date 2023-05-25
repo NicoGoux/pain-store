@@ -60,7 +60,7 @@ const sendEmailConfirm = async (req, res, next) => {
 	try {
 		const user = req.user;
 		const { domain } = req.body;
-		const message = await userService.sendConfirmEmail(user, domain);
+		const message = await userService.sendValidateEmail(user, domain);
 		return res.json(message);
 	} catch (err) {
 		next(err);
@@ -70,7 +70,7 @@ const sendEmailConfirm = async (req, res, next) => {
 const emailConfirm = async (req, res, next) => {
 	try {
 		const { emailConfirmToken } = req.body;
-		const message = await userService.confirmEmail(emailConfirmToken);
+		const message = await userService.validateEmail(emailConfirmToken);
 		return res.json(message);
 	} catch (err) {
 		next(err);

@@ -17,8 +17,8 @@ import {
 	recoveryEmailSchema,
 	recoveryPasswordSchema,
 	registerUserSchema,
-	confirmEmailSchema,
-	sendConfirmEmailSchema,
+	validateEmailSchema,
+	sendValidateEmailSchema,
 } from '../../schemas/user.joi.schemas.js';
 import { passportAuthJwt, passportAuthLocal } from '../../config/auth/passportAuth.js';
 import { checkRoles } from '../../middlewares/auth.handler.js';
@@ -64,7 +64,7 @@ usersRouter.post(
 	'/send-validate-email',
 	passportAuthJwt,
 	checkRoles(accessLevel.LEVEL_2),
-	validatorHandler(sendConfirmEmailSchema, 'body'),
+	validatorHandler(sendValidateEmailSchema, 'body'),
 	sendEmailConfirm
 );
 
@@ -72,7 +72,7 @@ usersRouter.post(
 	'/validate-email',
 	passportAuthJwt,
 	checkRoles(accessLevel.LEVEL_2),
-	validatorHandler(confirmEmailSchema, 'body'),
+	validatorHandler(validateEmailSchema, 'body'),
 	emailConfirm
 );
 

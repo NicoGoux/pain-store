@@ -55,7 +55,7 @@ class UserService {
 	//#endregion
 
 	//#region confirm email
-	async sendConfirmEmail(user, email) {
+	async sendValidateEmail(user, domain) {
 		try {
 			const userFound = await this.userAuthDAO.getUserById(user.sub);
 
@@ -84,7 +84,7 @@ class UserService {
 			}
 
 			//TODO
-			const link = `http://${domain}/#/confirm-email?token=${emailConfirmToken}`;
+			const link = `http://${domain}/#/profile?token=${emailConfirmToken}`;
 
 			// email message
 			const infoEmail = {
@@ -92,7 +92,7 @@ class UserService {
 				to: userFound.email, // list of receivers
 				subject: 'Pain Store - Confirmar email', // Subject line
 				html: `<h3>Hola, ${userFound.username}.</h3>
-					<b>Sigue este <a href="${link}">link</a> para confirmar el email de la cuenta: ${userFound.email}.</b><br/><br/>
+					<b>Sigue este <a href="${link}">link</a> para validar el email de la cuenta: ${userFound.email}.</b><br/><br/>
 					<a href="${link}">${link}</a><br/><br/>
 					<b>El link expirara en 15 minutos.</b>`, // html body
 			};
@@ -105,7 +105,7 @@ class UserService {
 		}
 	}
 
-	async confirmEmail(token) {
+	async validateEmail(token) {
 		try {
 			const payload = jwt.verify(token, process.env.JWT_SEC_CONFIRM_EMAIL);
 			const user = await this.userAuthDAO.getUserById(payload.sub);
