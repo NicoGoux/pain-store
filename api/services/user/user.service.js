@@ -84,7 +84,7 @@ class UserService {
 			}
 
 			//TODO
-			const link = `http://${domain}/#/profile?token=${emailConfirmToken}`;
+			const link = `http://${domain}/#/account/profile?token=${emailConfirmToken}`;
 
 			// email message
 			const infoEmail = {
