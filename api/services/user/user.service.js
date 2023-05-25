@@ -84,7 +84,7 @@ class UserService {
 			}
 
 			//TODO
-			const link = `http://${domain}/#/account/profile?emailToken=${emailConfirmToken}`;
+			const link = `http://${domain}/#/account/validate-email?emailToken=${emailConfirmToken}`;
 
 			// email message
 			const infoEmail = {
@@ -108,7 +108,13 @@ class UserService {
 	async validateEmail(token) {
 		try {
 			const payload = jwt.verify(token, process.env.JWT_SEC_CONFIRM_EMAIL);
+
 			const user = await this.userAuthDAO.getUserById(payload.sub);
+
+			if (user.emailConfirm) {
+				return { message: 'Email confirmed' };
+			}
+
 			if (user.emailConfirmToken != token) {
 				throw boom.unauthorized();
 			}
