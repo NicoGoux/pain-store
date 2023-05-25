@@ -68,13 +68,7 @@ usersRouter.post(
 	sendEmailConfirm
 );
 
-usersRouter.post(
-	'/validate-email',
-	passportAuthJwt,
-	checkRoles(accessLevel.LEVEL_2),
-	validatorHandler(validateEmailSchema, 'body'),
-	emailConfirm
-);
+usersRouter.post('/validate-email', validatorHandler(validateEmailSchema, 'body'), emailConfirm);
 
 // Recovery password
 usersRouter.post('/recovery', validatorHandler(recoveryEmailSchema, 'body'), emailPasswordRecovery);
