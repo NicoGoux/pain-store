@@ -3,11 +3,60 @@ import { ProductService } from '../../services/product/product.service.js';
 
 const productService = ProductService.getInstance();
 
+//#region get products
 const getProducts = async (req, res, next) => {
 	try {
 		const filters = req.query;
 
 		const products = await productService.getProducts(filters);
+
+		return res.json(products);
+	} catch (err) {
+		next(err);
+	}
+};
+
+const getAvailableProducts = async (req, res, next) => {
+	try {
+		const filters = req.query;
+
+		const products = await productService.getAvailableProducts(filters);
+
+		return res.json(products);
+	} catch (err) {
+		next(err);
+	}
+};
+
+const getReservedProducts = async (req, res, next) => {
+	try {
+		const filters = req.query;
+
+		const products = await productService.getReservedProducts(filters);
+
+		return res.json(products);
+	} catch (err) {
+		next(err);
+	}
+};
+
+const getSoldProducts = async (req, res, next) => {
+	try {
+		const filters = req.query;
+
+		const products = await productService.getSoldProducts(filters);
+
+		return res.json(products);
+	} catch (err) {
+		next(err);
+	}
+};
+
+const getHiddenProducts = async (req, res, next) => {
+	try {
+		const filters = req.query;
+
+		const products = await productService.getHiddenProducts(filters);
 
 		return res.json(products);
 	} catch (err) {
@@ -24,6 +73,8 @@ const getProduct = async (req, res, next) => {
 		next(err);
 	}
 };
+
+//#endregion
 
 const addProduct = async (req, res, next) => {
 	try {
@@ -82,4 +133,14 @@ const populateProductStatuses = async (req, res, next) => {
 	}
 };
 
-export { getProducts, getProduct, addProduct, updateProduct, populateProductStatuses };
+export {
+	getProducts,
+	getProduct,
+	getAvailableProducts,
+	getReservedProducts,
+	getSoldProducts,
+	getHiddenProducts,
+	addProduct,
+	updateProduct,
+	populateProductStatuses,
+};

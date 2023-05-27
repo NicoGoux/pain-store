@@ -46,6 +46,10 @@ class ProductDAO {
 		if (filters.nonTradeLock) {
 			query.tradeLock = { $lt: Date.now() };
 		}
+
+		if (filters.productStatus != null) {
+			query.productStatus = filters.productStatus;
+		}
 		return await ProductDTO.find(query).lean();
 	}
 

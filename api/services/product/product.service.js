@@ -1,4 +1,6 @@
+import { productStatusStrings } from '../../config/productStatus.js';
 import { ProductDAO } from '../../database/modelDAO/product/ProductDAO.js';
+import { ProductStatusDAO } from '../../database/modelDAO/product/ProductStatusDAO.js';
 
 let instance;
 
@@ -13,15 +15,59 @@ class ProductService {
 	}
 	constructor() {
 		this.productDAO = new ProductDAO();
+		this.productStatusDAO = new ProductStatusDAO();
 	}
 
+	//#region get products
 	getProducts(filters) {
+		return this.productDAO.getProducts(filters);
+	}
+
+	async getAvailableProducts(filters) {
+		const productStatusAvailable = await this.productStatusDAO.getProductStatus({
+			productStatusString: productStatusStrings.DISPONIBLE,
+		});
+
+		filters.productStatus = productStatusAvailable;
+
+		return this.productDAO.getProducts(filters);
+	}
+
+	async getReservedProducts(filters) {
+		const productStatusAvailable = await this.productStatusDAO.getProductStatus({
+			productStatusString: productStatusStrings.RESERVADO,
+		});
+
+		filters.productStatus = productStatusAvailable;
+
+		return this.productDAO.getProducts(filters);
+	}
+
+	async getSoldProducts(filters) {
+		const productStatusAvailable = await this.productStatusDAO.getProductStatus({
+			productStatusString: productStatusStrings.VENDIDO,
+		});
+
+		filters.productStatus = productStatusAvailable;
+
+		return this.productDAO.getProducts(filters);
+	}
+
+	async getHiddenProducts(filters) {
+		const productStatusAvailable = await this.productStatusDAO.getProductStatus({
+			productStatusString: productStatusStrings.OCULTO,
+		});
+
+		filters.productStatus = productStatusAvailable;
+
 		return this.productDAO.getProducts(filters);
 	}
 
 	getProduct(id) {
 		return this.productDAO.getProduct(id);
 	}
+
+	//#endregion
 
 	addProduct(product) {
 		return this.productDAO.insertProduct(product);
