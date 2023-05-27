@@ -44,7 +44,7 @@ productsRouter.use('/market_hashes', marketHashesRouter);
 productsRouter.use('/populate', passportAuthJwt, checkRoles(accessLevel.LEVEL_1), populateRouter);
 
 // Get products
-productsRouter.get('/', getProducts);
+productsRouter.get('/all', passportAuthJwt, checkRoles(accessLevel.LEVEL_1), getProducts);
 
 productsRouter.get('/available', getAvailableProducts);
 
