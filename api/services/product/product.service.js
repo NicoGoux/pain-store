@@ -19,7 +19,13 @@ class ProductService {
 	}
 
 	//#region get products
-	getProducts(filters) {
+	async getProducts(filters) {
+		if (filters.productStatus) {
+			const productStatusObject = await this.productStatusDAO.getProductStatus({
+				productStatusString: filters.productStatus,
+			});
+			filters.productStatus = productStatusObject;
+		}
 		return this.productDAO.getProducts(filters);
 	}
 
@@ -33,35 +39,35 @@ class ProductService {
 		return this.productDAO.getProducts(filters);
 	}
 
-	async getReservedProducts(filters) {
-		const productStatusAvailable = await this.productStatusDAO.getProductStatus({
-			productStatusString: productStatusStrings.RESERVADO,
-		});
+	// async getReservedProducts(filters) {
+	// 	const productStatusAvailable = await this.productStatusDAO.getProductStatus({
+	// 		productStatusString: productStatusStrings.RESERVADO,
+	// 	});
 
-		filters.productStatus = productStatusAvailable;
+	// 	filters.productStatus = productStatusAvailable;
 
-		return this.productDAO.getProducts(filters);
-	}
+	// 	return this.productDAO.getProducts(filters);
+	// }
 
-	async getSoldProducts(filters) {
-		const productStatusAvailable = await this.productStatusDAO.getProductStatus({
-			productStatusString: productStatusStrings.VENDIDO,
-		});
+	// async getSoldProducts(filters) {
+	// 	const productStatusAvailable = await this.productStatusDAO.getProductStatus({
+	// 		productStatusString: productStatusStrings.VENDIDO,
+	// 	});
 
-		filters.productStatus = productStatusAvailable;
+	// 	filters.productStatus = productStatusAvailable;
 
-		return this.productDAO.getProducts(filters);
-	}
+	// 	return this.productDAO.getProducts(filters);
+	// }
 
-	async getHiddenProducts(filters) {
-		const productStatusAvailable = await this.productStatusDAO.getProductStatus({
-			productStatusString: productStatusStrings.OCULTO,
-		});
+	// async getHiddenProducts(filters) {
+	// 	const productStatusAvailable = await this.productStatusDAO.getProductStatus({
+	// 		productStatusString: productStatusStrings.OCULTO,
+	// 	});
 
-		filters.productStatus = productStatusAvailable;
+	// 	filters.productStatus = productStatusAvailable;
 
-		return this.productDAO.getProducts(filters);
-	}
+	// 	return this.productDAO.getProducts(filters);
+	// }
 
 	getProduct(id) {
 		return this.productDAO.getProduct(id);
@@ -75,6 +81,10 @@ class ProductService {
 
 	updateProduct(id, patch) {
 		return this.productDAO.updateProduct(id, patch);
+	}
+
+	getProductStatuses() {
+		return this.productStatusDAO.getProductStatuses();
 	}
 }
 

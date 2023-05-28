@@ -28,41 +28,41 @@ const getAvailableProducts = async (req, res, next) => {
 	}
 };
 
-const getReservedProducts = async (req, res, next) => {
-	try {
-		const filters = req.query;
+// const getReservedProducts = async (req, res, next) => {
+// 	try {
+// 		const filters = req.query;
 
-		const products = await productService.getReservedProducts(filters);
+// 		const products = await productService.getReservedProducts(filters);
 
-		return res.json(products);
-	} catch (err) {
-		next(err);
-	}
-};
+// 		return res.json(products);
+// 	} catch (err) {
+// 		next(err);
+// 	}
+// };
 
-const getSoldProducts = async (req, res, next) => {
-	try {
-		const filters = req.query;
+// const getSoldProducts = async (req, res, next) => {
+// 	try {
+// 		const filters = req.query;
 
-		const products = await productService.getSoldProducts(filters);
+// 		const products = await productService.getSoldProducts(filters);
 
-		return res.json(products);
-	} catch (err) {
-		next(err);
-	}
-};
+// 		return res.json(products);
+// 	} catch (err) {
+// 		next(err);
+// 	}
+// };
 
-const getHiddenProducts = async (req, res, next) => {
-	try {
-		const filters = req.query;
+// const getHiddenProducts = async (req, res, next) => {
+// 	try {
+// 		const filters = req.query;
 
-		const products = await productService.getHiddenProducts(filters);
+// 		const products = await productService.getHiddenProducts(filters);
 
-		return res.json(products);
-	} catch (err) {
-		next(err);
-	}
-};
+// 		return res.json(products);
+// 	} catch (err) {
+// 		next(err);
+// 	}
+// };
 
 const getProduct = async (req, res, next) => {
 	try {
@@ -93,6 +93,15 @@ const updateProduct = async (req, res, next) => {
 		const { patch } = req.body;
 		const productUpdated = await productService.updateProduct(id, patch);
 		return res.json(productUpdated);
+	} catch (err) {
+		next(err);
+	}
+};
+
+const getProductStatuses = async (req, res, next) => {
+	try {
+		const productStatuses = await productService.getProductStatuses();
+		return res.json(productStatuses);
 	} catch (err) {
 		next(err);
 	}
@@ -137,10 +146,8 @@ export {
 	getProducts,
 	getProduct,
 	getAvailableProducts,
-	getReservedProducts,
-	getSoldProducts,
-	getHiddenProducts,
 	addProduct,
 	updateProduct,
+	getProductStatuses,
 	populateProductStatuses,
 };

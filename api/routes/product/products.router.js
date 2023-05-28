@@ -4,16 +4,14 @@ import express from 'express';
 import { categoriesRouter } from './categories.router.js';
 import { skinConditionsRouter } from './skinConditions.router.js';
 import { marketHashesRouter } from './marketHashes.router.js';
+import { productStatusesRouter } from './productStatuses.router.js';
 
 // Controllers
 import {
 	addProduct,
 	getAvailableProducts,
-	getHiddenProducts,
 	getProduct,
 	getProducts,
-	getReservedProducts,
-	getSoldProducts,
 	updateProduct,
 } from '../../controllers/productControllers/productsController.js';
 
@@ -21,11 +19,13 @@ import {
 import { validatorHandler } from '../../middlewares/validator.handler.js';
 import { createProductSchema, updateProductSchema } from '../../schemas/product.joi.schema.js';
 
-// Populate middlewares / only for init database
-import { populateRouter } from './populate.router.js';
+//auth middleware
 import { passportAuthJwt } from '../../config/auth/passportAuth.js';
 import { checkRoles } from '../../middlewares/auth.handler.js';
 import { accessLevel } from '../../config/auth/accessLevel.js';
+
+// Populate middlewares / only for init database
+import { populateRouter } from './populate.router.js';
 
 const productsRouter = express.Router();
 
@@ -38,26 +38,28 @@ productsRouter.use('/skin-conditions', skinConditionsRouter);
 // Market hashes router
 productsRouter.use('/market_hashes', marketHashesRouter);
 
+productsRouter.use('/product-statuses', productStatusesRouter);
+
 /**
  * @description: Only for initial populate
  */
 productsRouter.use('/populate', passportAuthJwt, checkRoles(accessLevel.LEVEL_1), populateRouter);
 
 // Get products
-productsRouter.get('/all', passportAuthJwt, checkRoles(accessLevel.LEVEL_1), getProducts);
+productsRouter.get('/', passportAuthJwt, checkRoles(accessLevel.LEVEL_1), getProducts);
 
 productsRouter.get('/available', getAvailableProducts);
 
-productsRouter.get(
-	'/reserved',
-	passportAuthJwt,
-	checkRoles(accessLevel.LEVEL_1),
-	getReservedProducts
-);
+// productsRouter.get(
+// 	'/reserved',
+// 	passportAuthJwt,
+// 	checkRoles(accessLevel.LEVEL_1),
+// 	getReservedProducts
+// );
 
-productsRouter.get('/sold', passportAuthJwt, checkRoles(accessLevel.LEVEL_1), getSoldProducts);
+// productsRouter.get('/sold', passportAuthJwt, checkRoles(accessLevel.LEVEL_1), getSoldProducts);
 
-productsRouter.get('/hidden', passportAuthJwt, checkRoles(accessLevel.LEVEL_1), getHiddenProducts);
+// productsRouter.get('/hidden', passportAuthJwt, checkRoles(accessLevel.LEVEL_1), getHiddenProducts);
 
 // Get product by id
 productsRouter.get('/:id', getProduct);

@@ -9,6 +9,10 @@ class ProductStatusDAO {
 		});
 	}
 
+	async getProductStatuses() {
+		return await ProductStatusDTO.find();
+	}
+
 	async insertProductStatus(productStatus) {
 		try {
 			const productStatusDTO = new ProductStatusDTO(productStatus);
