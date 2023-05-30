@@ -1,18 +1,13 @@
 import Joi from 'joi';
 
 const pkProduct = Joi.string();
-const name = Joi.string()
-	.min(3)
-	.max(50)
-	.pattern(/^[a-zA-Z0-9 ]+$/)
-	.messages({
-		'string.base': 'Name must be a string',
-		'string.empty': 'Name cannot be empty',
-		'string.min': 'Name must have at least {#limit} characters',
-		'string.max': 'Name must have at most {#limit} characters',
-		'string.pattern.base': 'Name must only contain alphanumeric characters and spaces',
-		'any.required': 'Name is required',
-	});
+const name = Joi.string().min(3).max(50).messages({
+	'string.base': 'Name must be a string',
+	'string.empty': 'Name cannot be empty',
+	'string.min': 'Name must have at least {#limit} characters',
+	'string.max': 'Name must have at most {#limit} characters',
+	'any.required': 'Name is required',
+});
 
 const marketHashString = Joi.string().min(3).max(50).messages({
 	'string.base': 'MarketHash string must be a string',
@@ -30,16 +25,11 @@ const categoryName = Joi.string().min(3).max(50).messages({
 	'any.required': 'CategoryName is required',
 });
 
-const skinConditionString = Joi.string()
-	.pattern(/^[a-zA-Z0-9 -]+$/)
-	.required()
-	.messages({
-		'string.base': 'SkinCondition string must be a string',
-		'string.empty': 'SkinCondition string cannot be empty',
-		'string.pattern.base':
-			'SkinCondition string must only contain alphanumeric characters, spaces, hyphens, and/or spaces',
-		'any.required': 'Skin condition string is required',
-	});
+const skinConditionString = Joi.string().required().messages({
+	'string.base': 'SkinCondition string must be a string',
+	'string.empty': 'SkinCondition string cannot be empty',
+	'any.required': 'Skin condition string is required',
+});
 
 const float = Joi.number().positive().messages({
 	'number.base': 'Float must be a number',
@@ -66,6 +56,10 @@ const creationDate = Joi.date().messages({
 	'any.required': 'CreationDate is required',
 });
 
+const imageUrl = Joi.string().messages({
+	'string.base': 'imageUrl string must be a string',
+});
+
 const createProductSchema = Joi.object({
 	product: {
 		name: name.required(),
@@ -76,11 +70,12 @@ const createProductSchema = Joi.object({
 			},
 		},
 		skinCondition: {
-			skinConditionString: skinConditionString.required(),
+			skinConditionString: skinConditionString,
 		},
 		float: float,
 		tradeLock: tradeLock,
 		price: price.required(),
+		imageUrl: imageUrl,
 	},
 });
 

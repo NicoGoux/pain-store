@@ -21,10 +21,6 @@ class ProductDAO {
 				$lte: filters.maxPrice || Number.MAX_SAFE_INTEGER,
 				$gte: filters.minPrice || 0,
 			},
-			float: {
-				$lte: filters.maxFloat || 1,
-				$gte: filters.minFloat || 0,
-			},
 		};
 
 		if (filters.category != null) {
@@ -41,6 +37,13 @@ class ProductDAO {
 				skinConditionString: filters.condition,
 			});
 			query.skinCondition = skinCondition;
+		}
+
+		if (filters.minFloat || filters.maxFloat) {
+			query.float = {
+				$lte: filters.maxFloat || 1,
+				$gte: filters.minFloat || 0,
+			};
 		}
 
 		if (filters.nonTradeLock) {
@@ -64,17 +67,11 @@ class ProductDAO {
 	async insertProduct(product) {
 		try {
 			const marketHashDAO = new MarketHashDAO();
-			const skinConditionDAO = new SkinConditionDAO();
 			const productStatusDAO = new ProductStatusDAO();
 
 			const marketHash = await marketHashDAO.insertMarketHash(product.marketHash);
 			if (!marketHash) {
 				throw boom.notFound('Market hash not found');
-			}
-
-			const skinCondition = await skinConditionDAO.getSkinCondition(product.skinCondition);
-			if (!skinCondition) {
-				throw boom.notFound('Skin condition not found');
 			}
 
 			const productStatus = await productStatusDAO.getProductStatus({
@@ -85,8 +82,19 @@ class ProductDAO {
 			}
 
 			product.marketHash = marketHash;
-			product.skinCondition = skinCondition;
 			product.productStatus = productStatus;
+
+			// only if the product has skin condition
+			if (product.skinCondition) {
+				const skinConditionDAO = new SkinConditionDAO();
+				const skinCondition = await skinConditionDAO.getSkinCondition(
+					product.skinCondition
+				);
+				if (!skinCondition) {
+					throw boom.notFound('Skin condition not found');
+				}
+				product.skinCondition = skinCondition;
+			}
 
 			const productDTO = new ProductDTO(product);
 			const productCreated = await productDTO.save();

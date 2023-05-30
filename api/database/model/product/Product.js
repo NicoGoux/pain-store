@@ -22,6 +22,11 @@ const ProductSchema = new Schema(
 			require: true,
 		},
 
+		imageUrl: {
+			type: String,
+			trim: true,
+		},
+
 		// relations
 		marketHash: {
 			type: mongoose.Schema.Types.ObjectId,
