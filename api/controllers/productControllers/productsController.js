@@ -28,42 +28,6 @@ const getAvailableProducts = async (req, res, next) => {
 	}
 };
 
-// const getReservedProducts = async (req, res, next) => {
-// 	try {
-// 		const filters = req.query;
-
-// 		const products = await productService.getReservedProducts(filters);
-
-// 		return res.json(products);
-// 	} catch (err) {
-// 		next(err);
-// 	}
-// };
-
-// const getSoldProducts = async (req, res, next) => {
-// 	try {
-// 		const filters = req.query;
-
-// 		const products = await productService.getSoldProducts(filters);
-
-// 		return res.json(products);
-// 	} catch (err) {
-// 		next(err);
-// 	}
-// };
-
-// const getHiddenProducts = async (req, res, next) => {
-// 	try {
-// 		const filters = req.query;
-
-// 		const products = await productService.getHiddenProducts(filters);
-
-// 		return res.json(products);
-// 	} catch (err) {
-// 		next(err);
-// 	}
-// };
-
 const getProduct = async (req, res, next) => {
 	try {
 		const { id } = req.params;

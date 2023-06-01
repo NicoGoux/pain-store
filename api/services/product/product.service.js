@@ -39,36 +39,6 @@ class ProductService {
 		return this.productDAO.getProducts(filters);
 	}
 
-	// async getReservedProducts(filters) {
-	// 	const productStatusAvailable = await this.productStatusDAO.getProductStatus({
-	// 		productStatusString: productStatusStrings.RESERVADO,
-	// 	});
-
-	// 	filters.productStatus = productStatusAvailable;
-
-	// 	return this.productDAO.getProducts(filters);
-	// }
-
-	// async getSoldProducts(filters) {
-	// 	const productStatusAvailable = await this.productStatusDAO.getProductStatus({
-	// 		productStatusString: productStatusStrings.VENDIDO,
-	// 	});
-
-	// 	filters.productStatus = productStatusAvailable;
-
-	// 	return this.productDAO.getProducts(filters);
-	// }
-
-	// async getHiddenProducts(filters) {
-	// 	const productStatusAvailable = await this.productStatusDAO.getProductStatus({
-	// 		productStatusString: productStatusStrings.OCULTO,
-	// 	});
-
-	// 	filters.productStatus = productStatusAvailable;
-
-	// 	return this.productDAO.getProducts(filters);
-	// }
-
 	getProduct(id) {
 		return this.productDAO.getProduct(id);
 	}

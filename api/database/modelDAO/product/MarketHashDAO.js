@@ -40,6 +40,31 @@ class MarketHashDAO {
 		}
 	}
 
+	async updateMarketHash(id, patch) {
+		try {
+			if (patch.category != null) {
+				const categoryDAO = new CategoryDAO();
+				const category = await categoryDAO.getCategory({ name: patch.category });
+				if (!category) {
+					throw boom.notFound('Category not found');
+				}
+				patch.category = category;
+			}
+			const marketHashUpdated = await MarketHashDTO.findByIdAndUpdate(id, patch, {
+				new: true,
+			});
+			return marketHashUpdated;
+		} catch (err) {
+			if (err.isBoom) {
+				throw err;
+			}
+			throw boom.boomify(err, {
+				message: 'Conflict on update product',
+				statusCode: 409,
+			});
+		}
+	}
+
 	// Only for populate
 	async insertMarketHashes(marketHashes) {
 		const marketHashesInserted = await Promise.all(

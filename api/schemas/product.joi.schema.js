@@ -25,7 +25,7 @@ const categoryName = Joi.string().min(3).max(50).messages({
 	'any.required': 'CategoryName is required',
 });
 
-const skinConditionString = Joi.string().required().messages({
+const skinConditionString = Joi.string().messages({
 	'string.base': 'SkinCondition string must be a string',
 	'string.empty': 'SkinCondition string cannot be empty',
 	'any.required': 'Skin condition string is required',
@@ -47,13 +47,8 @@ const price = Joi.number().positive().messages({
 	'any.required': 'Price is required',
 });
 
-const productStatus = Joi.string().messages({
+const productStatusString = Joi.string().messages({
 	'any.required': 'ProductStatus is required',
-});
-
-const creationDate = Joi.date().messages({
-	'date.base': 'CreationDate must be a date',
-	'any.required': 'CreationDate is required',
 });
 
 const imageUrl = Joi.string().messages({
@@ -82,18 +77,14 @@ const createProductSchema = Joi.object({
 const updateProductSchema = Joi.object({
 	patch: {
 		name: name,
-		marketHash: {
-			marketHashString: marketHashString,
-			category: {
-				name: categoryName,
-			},
-		},
-		skinCondition: {
-			skinConditionString: skinConditionString,
-		},
+		marketHash: marketHashString,
+		category: categoryName,
+		skinCondition: skinConditionString,
 		float: float,
 		tradeLock: tradeLock,
 		price: price,
+		imageUrl: imageUrl,
+		productStatus: productStatusString,
 	},
 });
 

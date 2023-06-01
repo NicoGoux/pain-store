@@ -112,8 +112,64 @@ class ProductDAO {
 
 	async updateProduct(id, patch) {
 		try {
-			const productUpdated = await ProductDTO.findByIdAndUpdate(id, patch, { new: true });
+			const productFound = await this.getProduct(id);
 
+			if (patch.skinCondition != null) {
+				const skinConditionDAO = new SkinConditionDAO();
+				const skinCondition = await skinConditionDAO.getSkinCondition({
+					skinConditionString: patch.skinCondition,
+				});
+				if (!skinCondition) {
+					throw boom.notFound('Skin condition not found');
+				}
+				patch.skinCondition = skinCondition;
+			}
+			if (patch.productStatus != null) {
+				const productStatusDAO = new ProductStatusDAO();
+				const productStatus = await productStatusDAO.getProductStatus({
+					productStatusString: patch.productStatus,
+				});
+				if (!productStatus) {
+					throw boom.notFound('Product status not found');
+				}
+				patch.productStatus = productStatus;
+			}
+
+			if (patch.marketHash != null || patch.category != null) {
+				const marketHashDAO = new MarketHashDAO();
+				if (patch.marketHash != null) {
+					if (patch.marketHash != productFound.marketHash.marketHashString) {
+						let newMarketHash = {
+							marketHashString: patch.marketHash,
+							category: {
+								name: productFound.marketHash.category.name,
+							},
+						};
+						if (patch.category) {
+							newMarketHash.category.name = patch.category;
+						}
+						const newMarketHashObject = await marketHashDAO.insertMarketHash(
+							newMarketHash
+						);
+						patch.marketHash = newMarketHashObject;
+					} else {
+						const marketHashUpdated = await marketHashDAO.updateMarketHash(
+							productFound.marketHash._id,
+							{ category: patch.category }
+						);
+						patch.marketHash = marketHashUpdated;
+					}
+				} else {
+					const marketHashUpdated = await marketHashDAO.updateMarketHash(
+						productFound.marketHash._id,
+						{ category: patch.category }
+					);
+					patch.marketHash = marketHashUpdated;
+				}
+				delete patch.category;
+			}
+
+			const productUpdated = await ProductDTO.findByIdAndUpdate(id, patch, { new: true });
 			return productUpdated;
 		} catch (err) {
 			if (err.isBoom) {

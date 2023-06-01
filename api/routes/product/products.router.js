@@ -50,17 +50,6 @@ productsRouter.get('/', passportAuthJwt, checkRoles(accessLevel.LEVEL_1), getPro
 
 productsRouter.get('/available', getAvailableProducts);
 
-// productsRouter.get(
-// 	'/reserved',
-// 	passportAuthJwt,
-// 	checkRoles(accessLevel.LEVEL_1),
-// 	getReservedProducts
-// );
-
-// productsRouter.get('/sold', passportAuthJwt, checkRoles(accessLevel.LEVEL_1), getSoldProducts);
-
-// productsRouter.get('/hidden', passportAuthJwt, checkRoles(accessLevel.LEVEL_1), getHiddenProducts);
-
 // Get product by id
 productsRouter.get('/:id', getProduct);
 
