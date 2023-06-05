@@ -12,19 +12,25 @@ class MarketHashDAO {
 	}
 
 	async getMarketHashes(filters) {
+		const query = {};
+		let limit = 0;
 		if (filters) {
-			const query = {
-				marketHashString: { $regex: new RegExp(filters.marketHash, 'i') },
-			};
+			if (filters.marketHash) {
+				const remplacedFilter = filters.marketHash.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+				query.marketHashString = { $regex: new RegExp('^' + remplacedFilter, 'i') };
+			}
+
 			if (filters.category) {
 				const categoryDAO = new CategoryDAO();
 				const category = await categoryDAO.getCategory({ name: filters.category });
 				query.category = category;
 			}
-
-			return await MarketHashDTO.find(query);
+			if (filters.limit) {
+				limit = filters.limit;
+			}
 		}
-		return await MarketHashDTO.find(query);
+
+		return await MarketHashDTO.find(query).limit(limit);
 	}
 
 	async insertMarketHash(marketHash) {

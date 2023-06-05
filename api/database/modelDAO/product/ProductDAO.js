@@ -24,7 +24,6 @@ class ProductDAO {
 		};
 
 		if (filters.category != null) {
-			//TODO ver como realizarlo mediante el getMarketHashes
 			const marketHashDAO = new MarketHashDAO();
 			const marketHashesInCategory = await marketHashDAO.getMarketHashes({
 				marketHashString: '',

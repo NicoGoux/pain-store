@@ -5,7 +5,6 @@ const marketHashService = MarketHashService.getInstance();
 const getMarketHashes = async (req, res, next) => {
 	try {
 		const filters = req.query;
-		// TODO obtener por categoria
 		const marketHashes = await marketHashService.getMarketHashes(filters);
 		return res.json(marketHashes);
 	} catch (err) {
