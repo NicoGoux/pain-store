@@ -20,8 +20,8 @@ class MarketHashService {
 		return this.marketHashDAO.getMarketHash(market_hash);
 	}
 
-	getMarketHashes() {
-		return this.marketHashDAO.getMarketHashes();
+	getMarketHashes(filters) {
+		return this.marketHashDAO.getMarketHashes(filters);
 	}
 
 	insertMarketHash(marketHash) {

@@ -11,12 +11,20 @@ class MarketHashDAO {
 		});
 	}
 
-	async getMarketHashes() {
-		return await MarketHashDTO.find();
-	}
+	async getMarketHashes(filters) {
+		if (filters) {
+			const query = {
+				marketHashString: { $regex: new RegExp(filters.marketHash, 'i') },
+			};
+			if (filters.category) {
+				const categoryDAO = new CategoryDAO();
+				const category = await categoryDAO.getCategory({ name: filters.category });
+				query.category = category;
+			}
 
-	async getMarketHashesInCategory(category) {
-		return await MarketHashDTO.find({ category: category });
+			return await MarketHashDTO.find(query);
+		}
+		return await MarketHashDTO.find(query);
 	}
 
 	async insertMarketHash(marketHash) {

@@ -24,10 +24,12 @@ class ProductDAO {
 		};
 
 		if (filters.category != null) {
-			const categoryDAO = new CategoryDAO();
-			const category = await categoryDAO.getCategory({ name: filters.category });
+			//TODO ver como realizarlo mediante el getMarketHashes
 			const marketHashDAO = new MarketHashDAO();
-			const marketHashesInCategory = await marketHashDAO.getMarketHashesInCategory(category);
+			const marketHashesInCategory = await marketHashDAO.getMarketHashes({
+				marketHashString: '',
+				category: filters.category,
+			});
 			query.marketHash = { $in: marketHashesInCategory };
 		}
 
