@@ -16,8 +16,20 @@ class MarketHashDAO {
 		let limit = 0;
 		if (filters) {
 			if (filters.marketHash) {
-				const remplacedFilter = filters.marketHash.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-				query.marketHashString = { $regex: new RegExp('^' + remplacedFilter, 'i') };
+				let remplacedFilterString = filters.marketHash.replace(
+					/[.*+?^${}()|[\]\\]/g,
+					'\\$&'
+				);
+
+				const filterArray = remplacedFilterString.split(' ');
+
+				let regexString = '^';
+				filterArray.forEach((e) => {
+					regexString += `(?=.*${e})`;
+				});
+				regexString += '.*';
+
+				query.marketHashString = { $regex: new RegExp(regexString, 'i') };
 			}
 
 			if (filters.category) {
