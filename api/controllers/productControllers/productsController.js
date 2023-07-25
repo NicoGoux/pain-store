@@ -74,6 +74,7 @@ const getProductStatuses = async (req, res, next) => {
 const checkAvailability = async (req, res, next) => {
 	try {
 		const { products } = req.body;
+		console.log(products);
 		const availableProducts = await productService.checkAvailability(products);
 		return res.json(availableProducts);
 	} catch (err) {

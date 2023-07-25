@@ -51,9 +51,6 @@ productsRouter.get('/', passportAuthJwt, checkRoles(accessLevel.LEVEL_1), getPro
 
 productsRouter.get('/available', getAvailableProducts);
 
-//check products availability
-productsRouter.get('/check-availability', checkAvailability);
-
 // Get product by id
 productsRouter.get('/:id', getProduct);
 
@@ -74,5 +71,8 @@ productsRouter.patch(
 	validatorHandler(updateProductSchema, 'body'),
 	updateProduct
 );
+
+//check products availability
+productsRouter.post('/check-availability', checkAvailability);
 
 export { productsRouter };

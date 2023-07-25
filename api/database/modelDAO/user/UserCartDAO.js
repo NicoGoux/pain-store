@@ -91,15 +91,23 @@ class UserCartDAO {
 			cart = await userCartDTO.save();
 		}
 
-		// remove not available products
+		// split not available products
 		const productDAO = new ProductDAO();
 		const availableProductsOnCart = await productDAO.getAvailableProductsFromList(
 			cart.products
 		);
 
-		cart.products = availableProductsOnCart;
+		const nonAvailableProductsOnCart = cart.products.filter(
+			(product) =>
+				!availableProductsOnCart.some(
+					(productAvailable) => productAvailable._id === product._id
+				)
+		);
 
-		return cart.save();
+		return {
+			availableProductsOnCart: availableProductsOnCart,
+			nonAvailableProductsOnCart: nonAvailableProductsOnCart,
+		};
 	}
 	//#endregion
 }
