@@ -71,6 +71,16 @@ const getProductStatuses = async (req, res, next) => {
 	}
 };
 
+const checkAvailability = async (req, res, next) => {
+	try {
+		const { products } = req.body;
+		const availableProducts = await productService.checkAvailability(products);
+		return res.json(availableProducts);
+	} catch (err) {
+		next(err);
+	}
+};
+
 // // TODO
 // const reserveProduct;
 // const ocultProduct;
@@ -113,5 +123,6 @@ export {
 	addProduct,
 	updateProduct,
 	getProductStatuses,
+	checkAvailability,
 	populateProductStatuses,
 };

@@ -45,6 +45,13 @@ class ProductService {
 
 	//#endregion
 
+	//#region check availability
+	async checkAvailability(products) {
+		const availableProducts = await this.productDAO.getAvailableProductsFromList(products);
+		return availableProducts;
+	}
+	//#endregion
+
 	addProduct(product) {
 		return this.productDAO.insertProduct(product);
 	}

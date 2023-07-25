@@ -9,6 +9,7 @@ import { productStatusesRouter } from './productStatuses.router.js';
 // Controllers
 import {
 	addProduct,
+	checkAvailability,
 	getAvailableProducts,
 	getProduct,
 	getProducts,
@@ -49,6 +50,9 @@ productsRouter.use('/populate', passportAuthJwt, checkRoles(accessLevel.LEVEL_1)
 productsRouter.get('/', passportAuthJwt, checkRoles(accessLevel.LEVEL_1), getProducts);
 
 productsRouter.get('/available', getAvailableProducts);
+
+//check products availability
+productsRouter.get('/check-availability', checkAvailability);
 
 // Get product by id
 productsRouter.get('/:id', getProduct);
