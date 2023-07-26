@@ -240,7 +240,7 @@ class UserService {
 
 	//#region user cart
 	getUserCart(user) {
-		return this.userCartDAO.getUserCartById(user.sub);
+		return this.userCartDAO.getUserCart(user.sub);
 	}
 
 	insertProductToCart(user, productId) {

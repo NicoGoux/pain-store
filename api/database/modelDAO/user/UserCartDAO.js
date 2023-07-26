@@ -71,9 +71,10 @@ class UserCartDAO {
 			if (err.isBoom) {
 				throw err;
 			}
+			console.log(err);
 			throw boom.boomify(err, {
 				statusCode: 409,
-				message: 'conflict on insert product to cart',
+				message: 'conflict on remove product to cart',
 			});
 		}
 	}
@@ -90,6 +91,12 @@ class UserCartDAO {
 			const userCartDTO = new UserCartDTO({ user: user, products: [] });
 			cart = await userCartDTO.save();
 		}
+
+		return cart;
+	}
+
+	async getUserCart(userId) {
+		const cart = await this.getUserCartById(userId);
 
 		// split not available products
 		const productDAO = new ProductDAO();
@@ -109,6 +116,7 @@ class UserCartDAO {
 			nonAvailableProductsOnCart: nonAvailableProductsOnCart,
 		};
 	}
+
 	//#endregion
 }
 
