@@ -25,9 +25,6 @@ import { passportAuthJwt } from '../../config/auth/passportAuth.js';
 import { checkRoles } from '../../middlewares/auth.handler.js';
 import { accessLevel } from '../../config/auth/accessLevel.js';
 
-// Populate middlewares / only for init database
-import { populateRouter } from './populate.router.js';
-
 const productsRouter = express.Router();
 
 // Categories router
@@ -39,12 +36,8 @@ productsRouter.use('/skin-conditions', skinConditionsRouter);
 // Market hashes router
 productsRouter.use('/market_hashes', marketHashesRouter);
 
+// Product statuses router
 productsRouter.use('/product-statuses', productStatusesRouter);
-
-/**
- * @description: Only for initial populate
- */
-productsRouter.use('/populate', passportAuthJwt, checkRoles(accessLevel.LEVEL_1), populateRouter);
 
 // Get products
 productsRouter.get('/', passportAuthJwt, checkRoles(accessLevel.LEVEL_1), getProducts);

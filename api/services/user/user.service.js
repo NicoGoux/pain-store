@@ -216,6 +216,20 @@ class UserService {
 	}
 	//#endregion
 
+	//#region user cart
+	getUserCart(user) {
+		return this.userCartDAO.getUserCart(user.sub);
+	}
+
+	insertProductToCart(user, productId) {
+		return this.userCartDAO.insertProductToCart(user.sub, productId);
+	}
+
+	removeProductToCart(user, productId) {
+		return this.userCartDAO.removeProductToCart(user.sub, productId);
+	}
+	//#endregion
+
 	async sendEmail(infoEmail) {
 		return await sendRecoveryEmail(infoEmail);
 	}
@@ -237,20 +251,6 @@ class UserService {
 	decodeToken(token) {
 		return jwt.decode(token, process.env.JWT_SEC);
 	}
-
-	//#region user cart
-	getUserCart(user) {
-		return this.userCartDAO.getUserCart(user.sub);
-	}
-
-	insertProductToCart(user, productId) {
-		return this.userCartDAO.insertProductToCart(user.sub, productId);
-	}
-
-	removeProductToCart(user, productId) {
-		return this.userCartDAO.removeProductToCart(user.sub, productId);
-	}
-	//#endregion
 }
 
 export { UserService };

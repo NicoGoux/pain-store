@@ -1,4 +1,5 @@
 import { ProductStatusDTO } from '../../model/product/ProductStatus.js';
+import boom from '@hapi/boom';
 
 class ProductStatusDAO {
 	constructor() {}
@@ -16,7 +17,7 @@ class ProductStatusDAO {
 	async insertProductStatus(productStatus) {
 		try {
 			const productStatusDTO = new ProductStatusDTO(productStatus);
-			const productStatusSaved = productStatusDTO.save();
+			const productStatusSaved = await productStatusDTO.save();
 			if (productStatusSaved) {
 				return productStatus;
 			}

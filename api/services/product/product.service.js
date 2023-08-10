@@ -63,6 +63,28 @@ class ProductService {
 	getProductStatuses() {
 		return this.productStatusDAO.getProductStatuses();
 	}
+
+	/**
+	 *
+	 * @description: Only for initial populate
+	 */
+	async populateProductStatuses() {
+		const productStatuses = [
+			{
+				productStatusString: 'DISPONIBLE',
+			},
+			{
+				productStatusString: 'RESERVADO',
+			},
+			{
+				productStatusString: 'VENDIDO',
+			},
+			{
+				productStatusString: 'OCULTO',
+			},
+		];
+		return await this.productStatusDAO.insertProductStatuses(productStatuses);
+	}
 }
 
 export { ProductService };

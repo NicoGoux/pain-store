@@ -1,4 +1,5 @@
 import { SkinConditionDTO } from '../../model/product/SkinCondition.js';
+import boom from '@hapi/boom';
 
 class SkinConditionDAO {
 	constructor() {}
@@ -16,7 +17,7 @@ class SkinConditionDAO {
 	async insertSkinCondition(skinCondition) {
 		try {
 			const skinConditionDTO = new SkinConditionDTO(skinCondition);
-			const skinConditionSaved = skinConditionDTO.save();
+			const skinConditionSaved = await skinConditionDTO.save();
 			if (skinConditionSaved) {
 				return skinCondition;
 			}

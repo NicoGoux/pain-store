@@ -11,7 +11,7 @@ import {
 	sendEmailConfirm,
 	getUserLogged,
 	changePassword,
-} from '../../controllers/userController/userController.js';
+} from '../../controllers/userControllers/userController.js';
 import {
 	loginUserSchema,
 	recoveryEmailSchema,
@@ -27,7 +27,7 @@ import {
 	getUserCart,
 	insertProductToCart,
 	removeProductToCart,
-} from '../../controllers/userController/userCartController.js';
+} from '../../controllers/userControllers/userCartController.js';
 
 const usersRouter = express.Router();
 

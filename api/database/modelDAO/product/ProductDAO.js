@@ -59,6 +59,7 @@ class ProductDAO {
 
 	async getProduct(id) {
 		try {
+			console.log(id);
 			return await ProductDTO.findById(id).lean();
 		} catch (err) {
 			throw boom.notFound('Product not found');
