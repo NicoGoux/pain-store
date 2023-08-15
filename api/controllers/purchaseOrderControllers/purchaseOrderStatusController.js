@@ -1,5 +1,3 @@
-// Status controller
-
 import { PurchaseOrderService } from '../../services/purchaseOrder/purchaseOrder.service.js';
 
 const purchaseOrderService = PurchaseOrderService.getInstance();

@@ -21,6 +21,8 @@ const port = process.env.PORT || '3030';
 
 connectDB();
 
+// TODO VALIDATION
+
 //cors
 // TODO
 // const whitelist = [

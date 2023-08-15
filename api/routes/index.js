@@ -6,6 +6,7 @@ import { purchaseOrderRouter } from './purchaseOrder/purchaseOrders.router.js';
 
 // Populate middlewares / only for init database
 import { populateRouter } from './populate.router.js';
+import { paymentMethodRouter } from './paymentMethod/paymentMethods.router.js';
 
 const router = express.Router();
 
@@ -14,6 +15,7 @@ function routerApi(app) {
 	router.use('/products', productsRouter);
 	router.use('/users', usersRouter);
 	router.use('/purchase-orders', purchaseOrderRouter);
+	router.use('/payment-methods', paymentMethodRouter);
 
 	/**
 	 * @description: Only for initial populate
