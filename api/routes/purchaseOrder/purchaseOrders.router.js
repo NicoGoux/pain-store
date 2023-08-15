@@ -1,9 +1,14 @@
 import express from 'express';
-import { validatorHandler } from '../../middlewares/validator.handler.js';
 import { passportAuthJwt } from '../../config/auth/passportAuth.js';
 import { checkRoles } from '../../middlewares/auth.handler.js';
 import { accessLevel } from '../../config/auth/accessLevel.js';
-import { createPurchaseOrder } from '../../controllers/purchaseOrderControllers/purchaseOrderController.js';
+import {
+	createPurchaseOrder,
+	getPurchaseOrder,
+	getPurchaseOrders,
+	getUserPurchaseOrders,
+	updatePurchaseOrderStatus,
+} from '../../controllers/purchaseOrderControllers/purchaseOrderController.js';
 import { purchaseOrderStatusesRouter } from './purchaseOrderStatuses.router.js';
 
 const purchaseOrderRouter = express.Router();
@@ -11,6 +16,32 @@ const purchaseOrderRouter = express.Router();
 // Purchase order statuses router
 purchaseOrderRouter.use('/purchase-order-statuses', purchaseOrderStatusesRouter);
 
-purchaseOrderRouter.get('/', passportAuthJwt, checkRoles(accessLevel.LEVEL_2), createPurchaseOrder);
+// Get purchase orders
+purchaseOrderRouter.get('/', passportAuthJwt, checkRoles(accessLevel.LEVEL_1), getPurchaseOrders);
+
+purchaseOrderRouter.get(
+	'/user-purchase-orders',
+	passportAuthJwt,
+	checkRoles(accessLevel.LEVEL_2),
+	getUserPurchaseOrders
+);
+
+purchaseOrderRouter.get('/:id', passportAuthJwt, checkRoles(accessLevel.LEVEL_2), getPurchaseOrder);
+
+// Create new purchase order
+purchaseOrderRouter.post(
+	'/',
+	passportAuthJwt,
+	checkRoles(accessLevel.LEVEL_2),
+	createPurchaseOrder
+);
+
+// Change pending status
+purchaseOrderRouter.post(
+	'/update-order-status',
+	passportAuthJwt,
+	checkRoles(accessLevel.LEVEL_1),
+	updatePurchaseOrderStatus
+);
 
 export { purchaseOrderRouter };

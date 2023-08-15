@@ -39,12 +39,13 @@ const UserSchema = new Schema(
 			type: String,
 			trim: true,
 			required: true,
-			// select: false,
+			select: false,
 		},
 
 		recoveryToken: {
 			type: String,
 			unique: true,
+			select: false,
 		},
 		role: {
 			type: String,

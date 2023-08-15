@@ -71,16 +71,16 @@ class ProductService {
 	async populateProductStatuses() {
 		const productStatuses = [
 			{
-				productStatusString: 'DISPONIBLE',
+				productStatusString: productStatusStrings.DISPONIBLE,
 			},
 			{
-				productStatusString: 'RESERVADO',
+				productStatusString: productStatusStrings.RESERVADO,
 			},
 			{
-				productStatusString: 'VENDIDO',
+				productStatusString: productStatusStrings.VENDIDO,
 			},
 			{
-				productStatusString: 'OCULTO',
+				productStatusString: productStatusStrings.OCULTO,
 			},
 		];
 		return await this.productStatusDAO.insertProductStatuses(productStatuses);

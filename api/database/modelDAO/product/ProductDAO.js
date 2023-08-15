@@ -4,7 +4,6 @@ import { SkinConditionDAO } from './SkinConditionDAO.js';
 import { ProductStatusDAO } from './ProductStatusDAO.js';
 import { ProductDTO } from '../../model/product/Product.js';
 import { productStatusStrings } from '../../../config/productStatus.js';
-import { CategoryDAO } from './CategoryDAO.js';
 
 class ProductDAO {
 	constructor() {}
@@ -59,7 +58,6 @@ class ProductDAO {
 
 	async getProduct(id) {
 		try {
-			console.log(id);
 			return await ProductDTO.findById(id).lean();
 		} catch (err) {
 			throw boom.notFound('Product not found');
@@ -189,9 +187,9 @@ class ProductDAO {
 
 		await Promise.all(
 			products.map(async (product) => {
-				const isAvailable = await this.checkAvailableStatus(product);
-				if (isAvailable) {
-					productsAvailable.push(product);
+				const productAvailable = await this.checkAvailableStatus(product);
+				if (productAvailable) {
+					productsAvailable.push(productAvailable);
 				}
 			})
 		);
@@ -201,7 +199,130 @@ class ProductDAO {
 
 	async checkAvailableStatus(product) {
 		const productFound = await this.getProduct(product._id);
-		return productFound.productStatus.productStatusString === productStatusStrings.DISPONIBLE;
+		if (productFound.productStatus.productStatusString === productStatusStrings.DISPONIBLE) {
+			return productFound;
+		}
+	}
+
+	// Reserve products with transaction session
+	async reserveProducts(products, session) {
+		try {
+			const availableProducts = await this.getAvailableProductsFromList(products);
+
+			const nonAvailableProductsId = products.filter(
+				(product) =>
+					!availableProducts.some(
+						(productAvailable) => productAvailable._id.toString() === product._id
+					)
+			);
+
+			if (nonAvailableProductsId.length != 0) {
+				const nonAvailableProducts = [];
+				await Promise.all(
+					nonAvailableProductsId.map(async (productId) => {
+						const productAvailable = await this.getProduct(productId);
+						nonAvailableProducts.push(productAvailable);
+					})
+				);
+
+				let errorString = 'Products not available: \n';
+				nonAvailableProducts.forEach((p) => {
+					errorString += ' - ' + p.name + ',\n';
+				});
+				throw boom.conflict(errorString);
+			}
+
+			const updatedProducts = [];
+			for (const product of availableProducts) {
+				const updatedProduct = await this.reserveProduct(product, session);
+				updatedProducts.push(updatedProduct);
+			}
+			return updatedProducts;
+		} catch (err) {
+			throw err;
+		}
+	}
+
+	async reserveProduct(product, session) {
+		const productStatusDAO = new ProductStatusDAO();
+		const productStatus = await productStatusDAO.getProductStatus({
+			productStatusString: productStatusStrings.RESERVADO,
+		});
+		if (!productStatus) {
+			throw boom.notFound('Product status not found');
+		}
+
+		// Pass the session to the options
+		const options = { session, new: true };
+		return await ProductDTO.findByIdAndUpdate(
+			product._id,
+			{ productStatus: productStatus },
+			options
+		);
+	}
+
+	// set products available with transaction session
+	async setProductsAvailable(products, session) {
+		try {
+			const updatedProducts = [];
+			for (const product of products) {
+				const updatedProduct = await this.setProductAvailable(product, session);
+				updatedProducts.push(updatedProduct);
+			}
+			return updatedProducts;
+		} catch (err) {
+			throw err;
+		}
+	}
+
+	async setProductAvailable(product, session) {
+		const productStatusDAO = new ProductStatusDAO();
+		const productStatus = await productStatusDAO.getProductStatus({
+			productStatusString: productStatusStrings.DISPONIBLE,
+		});
+		if (!productStatus) {
+			throw boom.notFound('Product status not found');
+		}
+
+		// Pass the session to the options
+		const options = { session, new: true };
+		return await ProductDTO.findByIdAndUpdate(
+			product._id,
+			{ productStatus: productStatus },
+			options
+		);
+	}
+
+	// sell products with transaction session
+	async sellProducts(products, session) {
+		try {
+			const updatedProducts = [];
+			for (const product of products) {
+				const updatedProduct = await this.sellProduct(product, session);
+				updatedProducts.push(updatedProduct);
+			}
+			return updatedProducts;
+		} catch (err) {
+			throw err;
+		}
+	}
+
+	async sellProduct(product, session) {
+		const productStatusDAO = new ProductStatusDAO();
+		const productStatus = await productStatusDAO.getProductStatus({
+			productStatusString: productStatusStrings.VENDIDO,
+		});
+		if (!productStatus) {
+			throw boom.notFound('Product status not found');
+		}
+
+		// Pass the session to the options
+		const options = { session, new: true };
+		return await ProductDTO.findByIdAndUpdate(
+			product._id,
+			{ productStatus: productStatus },
+			options
+		);
 	}
 }
 

@@ -2,13 +2,49 @@ import { PurchaseOrderService } from '../../services/purchaseOrder/purchaseOrder
 
 const purchaseOrderService = PurchaseOrderService.getInstance();
 
+// #region get purchase orders
+const getPurchaseOrders = async (req, res, next) => {
+	try {
+		// TODO FILTERS
+		const purchaseOrders = await purchaseOrderService.getPurchaseOrders();
+		return res.json(purchaseOrders);
+	} catch (err) {
+		next(err);
+	}
+};
+
+const getUserPurchaseOrders = async (req, res, next) => {
+	try {
+		const user = req.user;
+
+		// TODO FILTERS
+		const purchaseOrders = await purchaseOrderService.getUserPurchaseOrders(user);
+		return res.json(purchaseOrders);
+	} catch (err) {
+		next(err);
+	}
+};
+
+const getPurchaseOrder = async (req, res, next) => {
+	try {
+		const { id } = req.params;
+		const purchaseOrder = await purchaseOrderService.getPurchaseOrder(id);
+		return res.json(purchaseOrder);
+	} catch (err) {
+		next(err);
+	}
+};
+
+//#endregion
+
 // #region create purchase order
 const createPurchaseOrder = async (req, res, next) => {
 	try {
 		const user = req.user;
-		const { products, paymentMethod, isCart } = req.body;
+		const { userData, products, paymentMethod, isCart } = req.body;
 		const purchaseOrder = await purchaseOrderService.createPurchaseOrder(
 			user,
+			userData,
 			products,
 			paymentMethod,
 			isCart
@@ -18,7 +54,28 @@ const createPurchaseOrder = async (req, res, next) => {
 		next(err);
 	}
 };
-
 //#endregion
 
-export { createPurchaseOrder };
+// #region change status
+const updatePurchaseOrderStatus = async (req, res, next) => {
+	try {
+		const { purchaseOrderId, purchaseOrderStatus } = req.body;
+		const purchaseOrder = await purchaseOrderService.updatePurchaseOrderStatus(
+			purchaseOrderId,
+			purchaseOrderStatus
+		);
+		return res.json(purchaseOrder);
+	} catch (err) {
+		next(err);
+	}
+};
+
+// #endregion
+
+export {
+	getPurchaseOrders,
+	getUserPurchaseOrders,
+	getPurchaseOrder,
+	createPurchaseOrder,
+	updatePurchaseOrderStatus,
+};

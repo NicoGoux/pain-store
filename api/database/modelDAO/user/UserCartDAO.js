@@ -8,7 +8,6 @@ import { productStatusStrings } from '../../../config/productStatus.js';
 class UserCartDAO {
 	constructor() {}
 
-	//#region get cart
 	async insertProductToCart(userId, productId) {
 		try {
 			// get user cart
@@ -47,7 +46,6 @@ class UserCartDAO {
 		}
 	}
 
-	//#region get cart
 	async removeProductToCart(userId, productId) {
 		try {
 			// get user cart
@@ -107,7 +105,7 @@ class UserCartDAO {
 		const nonAvailableProductsOnCart = cart.products.filter(
 			(product) =>
 				!availableProductsOnCart.some(
-					(productAvailable) => productAvailable._id === product._id
+					(productAvailable) => productAvailable._id.toString() === product._id.toString()
 				)
 		);
 
@@ -117,7 +115,14 @@ class UserCartDAO {
 		};
 	}
 
-	//#endregion
+	async clearCart(userId, session) {
+		const cart = await this.getUserCartById(userId);
+		cart.products = [];
+
+		const options = { session, new: true };
+		await cart.save(options);
+		return;
+	}
 }
 
 export { UserCartDAO };
