@@ -1,5 +1,5 @@
 import boom from '@hapi/boom';
-import mongoose, { mongo } from 'mongoose';
+import mongoose from 'mongoose';
 import { UserAuthDAO } from '../user/UserAuthDAO.js';
 import { PurchaseOrderStatusDAO } from './PurchaseOrderStatusDAO.js';
 import { purchaseOrderStatusStrings } from '../../../config/purchaseOrderStatus.js';
@@ -31,8 +31,6 @@ class PurchaseOrderDAO {
 	}
 
 	async createPurchaseOrder(purchaseOrderData) {
-		// TODO clear user cart
-
 		// Create mongoose session
 		const session = await mongoose.startSession();
 

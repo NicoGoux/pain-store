@@ -60,7 +60,10 @@ const PurchaseOrderSchema = new Schema({
 });
 
 function autopopulate(next) {
-	this.populate('user');
+	this.populate({
+		path: 'user',
+		select: '-password',
+	});
 	this.populate('products');
 	this.populate('purchaseOrderStatus');
 	next();

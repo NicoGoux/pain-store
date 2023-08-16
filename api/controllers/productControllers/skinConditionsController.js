@@ -18,7 +18,6 @@ const getAll = async (req, res, next) => {
 const populateSkinConditions = async (req, res, next) => {
 	try {
 		await skinConditionService.populateSkinConditions();
-		console.log('era');
 		next();
 		return;
 	} catch (err) {

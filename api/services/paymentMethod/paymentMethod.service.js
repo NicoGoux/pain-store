@@ -1,4 +1,5 @@
-import { purchaseOrderStatusStrings } from '../../config/purchaseOrderStatus.js';
+import { paymentMethodTypeStrings } from '../../config/paymentMethodTypeStrings.js';
+import { PaymentMethodTypeDAO } from '../../database/modelDAO/paymentMethod/paymentMethodTypeDAO.js';
 
 let instance;
 
@@ -14,15 +15,32 @@ class PaymentMethodService {
 
 	constructor() {
 		// this.paymentMethodDAO = new PaymentMethodDAO();
+		this.paymentMethodTypeDAO = new PaymentMethodTypeDAO();
 	}
 
 	getPaymentMethods() {
-		return this.paymentMethodDAO.getPaymentMethods();
+		// return this.paymentMethodDAO.getPaymentMethods();
 	}
 
-	getPurchaseOrder(id) {
-		return this.purchaseOrderDAO.getPurchaseOrder(id);
+	getPaymentMethodTypes() {
+		return this.paymentMethodTypeDAO.getPaymentMethodTypes();
+	}
+
+	/**
+	 *
+	 * @description: Only for initial populate
+	 */
+	async populatePaymentMethodTypes() {
+		const paymentMethodTypes = [
+			{
+				paymentMethodTypeString: paymentMethodTypeStrings.TRANSFERENCIA.name,
+			},
+			{
+				paymentMethodTypeString: paymentMethodTypeStrings.CRYPTOMONEDA.name,
+			},
+		];
+		return await this.paymentMethodTypeDAO.insertPaymentMethodTypes(paymentMethodTypes);
 	}
 }
 
-export { PurchaseOrderService };
+export { PaymentMethodService };

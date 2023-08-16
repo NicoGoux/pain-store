@@ -6,6 +6,7 @@ import { checkRoles } from '../middlewares/auth.handler.js';
 import { accessLevel } from '../config/auth/accessLevel.js';
 import { populateProductStatuses } from '../controllers/productControllers/productStatusesController.js';
 import { populatePurchaseOrderStatuses } from '../controllers/purchaseOrderControllers/purchaseOrderStatusController.js';
+import { populatePaymentMethodTypes } from '../controllers/paymentMethodControllers/paymentMethodsController.js';
 
 const populateRouter = express.Router();
 
@@ -14,6 +15,7 @@ populateRouter.post(
 	'/',
 	passportAuthJwt,
 	checkRoles(accessLevel.LEVEL_1),
+	populatePaymentMethodTypes,
 	populatePurchaseOrderStatuses,
 	populateCategories,
 	populateSkinConditions,

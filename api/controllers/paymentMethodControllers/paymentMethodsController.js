@@ -4,10 +4,10 @@ import { PaymentMethodService } from '../../services/paymentMethod/paymentMethod
 
 const paymentMethodService = PaymentMethodService.getInstance();
 
-const getPaymentMethods = async (req, res, next) => {
+const getPaymentMethodTypes = async (req, res, next) => {
 	try {
-		const paymentMethods = await paymentMethodService.getPaymentMethod();
-		return res.json(paymentMethods);
+		const paymentMethodTypes = await paymentMethodService.getPaymentMethodTypes();
+		return res.json(paymentMethodTypes);
 	} catch (err) {
 		next(err);
 	}
@@ -17,9 +17,9 @@ const getPaymentMethods = async (req, res, next) => {
  *
  * @description: Only for initial populate
  */
-const populatePaymentMethods = async (req, res, next) => {
+const populatePaymentMethodTypes = async (req, res, next) => {
 	try {
-		await paymentMethodService.populatePaymentMethods();
+		await paymentMethodService.populatePaymentMethodTypes();
 		next();
 		return;
 	} catch (err) {
@@ -27,4 +27,4 @@ const populatePaymentMethods = async (req, res, next) => {
 	}
 };
 
-export { populatePaymentMethods, getPaymentMethods };
+export { populatePaymentMethodTypes, getPaymentMethodTypes };

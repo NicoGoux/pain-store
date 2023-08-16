@@ -39,7 +39,6 @@ const UserSchema = new Schema(
 			type: String,
 			trim: true,
 			required: true,
-			select: false,
 		},
 
 		recoveryToken: {
