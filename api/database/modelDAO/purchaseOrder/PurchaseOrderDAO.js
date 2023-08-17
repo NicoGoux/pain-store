@@ -6,6 +6,7 @@ import { purchaseOrderStatusStrings } from '../../../config/purchaseOrderStatus.
 import { ProductDAO } from '../product/ProductDAO.js';
 import { PurchaseOrderDTO } from '../../model/PurchaseOrder/PurchaseOrder.js';
 import { UserCartDAO } from '../user/UserCartDAO.js';
+import { PaymentMethodTypeDAO } from '../paymentMethod/paymentMethodTypeDAO.js';
 
 class PurchaseOrderDAO {
 	constructor() {}
@@ -27,7 +28,15 @@ class PurchaseOrderDAO {
 	}
 
 	async getPurchaseOrder(id) {
-		return await PurchaseOrderDTO.findById(id);
+		try {
+			const purchaseOrder = await PurchaseOrderDTO.findById(id);
+			if (!purchaseOrder) {
+				throw boom.conflict();
+			}
+			return purchaseOrder;
+		} catch (err) {
+			throw boom.notFound('Purchase order not found');
+		}
 	}
 
 	async createPurchaseOrder(purchaseOrderData) {
@@ -77,6 +86,15 @@ class PurchaseOrderDAO {
 		try {
 			const userAuthDAO = new UserAuthDAO();
 			const purchaseOrderStatusDAO = new PurchaseOrderStatusDAO();
+			const paymentMethodTypeDAO = new PaymentMethodTypeDAO();
+
+			const paymentMethodType = await paymentMethodTypeDAO.getPaymentMethodType({
+				paymentMethodTypeString: purchaseOrderData.paymentMethodType,
+			});
+			if (!paymentMethodType) {
+				throw boom.notFound('Payment method type not found');
+			}
+			purchaseOrderData.paymentMethodType = paymentMethodType;
 
 			const user = await userAuthDAO.getUserById(purchaseOrderData.user);
 			if (!user) {
@@ -110,7 +128,6 @@ class PurchaseOrderDAO {
 
 			return await purchaseOrderDTO.save(options);
 		} catch (err) {
-			console.log(err);
 			throw err;
 		}
 	}

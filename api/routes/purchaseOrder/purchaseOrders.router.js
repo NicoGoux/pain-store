@@ -10,6 +10,8 @@ import {
 	updatePurchaseOrderStatus,
 } from '../../controllers/purchaseOrderControllers/purchaseOrderController.js';
 import { purchaseOrderStatusesRouter } from './purchaseOrderStatuses.router.js';
+import { createPurchaseOrderSchema } from '../../schemas/purchaseOrder.joi.schema.js';
+import { validatorHandler } from '../../middlewares/validator.handler.js';
 
 const purchaseOrderRouter = express.Router();
 
@@ -33,6 +35,7 @@ purchaseOrderRouter.post(
 	'/',
 	passportAuthJwt,
 	checkRoles(accessLevel.LEVEL_2),
+	validatorHandler(createPurchaseOrderSchema, 'body'),
 	createPurchaseOrder
 );
 

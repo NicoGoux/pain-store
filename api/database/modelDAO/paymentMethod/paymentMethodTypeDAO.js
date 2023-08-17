@@ -4,6 +4,12 @@ import { PaymentMethodTypeDTO } from '../../model/paymentMethod/PaymentMethodTyp
 class PaymentMethodTypeDAO {
 	constructor() {}
 
+	async getPaymentMethodType(paymentMethodType) {
+		return await PaymentMethodTypeDTO.findOne({
+			paymentMethodTypeString: paymentMethodType.paymentMethodTypeString,
+		});
+	}
+
 	async getPaymentMethodTypes() {
 		return await PaymentMethodTypeDTO.find();
 	}

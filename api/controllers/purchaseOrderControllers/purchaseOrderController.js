@@ -41,12 +41,12 @@ const getPurchaseOrder = async (req, res, next) => {
 const createPurchaseOrder = async (req, res, next) => {
 	try {
 		const user = req.user;
-		const { userData, products, paymentMethod, isCart } = req.body;
+		const { userData, products, paymentMethodType, isCart } = req.body;
 		const purchaseOrder = await purchaseOrderService.createPurchaseOrder(
 			user,
 			userData,
 			products,
-			paymentMethod,
+			paymentMethodType,
 			isCart
 		);
 		return res.json(purchaseOrder);

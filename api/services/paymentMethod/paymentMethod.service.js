@@ -1,4 +1,5 @@
 import { paymentMethodTypeStrings } from '../../config/paymentMethodTypeStrings.js';
+import { PaymentMethodDAO } from '../../database/modelDAO/paymentMethod/paymentMethodDAO.js';
 import { PaymentMethodTypeDAO } from '../../database/modelDAO/paymentMethod/paymentMethodTypeDAO.js';
 
 let instance;
@@ -14,16 +15,54 @@ class PaymentMethodService {
 	}
 
 	constructor() {
-		// this.paymentMethodDAO = new PaymentMethodDAO();
+		this.paymentMethodDAO = new PaymentMethodDAO();
 		this.paymentMethodTypeDAO = new PaymentMethodTypeDAO();
 	}
 
-	getPaymentMethods() {
-		// return this.paymentMethodDAO.getPaymentMethods();
+	async getPaymentMethods(paymentMethodType) {
+		paymentMethodType = await this.paymentMethodTypeDAO.getPaymentMethodType({
+			paymentMethodTypeString: paymentMethodType,
+		});
+
+		return await this.paymentMethodDAO.getPaymentMethods(paymentMethodType);
+	}
+
+	async insertPaymentMethod(paymentMethodType, paymentMethodData) {
+		paymentMethodType = await this.paymentMethodTypeDAO.getPaymentMethodType({
+			paymentMethodTypeString: paymentMethodType,
+		});
+
+		if (
+			paymentMethodType.paymentMethodTypeString ===
+			paymentMethodTypeStrings.TRANSFERENCIA.name
+		) {
+			paymentMethodTypeStrings.TRANSFERENCIA.data.forEach((data) => {
+				if (!Object.hasOwnProperty.call(paymentMethodData, data)) {
+					throw new Error('The ' + data + ' data is missing');
+				}
+			});
+		} else if (
+			paymentMethodType.paymentMethodTypeString === paymentMethodTypeStrings.CRYPTOMONEDA.name
+		) {
+			paymentMethodTypeStrings.CRYPTOMONEDA.data.forEach((data) => {
+				if (!Object.hasOwnProperty.call(paymentMethodData, data)) {
+					throw new Error('The ' + data + ' data is missing');
+				}
+			});
+		}
+
+		return await this.paymentMethodDAO.insertPaymentMethod(
+			paymentMethodType,
+			paymentMethodData
+		);
 	}
 
 	getPaymentMethodTypes() {
 		return this.paymentMethodTypeDAO.getPaymentMethodTypes();
+	}
+
+	toggleActivePaymentMethod(id) {
+		return this.paymentMethodDAO.toggleActivePaymentMethod(id);
 	}
 
 	/**

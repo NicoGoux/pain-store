@@ -6,7 +6,6 @@ import { accessLevel } from '../../config/auth/accessLevel.js';
 
 const paymentMethodTypeRouter = express.Router();
 
-//TODO
 paymentMethodTypeRouter.get(
 	'/',
 	passportAuthJwt,

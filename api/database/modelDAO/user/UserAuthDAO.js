@@ -33,7 +33,7 @@ class UserAuthDAO {
 	}
 
 	async getUserById(id) {
-		const user = await UserDTO.findById(id);
+		const user = await UserDTO.findById(id).select('-password');
 		if (!user) {
 			throw boom.notFound('User not found');
 		}

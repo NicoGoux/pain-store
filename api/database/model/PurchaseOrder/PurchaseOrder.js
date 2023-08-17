@@ -40,11 +40,10 @@ const PurchaseOrderSchema = new Schema({
 		},
 	],
 
-	paymentMethod: {
-		type: String,
-		trim: true,
-		required: true,
-		unique: true,
+	paymentMethodType: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'payment_method_type',
+		require: true,
 	},
 
 	totalPrice: {
