@@ -61,6 +61,25 @@ class PaymentMethodService {
 		return this.paymentMethodTypeDAO.getPaymentMethodTypes();
 	}
 
+	async getAvailablePaymentMethodTypes() {
+		const paymentMethodTypes = await this.paymentMethodTypeDAO.getPaymentMethodTypes();
+
+		const availablePaymentMethodTypes = [];
+
+		await Promise.all(
+			paymentMethodTypes.map(async (paymentMethodType) => {
+				const isAvailable = await this.paymentMethodDAO.checkAvailableMethodType(
+					paymentMethodType
+				);
+				if (isAvailable) {
+					availablePaymentMethodTypes.push(paymentMethodType);
+				}
+			})
+		);
+
+		return availablePaymentMethodTypes;
+	}
+
 	toggleActivePaymentMethod(id) {
 		return this.paymentMethodDAO.toggleActivePaymentMethod(id);
 	}

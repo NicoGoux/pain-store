@@ -131,6 +131,11 @@ class UserService {
 			throw boom.unauthorized();
 		}
 	}
+
+	async checkConfirmedEmail(user) {
+		const isEmailConfirmed = await this.userAuthDAO.checkConfirmedEmail(user.sub);
+		return { isEmailConfirmed: isEmailConfirmed };
+	}
 	//#endregion
 
 	//#region change password

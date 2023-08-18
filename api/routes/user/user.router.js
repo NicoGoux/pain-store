@@ -11,6 +11,7 @@ import {
 	sendEmailConfirm,
 	getUserLogged,
 	changePassword,
+	checkConfirmedEmail,
 } from '../../controllers/userControllers/userController.js';
 import {
 	loginUserSchema,
@@ -69,6 +70,13 @@ usersRouter.post(
 );
 
 usersRouter.post('/validate-email', validatorHandler(validateEmailSchema, 'body'), emailConfirm);
+
+usersRouter.get(
+	'/check-confirmed-email',
+	passportAuthJwt,
+	checkRoles(accessLevel.LEVEL_2),
+	checkConfirmedEmail
+);
 
 // Recovery password
 usersRouter.post('/recovery', validatorHandler(recoveryEmailSchema, 'body'), emailPasswordRecovery);

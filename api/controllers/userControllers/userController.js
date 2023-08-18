@@ -76,6 +76,16 @@ const emailConfirm = async (req, res, next) => {
 		next(err);
 	}
 };
+
+const checkConfirmedEmail = async (req, res, next) => {
+	try {
+		const user = req.user;
+		const isEmailConfirmed = await userService.checkConfirmedEmail(user);
+		res.json(isEmailConfirmed);
+	} catch (err) {
+		next(err);
+	}
+};
 //#endregion
 
 const changePassword = async (req, res, next) => {
@@ -122,5 +132,6 @@ export {
 	sendEmailConfirm,
 	emailConfirm,
 	emailPasswordRecovery,
+	checkConfirmedEmail,
 	passwordRecovery,
 };

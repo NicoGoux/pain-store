@@ -98,6 +98,16 @@ class UserAuthDAO {
 			});
 		}
 	}
+
+	async checkConfirmedEmail(id) {
+		try {
+			const user = await this.getUserById(id);
+			return user.emailConfirm;
+		} catch (err) {
+			throw err;
+		}
+	}
+
 	//#endregion
 
 	//#region recovery password

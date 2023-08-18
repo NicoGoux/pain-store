@@ -10,6 +10,13 @@ class PaymentMethodDAO {
 		return await PaymentMethodDTO.find({ paymentMethodType: paymentMethodType });
 	}
 
+	async checkAvailableMethodType(paymentMethodType) {
+		return await PaymentMethodDTO.findOne({
+			paymentMethodType: paymentMethodType,
+			isActive: true,
+		});
+	}
+
 	async insertPaymentMethod(paymentMethodType, paymentMethodData) {
 		const paymentMethodDTO = new PaymentMethodDTO({
 			paymentMethodType: paymentMethodType,
