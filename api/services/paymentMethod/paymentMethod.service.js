@@ -42,9 +42,9 @@ class PaymentMethodService {
 				}
 			});
 		} else if (
-			paymentMethodType.paymentMethodTypeString === paymentMethodTypeStrings.CRYPTOMONEDA.name
+			paymentMethodType.paymentMethodTypeString === paymentMethodTypeStrings.CRIPTOMONEDA.name
 		) {
-			paymentMethodTypeStrings.CRYPTOMONEDA.data.forEach((data) => {
+			paymentMethodTypeStrings.CRIPTOMONEDA.data.forEach((data) => {
 				if (!Object.hasOwnProperty.call(paymentMethodData, data)) {
 					throw new Error('The ' + data + ' data is missing');
 				}
@@ -77,6 +77,14 @@ class PaymentMethodService {
 			})
 		);
 
+		availablePaymentMethodTypes.push(
+			paymentMethodTypes.find(
+				(paymentMethodType) =>
+					paymentMethodType.paymentMethodTypeString ===
+					paymentMethodTypeStrings.OTROS_MEDIOS.name
+			)
+		);
+
 		return availablePaymentMethodTypes;
 	}
 
@@ -94,7 +102,10 @@ class PaymentMethodService {
 				paymentMethodTypeString: paymentMethodTypeStrings.TRANSFERENCIA.name,
 			},
 			{
-				paymentMethodTypeString: paymentMethodTypeStrings.CRYPTOMONEDA.name,
+				paymentMethodTypeString: paymentMethodTypeStrings.CRIPTOMONEDA.name,
+			},
+			{
+				paymentMethodTypeString: paymentMethodTypeStrings.OTROS_MEDIOS.name,
 			},
 		];
 		return await this.paymentMethodTypeDAO.insertPaymentMethodTypes(paymentMethodTypes);

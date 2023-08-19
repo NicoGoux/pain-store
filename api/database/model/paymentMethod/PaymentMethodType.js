@@ -9,6 +9,10 @@ const PaymentMethodTypeSchema = new Schema({
 		required: true,
 		unique: true,
 	},
+	paymentMethodTypeInfo: {
+		type: String,
+		trim: true,
+	},
 });
 
 const PaymentMethodTypeDTO = mongoose.model('payment_method_type', PaymentMethodTypeSchema);

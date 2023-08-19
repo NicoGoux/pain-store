@@ -33,9 +33,9 @@ const products = Joi.array().min(1).messages({
 });
 
 // Check extra data
-const paymentMethodType = Joi.string().valid('TRANSFERENCIA', 'CRYPTOMONEDA').messages({
+const paymentMethodType = Joi.string().valid('TRANSFERENCIA', 'CRIPTOMONEDA').messages({
 	'string.base': 'PaymentMethodType must be a string',
-	'any.only': 'PaymentMethodType must be either TRANSFERENCIA or CRYPTOMONEDA',
+	'any.only': 'PaymentMethodType must be either TRANSFERENCIA or CRIPTOMONEDA',
 	'any.required': 'PaymentMethodType is required',
 });
 
