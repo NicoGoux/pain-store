@@ -27,6 +27,14 @@ class PaymentMethodService {
 		return await this.paymentMethodDAO.getPaymentMethods(paymentMethodType);
 	}
 
+	async getAvailablePaymentMethods(paymentMethodType) {
+		paymentMethodType = await this.paymentMethodTypeDAO.getPaymentMethodType({
+			paymentMethodTypeString: paymentMethodType,
+		});
+
+		return await this.paymentMethodDAO.getAvailablePaymentMethods(paymentMethodType);
+	}
+
 	async insertPaymentMethod(paymentMethodType, paymentMethodData) {
 		paymentMethodType = await this.paymentMethodTypeDAO.getPaymentMethodType({
 			paymentMethodTypeString: paymentMethodType,

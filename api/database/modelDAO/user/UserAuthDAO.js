@@ -33,7 +33,7 @@ class UserAuthDAO {
 	}
 
 	async getUserById(id) {
-		const user = await UserDTO.findById(id).select('-password');
+		const user = await UserDTO.findById(id).select('-password -recoveryToken');
 		if (!user) {
 			throw boom.notFound('User not found');
 		}
@@ -116,7 +116,7 @@ class UserAuthDAO {
 			return await UserDTO.findByIdAndUpdate(
 				id,
 				{ recoveryToken: recoveryToken },
-				{ returnOriginal: false }
+				{ returnOriginal: false, new: true }
 			);
 		} catch (err) {
 			if (err.isBoom) {
@@ -127,6 +127,15 @@ class UserAuthDAO {
 				statusCode: 409,
 			});
 		}
+	}
+
+	async getUserRecoveryToken(id) {
+		const user = await UserDTO.findById(id).select('recoveryToken');
+		if (!user) {
+			throw boom.notFound('User not found');
+		}
+
+		return user;
 	}
 
 	async updatePassword(id, newPasswordHash) {

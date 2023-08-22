@@ -174,6 +174,8 @@ class UserService {
 
 			// Check update
 			if (user.recoveryToken == userUpdated.recoveryToken) {
+				console.log(user.recoveryToken);
+				console.log(userUpdated.recoveryToken);
 				throw boom.conflict("Can't update recoveryToken");
 			}
 
@@ -192,14 +194,14 @@ class UserService {
 			};
 			return await sendEmail(infoEmail);
 		} catch (err) {
-			throw boom.conflict();
+			throw err;
 		}
 	}
 
 	async passwordRecovery(token, newPassword) {
 		try {
 			const payload = jwt.verify(token, process.env.JWT_SEC_RECOVERY);
-			const user = await this.userAuthDAO.getUserById(payload.sub);
+			const user = await this.userAuthDAO.getUserRecoveryToken(payload.sub);
 			if (user.recoveryToken != token) {
 				throw boom.unauthorized();
 			}

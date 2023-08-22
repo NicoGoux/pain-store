@@ -44,7 +44,6 @@ const UserSchema = new Schema(
 		recoveryToken: {
 			type: String,
 			unique: true,
-			select: false,
 		},
 		role: {
 			type: String,

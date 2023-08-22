@@ -2,6 +2,7 @@ import express from 'express';
 import { paymentMethodTypeRouter } from './paymentMethodTypes.router.js';
 import {
 	getAvailablePaymentMethodTypes,
+	getAvailablePaymentMethods,
 	getPaymentMethodTypes,
 	getPaymentMethods,
 	insertPaymentMethod,
@@ -38,9 +39,16 @@ paymentMethodRouter.get(
 );
 
 paymentMethodRouter.get(
-	'/:paymentMethodType?',
+	'/available-payment-methods/:paymentMethodType?',
 	passportAuthJwt,
 	checkRoles(accessLevel.LEVEL_2),
+	getAvailablePaymentMethods
+);
+
+paymentMethodRouter.get(
+	'/:paymentMethodType?',
+	passportAuthJwt,
+	checkRoles(accessLevel.LEVEL_1),
 	getPaymentMethods
 );
 

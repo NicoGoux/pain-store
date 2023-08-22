@@ -45,6 +45,18 @@ const getPaymentMethods = async (req, res, next) => {
 	}
 };
 
+const getAvailablePaymentMethods = async (req, res, next) => {
+	try {
+		const { paymentMethodType } = req.params;
+		const paymentMethods = await paymentMethodService.getAvailablePaymentMethods(
+			paymentMethodType
+		);
+		return res.json(paymentMethods);
+	} catch (err) {
+		next(err);
+	}
+};
+
 const toggleActivePaymentMethod = async (req, res, next) => {
 	try {
 		const { id } = req.params;
@@ -72,6 +84,7 @@ const populatePaymentMethodTypes = async (req, res, next) => {
 export {
 	insertPaymentMethod,
 	getPaymentMethods,
+	getAvailablePaymentMethods,
 	getPaymentMethodTypes,
 	getAvailablePaymentMethodTypes,
 	toggleActivePaymentMethod,
