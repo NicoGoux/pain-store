@@ -2,61 +2,64 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
-const PurchaseOrderSchema = new Schema({
-	orderNumber: {
-		type: Number,
-		required: true,
-		unique: true,
-	},
-
-	user: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'user',
-		required: true,
-	},
-
-	firstName: {
-		type: String,
-		trim: true,
-		required: true,
-	},
-
-	lastName: {
-		type: String,
-		trim: true,
-		required: true,
-	},
-
-	tradeLink: {
-		type: String,
-		trim: true,
-		required: true,
-	},
-
-	products: [
-		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'product',
+const PurchaseOrderSchema = new Schema(
+	{
+		orderNumber: {
+			type: Number,
+			required: true,
+			unique: true,
 		},
-	],
 
-	paymentMethodType: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'payment_method_type',
-		require: true,
-	},
+		user: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'user',
+			required: true,
+		},
 
-	totalPrice: {
-		type: Number,
-		require: true,
-	},
+		firstName: {
+			type: String,
+			trim: true,
+			required: true,
+		},
 
-	purchaseOrderStatus: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'purchase_order_status',
-		require: true,
+		lastName: {
+			type: String,
+			trim: true,
+			required: true,
+		},
+
+		tradeLink: {
+			type: String,
+			trim: true,
+			required: true,
+		},
+
+		products: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'product',
+			},
+		],
+
+		paymentMethodType: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'payment_method_type',
+			require: true,
+		},
+
+		totalPrice: {
+			type: Number,
+			require: true,
+		},
+
+		purchaseOrderStatus: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'purchase_order_status',
+			require: true,
+		},
 	},
-});
+	{ timestamps: true }
+);
 
 function autopopulate(next) {
 	this.populate({
