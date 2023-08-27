@@ -22,8 +22,6 @@ purchaseOrderRouter.use('/purchase-order-statuses', purchaseOrderStatusesRouter)
 // Get purchase orders
 purchaseOrderRouter.get('/', passportAuthJwt, checkRoles(accessLevel.LEVEL_1), getPurchaseOrders);
 
-purchaseOrderRouter.get('/:id', passportAuthJwt, checkRoles(accessLevel.LEVEL_1), getPurchaseOrder);
-
 purchaseOrderRouter.get(
 	'/user-purchase-orders',
 	passportAuthJwt,
@@ -38,6 +36,7 @@ purchaseOrderRouter.get(
 	getUserPurchaseOrder
 );
 
+purchaseOrderRouter.get('/:id', passportAuthJwt, checkRoles(accessLevel.LEVEL_1), getPurchaseOrder);
 // Create new purchase order
 purchaseOrderRouter.post(
 	'/',
