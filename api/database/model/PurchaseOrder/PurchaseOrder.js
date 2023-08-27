@@ -64,6 +64,7 @@ function autopopulate(next) {
 		select: '-password',
 	});
 	this.populate('products');
+	this.populate('paymentMethodType');
 	this.populate('purchaseOrderStatus');
 	next();
 }
