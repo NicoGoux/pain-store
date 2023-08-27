@@ -24,6 +24,17 @@ const getUserPurchaseOrders = async (req, res, next) => {
 	}
 };
 
+const getUserPurchaseOrder = async (req, res, next) => {
+	try {
+		const user = req.user;
+		const { id } = req.params;
+		const purchaseOrder = await purchaseOrderService.getUserPurchaseOrder(user, id);
+		return res.json(purchaseOrder);
+	} catch (err) {
+		next(err);
+	}
+};
+
 const getPurchaseOrder = async (req, res, next) => {
 	try {
 		const { id } = req.params;
@@ -74,6 +85,7 @@ const updatePurchaseOrderStatus = async (req, res, next) => {
 export {
 	getPurchaseOrders,
 	getUserPurchaseOrders,
+	getUserPurchaseOrder,
 	getPurchaseOrder,
 	createPurchaseOrder,
 	updatePurchaseOrderStatus,

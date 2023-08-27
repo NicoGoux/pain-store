@@ -6,6 +6,7 @@ import {
 	createPurchaseOrder,
 	getPurchaseOrder,
 	getPurchaseOrders,
+	getUserPurchaseOrder,
 	getUserPurchaseOrders,
 	updatePurchaseOrderStatus,
 } from '../../controllers/purchaseOrderControllers/purchaseOrderController.js';
@@ -21,6 +22,8 @@ purchaseOrderRouter.use('/purchase-order-statuses', purchaseOrderStatusesRouter)
 // Get purchase orders
 purchaseOrderRouter.get('/', passportAuthJwt, checkRoles(accessLevel.LEVEL_1), getPurchaseOrders);
 
+purchaseOrderRouter.get('/:id', passportAuthJwt, checkRoles(accessLevel.LEVEL_1), getPurchaseOrder);
+
 purchaseOrderRouter.get(
 	'/user-purchase-orders',
 	passportAuthJwt,
@@ -28,7 +31,12 @@ purchaseOrderRouter.get(
 	getUserPurchaseOrders
 );
 
-purchaseOrderRouter.get('/:id', passportAuthJwt, checkRoles(accessLevel.LEVEL_2), getPurchaseOrder);
+purchaseOrderRouter.get(
+	'/user-purchase-orders/:id',
+	passportAuthJwt,
+	checkRoles(accessLevel.LEVEL_2),
+	getUserPurchaseOrder
+);
 
 // Create new purchase order
 purchaseOrderRouter.post(

@@ -30,6 +30,15 @@ class PurchaseOrderService {
 		});
 	}
 
+	async getUserPurchaseOrder(user, id) {
+		const purchaseOrder = await this.purchaseOrderDAO.getPurchaseOrder(id);
+		if (purchaseOrder.user._id.toString() === user.sub) {
+			return purchaseOrder;
+		} else {
+			throw new Error('Purchase order not found');
+		}
+	}
+
 	getPurchaseOrder(id) {
 		return this.purchaseOrderDAO.getPurchaseOrder(id);
 	}
