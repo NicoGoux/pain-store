@@ -190,7 +190,7 @@ class PurchaseOrderService {
 	async populatePurchaseOrderStatuses() {
 		const purchaseOrderStatuses = [
 			{
-				purchaseOrderStatusString: purchaseOrderStatusStrings.RECHAZADO,
+				purchaseOrderStatusString: purchaseOrderStatusStrings.CANCELADO,
 			},
 			{
 				purchaseOrderStatusString: purchaseOrderStatusStrings.PENDPAGO,
@@ -199,7 +199,7 @@ class PurchaseOrderService {
 				purchaseOrderStatusString: purchaseOrderStatusStrings.PENDENVIO,
 			},
 			{
-				purchaseOrderStatusString: purchaseOrderStatusStrings.FINALIZADO,
+				purchaseOrderStatusString: purchaseOrderStatusStrings.COMPLETADO,
 			},
 		];
 		return await this.purchaseOrderStatusDAO.insertPurchaseOrderStatuses(purchaseOrderStatuses);

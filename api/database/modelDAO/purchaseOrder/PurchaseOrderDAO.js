@@ -147,8 +147,8 @@ class PurchaseOrderDAO {
 		const newState = purchaseOrderStatus.purchaseOrderStatusString;
 
 		if (
-			actualState === purchaseOrderStatusStrings.RECHAZADO ||
-			actualState === purchaseOrderStatusStrings.FINALIZADO
+			actualState === purchaseOrderStatusStrings.CANCELADO ||
+			actualState === purchaseOrderStatusStrings.COMPLETADO
 		) {
 			throw boom.conflict('Cannot change a rejected or finished status');
 		}
@@ -159,9 +159,9 @@ class PurchaseOrderDAO {
 		) {
 			purchaseOrder.purchaseOrderStatus = purchaseOrderStatus;
 			return await purchaseOrder.save();
-		} else if (newState === purchaseOrderStatusStrings.FINALIZADO) {
-			return await this.finishPurchaseOrder(purchaseOrder, purchaseOrderStatus);
-		} else if (newState === purchaseOrderStatusStrings.RECHAZADO) {
+		} else if (newState === purchaseOrderStatusStrings.COMPLETADO) {
+			return await this.completePurchaseOrder(purchaseOrder, purchaseOrderStatus);
+		} else if (newState === purchaseOrderStatusStrings.CANCELADO) {
 			return await this.rejectPurchaseOrder(purchaseOrder, purchaseOrderStatus);
 		}
 	}
@@ -200,7 +200,7 @@ class PurchaseOrderDAO {
 		}
 	}
 
-	async finishPurchaseOrder(purchaseOrder, newState) {
+	async completePurchaseOrder(purchaseOrder, newState) {
 		// Create mongoose session
 		const session = await mongoose.startSession();
 

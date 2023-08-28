@@ -1,8 +1,8 @@
 const purchaseOrderStatusStrings = Object.freeze({
-	RECHAZADO: 'RECHAZADO',
+	CANCELADO: 'CANCELADO',
 	PENDPAGO: 'PENDIENTE DE PAGO',
 	PENDENVIO: 'PENDIENTE DE ENVIO',
-	FINALIZADO: 'FINALIZADO',
+	COMPLETADO: 'COMPLETADO',
 });
 
 export { purchaseOrderStatusStrings };
