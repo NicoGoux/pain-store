@@ -140,7 +140,7 @@ class UserService {
 
 	//#region change password
 	async changePassword(user, password, newPassword) {
-		const userFound = await this.userAuthDAO.getUserById(user.sub);
+		const userFound = await this.userAuthDAO.getUserPasswordHash(user.sub);
 		const passwordMatch = await bcrypt.compare(password, userFound.password);
 		if (!passwordMatch) {
 			throw boom.unauthorized('Incorrect password');

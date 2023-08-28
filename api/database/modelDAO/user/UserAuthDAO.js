@@ -43,6 +43,15 @@ class UserAuthDAO {
 	//#endregion
 
 	//#region change password
+	async getUserPasswordHash(id) {
+		const user = await UserDTO.findById(id).select('password');
+		if (!user) {
+			throw boom.notFound('User not found');
+		}
+
+		return user;
+	}
+
 	async changePassword(id, newPasswordHash) {
 		try {
 			return await UserDTO.findByIdAndUpdate(
