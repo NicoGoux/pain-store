@@ -33,11 +33,13 @@ const products = Joi.array().min(1).messages({
 });
 
 // Check extra data
-const paymentMethodType = Joi.string().valid('TRANSFERENCIA', 'CRIPTOMONEDA').messages({
-	'string.base': 'PaymentMethodType must be a string',
-	'any.only': 'PaymentMethodType must be either TRANSFERENCIA or CRIPTOMONEDA',
-	'any.required': 'PaymentMethodType is required',
-});
+const paymentMethodType = Joi.string()
+	.valid('TRANSFERENCIA', 'CRIPTOMONEDA', 'OTROS MEDIOS')
+	.messages({
+		'string.base': 'PaymentMethodType must be a string',
+		'any.only': 'PaymentMethodType must be either TRANSFERENCIA, CRIPTOMONEDA or OTROS MEDIOS',
+		'any.required': 'PaymentMethodType is required',
+	});
 
 const isCart = Joi.boolean().messages({
 	'boolean.base': 'isCart must be a boolean',
