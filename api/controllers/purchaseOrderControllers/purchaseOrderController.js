@@ -80,6 +80,17 @@ const updatePurchaseOrderStatus = async (req, res, next) => {
 	}
 };
 
+const rejectPurchaseOrder = async (req, res, next) => {
+	try {
+		const user = req.user;
+		const { purchaseOrderId } = req.body;
+		const purchaseOrder = await purchaseOrderService.rejectPurchaseOrder(purchaseOrderId, user);
+		return res.json(purchaseOrder);
+	} catch (err) {
+		next(err);
+	}
+};
+
 // #endregion
 
 export {
@@ -89,4 +100,5 @@ export {
 	getPurchaseOrder,
 	createPurchaseOrder,
 	updatePurchaseOrderStatus,
+	rejectPurchaseOrder,
 };

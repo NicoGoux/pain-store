@@ -8,6 +8,7 @@ import {
 	getPurchaseOrders,
 	getUserPurchaseOrder,
 	getUserPurchaseOrders,
+	rejectPurchaseOrder,
 	updatePurchaseOrderStatus,
 } from '../../controllers/purchaseOrderControllers/purchaseOrderController.js';
 import { purchaseOrderStatusesRouter } from './purchaseOrderStatuses.router.js';
@@ -37,6 +38,7 @@ purchaseOrderRouter.get(
 );
 
 purchaseOrderRouter.get('/:id', passportAuthJwt, checkRoles(accessLevel.LEVEL_1), getPurchaseOrder);
+
 // Create new purchase order
 purchaseOrderRouter.post(
 	'/',
@@ -52,6 +54,13 @@ purchaseOrderRouter.post(
 	passportAuthJwt,
 	checkRoles(accessLevel.LEVEL_1),
 	updatePurchaseOrderStatus
+);
+
+purchaseOrderRouter.post(
+	'/reject-purchase-order',
+	passportAuthJwt,
+	checkRoles(accessLevel.LEVEL_2),
+	rejectPurchaseOrder
 );
 
 export { purchaseOrderRouter };

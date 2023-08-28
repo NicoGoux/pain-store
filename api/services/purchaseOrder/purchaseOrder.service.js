@@ -69,6 +69,22 @@ class PurchaseOrderService {
 		);
 	}
 
+	async rejectPurchaseOrder(purchaseOrderId, user) {
+		const purchaseOrder = await this.purchaseOrderDAO.getPurchaseOrder(purchaseOrderId);
+		if (purchaseOrder.user._id.toString() === user.sub) {
+			const purchaseOrderStatus = await this.purchaseOrderStatusDAO.getPurchaseOrderStatus({
+				purchaseOrderStatusString: purchaseOrderStatusStrings.CANCELADO,
+			});
+
+			return await this.purchaseOrderDAO.rejectPurchaseOrder(
+				purchaseOrder,
+				purchaseOrderStatus
+			);
+		} else {
+			throw new Error('Purchase order not found');
+		}
+	}
+
 	getPurchaseOrderStatuses() {
 		return this.purchaseOrderStatusDAO.getPurchaseOrderStatuses();
 	}
