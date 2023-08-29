@@ -11,7 +11,7 @@ import { PaymentMethodTypeDAO } from '../paymentMethod/paymentMethodTypeDAO.js';
 class PurchaseOrderDAO {
 	constructor() {}
 
-	async getPurchaseOrders(filters) {
+	async getPurchaseOrders(filters, sort) {
 		if (!filters) {
 			return await PurchaseOrderDTO.find().lean();
 		} else {
@@ -23,7 +23,7 @@ class PurchaseOrderDAO {
 				}
 				filters.user = user;
 			}
-			return await PurchaseOrderDTO.find(filters).lean();
+			return await PurchaseOrderDTO.find(filters).sort({ createdAt: sort }).lean();
 		}
 	}
 

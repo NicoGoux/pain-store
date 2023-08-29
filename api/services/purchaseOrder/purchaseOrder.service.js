@@ -26,9 +26,12 @@ class PurchaseOrderService {
 	}
 
 	getUserPurchaseOrders(user) {
-		return this.purchaseOrderDAO.getPurchaseOrders({
-			user: user.sub,
-		});
+		return this.purchaseOrderDAO.getPurchaseOrders(
+			{
+				user: user.sub,
+			},
+			'desc'
+		);
 	}
 
 	async getUserPurchaseOrder(user, id) {
