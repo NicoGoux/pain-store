@@ -1,6 +1,7 @@
 import { purchaseOrderStatusStrings } from '../../config/purchaseOrderStatus.js';
 import { PurchaseOrderDAO } from '../../database/modelDAO/purchaseOrder/PurchaseOrderDAO.js';
 import { PurchaseOrderStatusDAO } from '../../database/modelDAO/purchaseOrder/PurchaseOrderStatusDAO.js';
+import cLog from '../../utils/cLog.js';
 import { sendEmail } from '../../utils/nodemailer.js';
 
 let instance;
@@ -53,7 +54,7 @@ class PurchaseOrderService {
 		});
 
 		if (newPurchaseOrder) {
-			await this.sendPurchaseOrderEmail(newPurchaseOrder);
+			this.sendPurchaseOrderEmail(newPurchaseOrder);
 		}
 		return newPurchaseOrder;
 	}
@@ -195,7 +196,7 @@ class PurchaseOrderService {
 
 			return await sendEmail(infoEmail);
 		} catch (err) {
-			throw err;
+			cLog.red("[nodemailer] Message doesn't send");
 		}
 	}
 
