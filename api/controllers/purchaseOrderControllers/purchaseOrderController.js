@@ -5,8 +5,9 @@ const purchaseOrderService = PurchaseOrderService.getInstance();
 // #region get purchase orders
 const getPurchaseOrders = async (req, res, next) => {
 	try {
+		const filters = req.query;
 		// TODO FILTERS
-		const purchaseOrders = await purchaseOrderService.getPurchaseOrders();
+		const purchaseOrders = await purchaseOrderService.getPurchaseOrders(filters);
 		return res.json(purchaseOrders);
 	} catch (err) {
 		next(err);

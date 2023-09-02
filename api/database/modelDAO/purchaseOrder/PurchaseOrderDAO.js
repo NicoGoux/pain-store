@@ -11,20 +11,82 @@ import { PaymentMethodTypeDAO } from '../paymentMethod/paymentMethodTypeDAO.js';
 class PurchaseOrderDAO {
 	constructor() {}
 
-	async getPurchaseOrders(filters, sort) {
+	async getPurchaseOrders(filters) {
 		if (!filters) {
-			return await PurchaseOrderDTO.find().lean();
+			const purchaseOrders = await PurchaseOrderDTO.find().lean();
+			return { purchaseOrders, totalPages: 0 };
 		} else {
-			if (filters.user) {
+			const pageSize = 15;
+			const skipAmount = (filters.page - 1) * pageSize;
+
+			const query = {};
+
+			if (filters.orderNumber) {
+				query.orderNumber = filters.orderNumber;
+			}
+
+			if (filters.username) {
 				const userAuthDAO = new UserAuthDAO();
-				const user = await userAuthDAO.getUserById(filters.user);
-				if (!user) {
+				const usersFound = await userAuthDAO.getUserByUsername(filters.username);
+				if (!usersFound) {
 					throw boom.notFound('User not found');
 				}
-				filters.user = user;
+				query.user = { $in: usersFound };
 			}
-			return await PurchaseOrderDTO.find(filters).sort({ createdAt: sort }).lean();
+
+			if (filters.paymentMethodType) {
+				const paymentMethodTypeDAO = new PaymentMethodTypeDAO();
+				const paymentMethodTypeFound = await paymentMethodTypeDAO.getPaymentMethodType({
+					paymentMethodTypeString: filters.paymentMethodType,
+				});
+				if (!paymentMethodTypeFound) {
+					throw boom.notFound('Payment method not found');
+				}
+				query.paymentMethodType = paymentMethodTypeFound;
+			}
+
+			if (filters.purchaseOrderStatus) {
+				const purchaseOrderStatusDAO = new PurchaseOrderStatusDAO();
+				const purchaseOrderStatusFound =
+					await purchaseOrderStatusDAO.getPurchaseOrderStatus({
+						purchaseOrderStatusString: filters.purchaseOrderStatus,
+					});
+				if (!purchaseOrderStatusFound) {
+					throw boom.notFound('purchase order status not found');
+				}
+				query.purchaseOrderStatus = purchaseOrderStatusFound;
+			}
+
+			if (filters.minDate) {
+				query.createdAt = { $gte: new Date(filters.minDate) };
+			}
+
+			if (filters.maxDate) {
+				query.createdAt = { ...query.createdAt, $lte: new Date(filters.maxDate) };
+			}
+
+			const totalCount = await PurchaseOrderDTO.countDocuments(query);
+
+			const totalPages = Math.ceil(totalCount / pageSize);
+
+			const purchaseOrders = await PurchaseOrderDTO.find(query)
+				.sort({ createdAt: 'desc' })
+				.skip(skipAmount)
+				.limit(pageSize)
+				.lean();
+
+			return { purchaseOrders, totalPages };
 		}
+	}
+
+	async getUserPurchaseOrders(user) {
+		const userAuthDAO = new UserAuthDAO();
+		const userFound = await userAuthDAO.getUserById(user);
+		if (!userFound) {
+			throw boom.notFound('User not found');
+		}
+
+		return await PurchaseOrderDTO.find({ user: userFound }).sort({ createdAt: 'desc' }).lean();
 	}
 
 	async getPurchaseOrder(id) {

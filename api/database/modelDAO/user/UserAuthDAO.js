@@ -40,6 +40,17 @@ class UserAuthDAO {
 
 		return user;
 	}
+
+	async getUserByUsername(username) {
+		const user = await UserDTO.find({ username: { $regex: new RegExp(username, 'i') } }).select(
+			'-password -recoveryToken'
+		);
+		if (!user) {
+			throw boom.notFound('User not found');
+		}
+
+		return user;
+	}
 	//#endregion
 
 	//#region change password
