@@ -100,6 +100,10 @@ class PaymentMethodService {
 		return this.paymentMethodDAO.toggleActivePaymentMethod(id);
 	}
 
+	deletePaymentMethod(id) {
+		return this.paymentMethodDAO.deletePaymentMethod(id);
+	}
+
 	/**
 	 *
 	 * @description: Only for initial populate

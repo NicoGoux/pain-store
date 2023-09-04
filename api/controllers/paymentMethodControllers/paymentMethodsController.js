@@ -60,8 +60,18 @@ const getAvailablePaymentMethods = async (req, res, next) => {
 const toggleActivePaymentMethod = async (req, res, next) => {
 	try {
 		const { id } = req.params;
-		const paymentMethodTypes = await paymentMethodService.toggleActivePaymentMethod(id);
-		return res.json(paymentMethodTypes);
+		const paymentMethod = await paymentMethodService.toggleActivePaymentMethod(id);
+		return res.json(paymentMethod);
+	} catch (err) {
+		next(err);
+	}
+};
+
+const deletePaymentMethod = async (req, res, next) => {
+	try {
+		const { id } = req.params;
+		const paymentMethod = await paymentMethodService.deletePaymentMethod(id);
+		return res.json(paymentMethod);
 	} catch (err) {
 		next(err);
 	}
@@ -88,5 +98,6 @@ export {
 	getPaymentMethodTypes,
 	getAvailablePaymentMethodTypes,
 	toggleActivePaymentMethod,
+	deletePaymentMethod,
 	populatePaymentMethodTypes,
 };

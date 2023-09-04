@@ -1,4 +1,5 @@
 import { PaymentMethodDTO } from '../../model/paymentMethod/PaymentMethod.js';
+import boom from '@hapi/boom';
 
 class PaymentMethodDAO {
 	constructor() {}
@@ -35,9 +36,21 @@ class PaymentMethodDAO {
 	}
 
 	async toggleActivePaymentMethod(id) {
-		const paymentMethod = await PaymentMethodDTO.findById(id);
-		paymentMethod.isActive = !paymentMethod.isActive;
-		return await paymentMethod.save({ new: true });
+		try {
+			const paymentMethod = await PaymentMethodDTO.findById(id);
+			paymentMethod.isActive = !paymentMethod.isActive;
+			return await paymentMethod.save({ new: true });
+		} catch (error) {
+			throw boom.notFound('Payment method not found');
+		}
+	}
+
+	async deletePaymentMethod(id) {
+		try {
+			return await PaymentMethodDTO.findByIdAndRemove(id);
+		} catch (error) {
+			throw boom.notFound('Payment method not found');
+		}
 	}
 }
 

@@ -1,6 +1,7 @@
 import express from 'express';
 import { paymentMethodTypeRouter } from './paymentMethodTypes.router.js';
 import {
+	deletePaymentMethod,
 	getAvailablePaymentMethods,
 	getPaymentMethods,
 	insertPaymentMethod,
@@ -41,6 +42,13 @@ paymentMethodRouter.get(
 	passportAuthJwt,
 	checkRoles(accessLevel.LEVEL_1),
 	getPaymentMethods
+);
+
+paymentMethodRouter.delete(
+	'/:id',
+	passportAuthJwt,
+	checkRoles(accessLevel.LEVEL_1),
+	deletePaymentMethod
 );
 
 export { paymentMethodRouter };
