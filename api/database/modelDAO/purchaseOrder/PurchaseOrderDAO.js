@@ -89,6 +89,24 @@ class PurchaseOrderDAO {
 		return await PurchaseOrderDTO.find({ user: userFound }).sort({ createdAt: 'desc' }).lean();
 	}
 
+	async getPurchaseOrderByProduct(productId) {
+		const purchaseOrderStatusDAO = new PurchaseOrderStatusDAO();
+		const purchaseOrderStatusFound = await purchaseOrderStatusDAO.getPurchaseOrderStatus({
+			purchaseOrderStatusString: purchaseOrderStatusStrings.CANCELADO,
+		});
+		if (!purchaseOrderStatusFound) {
+			throw boom.notFound('purchase order status not found');
+		}
+		return await PurchaseOrderDTO.findOne({
+			products: {
+				$elemMatch: {
+					$eq: new mongoose.Types.ObjectId(productId),
+				},
+			},
+			purchaseOrderStatus: { $ne: purchaseOrderStatusFound },
+		});
+	}
+
 	async getPurchaseOrder(id) {
 		try {
 			const purchaseOrder = await PurchaseOrderDTO.findById(id);

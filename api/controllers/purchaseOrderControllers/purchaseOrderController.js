@@ -46,6 +46,16 @@ const getPurchaseOrder = async (req, res, next) => {
 	}
 };
 
+const getPurchaseOrderByProduct = async (req, res, next) => {
+	try {
+		const { productId } = req.params;
+		const purchaseOrder = await purchaseOrderService.getPurchaseOrderByProduct(productId);
+		return res.json(purchaseOrder);
+	} catch (err) {
+		next(err);
+	}
+};
+
 //#endregion
 
 // #region create purchase order
@@ -99,6 +109,7 @@ export {
 	getUserPurchaseOrders,
 	getUserPurchaseOrder,
 	getPurchaseOrder,
+	getPurchaseOrderByProduct,
 	createPurchaseOrder,
 	updatePurchaseOrderStatus,
 	rejectPurchaseOrder,

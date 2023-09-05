@@ -71,11 +71,6 @@ const checkAvailability = async (req, res, next) => {
 	}
 };
 
-// // TODO
-// const reserveProduct;
-// const ocultProduct;
-// const sellProduct;
-
 export {
 	getProducts,
 	getProduct,

@@ -5,6 +5,7 @@ import { accessLevel } from '../../config/auth/accessLevel.js';
 import {
 	createPurchaseOrder,
 	getPurchaseOrder,
+	getPurchaseOrderByProduct,
 	getPurchaseOrders,
 	getUserPurchaseOrder,
 	getUserPurchaseOrders,
@@ -35,6 +36,13 @@ purchaseOrderRouter.get(
 	passportAuthJwt,
 	checkRoles(accessLevel.LEVEL_2),
 	getUserPurchaseOrder
+);
+
+purchaseOrderRouter.get(
+	'/product-purchase-order/:productId',
+	passportAuthJwt,
+	checkRoles(accessLevel.LEVEL_1),
+	getPurchaseOrderByProduct
 );
 
 purchaseOrderRouter.get('/:id', passportAuthJwt, checkRoles(accessLevel.LEVEL_1), getPurchaseOrder);

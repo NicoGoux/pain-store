@@ -38,6 +38,10 @@ class PurchaseOrderService {
 		}
 	}
 
+	async getPurchaseOrderByProduct(productId) {
+		return await this.purchaseOrderDAO.getPurchaseOrderByProduct(productId);
+	}
+
 	getPurchaseOrder(id) {
 		return this.purchaseOrderDAO.getPurchaseOrder(id);
 	}
