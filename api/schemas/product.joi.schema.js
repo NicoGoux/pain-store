@@ -1,6 +1,5 @@
 import Joi from 'joi';
 
-const pkProduct = Joi.string();
 const name = Joi.string().min(3).max(50).messages({
 	'string.base': 'Name must be a string',
 	'string.empty': 'Name cannot be empty',
@@ -51,7 +50,7 @@ const productStatusString = Joi.string().messages({
 	'any.required': 'ProductStatus is required',
 });
 
-const imageUrl = Joi.string().messages({
+const imageUrl = Joi.string().allow('').messages({
 	'string.base': 'imageUrl string must be a string',
 });
 
