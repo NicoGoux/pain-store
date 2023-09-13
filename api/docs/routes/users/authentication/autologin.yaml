@@ -6,7 +6,7 @@ paths:
             tags:
                 - Autenticación de usuarios
             security:
-                - bearerAuth: []
+                - BearerAuth: []
             responses:
                 '200':
                     description: Sesión de usuario iniciada automáticamente.

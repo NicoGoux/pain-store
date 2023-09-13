@@ -8,7 +8,7 @@ paths:
             tags:
                 - Tipos de métodos de pago
             security:
-                - bearerAuth: []
+                - BearerAuth: []
 
             responses:
                 '200':

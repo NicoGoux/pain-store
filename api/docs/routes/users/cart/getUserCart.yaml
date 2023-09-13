@@ -6,7 +6,7 @@ paths:
             tags:
                 - Carrito de compra del usuario.
             security:
-                - bearerAuth: []
+                - BearerAuth: []
             responses:
                 '200':
                     description: Carrito de compra del usuario.

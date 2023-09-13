@@ -5,7 +5,7 @@ paths:
             tags:
                 - Validación de email de usuario.
             security:
-                - bearerAuth: []
+                - BearerAuth: []
             responses:
                 '200':
                     description: El correo electrónico del usuario está validado.

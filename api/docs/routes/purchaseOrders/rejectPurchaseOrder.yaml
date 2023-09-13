@@ -7,7 +7,7 @@ paths:
             tags:
                 - Pedidos de compra
             security:
-                - bearerAuth: []
+                - BearerAuth: []
             requestBody:
                 required: true
                 content:

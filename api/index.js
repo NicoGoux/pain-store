@@ -28,26 +28,19 @@ const port = process.env.PORT || '3030';
 connectDB();
 
 //cors
-// TODO
-// const whitelist = [
-// 	'http://localhost:3000',
-// 	'https://painstore.netlify.app',
-// 	'http://190.246.87.32:5173',
-// 	'http://190.246.87.32:*',
-// 	'192.168.1.155:*',
-// ];
-// const cordsOptions = {
-// 	origin: function (origin, callback) {
-// 		cLog.yellow(`[connection] from: ${origin}`);
-// 		if (whitelist.includes(origin) || !origin) {
-// 			callback(null, true);
-// 		} else {
-// 			callback(new Error('CORS Error'));
-// 		}
-// 	},
-// };
+const whitelist = ['https://painstore.netlify.app'];
+const corsOptions = {
+	origin: function (origin, callback) {
+		cLog.yellow(`[connection] from: ${origin}`);
+		if (whitelist.includes(origin) || !origin) {
+			callback(null, true);
+		} else {
+			callback(new Error('CORS Error'));
+		}
+	},
+};
 
-app.use(cors({ origin: '*' }));
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(passport.initialize());
@@ -63,7 +56,10 @@ const swaggerSpec = {
 			title: 'PAIN STORE API',
 			version: '1.0.0',
 		},
-		servers: [{ url: 'https://pain-store.vercel.app/api/v1' }],
+		servers: [
+			{ url: 'http://localhost:3030/api-docs/' },
+			{ url: 'https://pain-store.vercel.app/api/v1' },
+		],
 	},
 	apis: [`${path.join(__dirname, './docs/**/*.yaml')}`],
 };

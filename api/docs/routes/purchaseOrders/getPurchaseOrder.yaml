@@ -14,7 +14,7 @@ paths:
                   schema:
                       type: string
             security:
-                - bearerAuth: []
+                - BearerAuth: []
             responses:
                 '200':
                     description: Pedido de compra específico.

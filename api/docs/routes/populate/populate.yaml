@@ -1,0 +1,21 @@
+paths:
+    /populate:
+        get:
+            summary: Poblado inicial de la base de datos.
+            description: |
+                Esta ruta realizara el poblado de los elementos que se requieren en la base de datos al momento de crearla desde cero.
+            tags:
+                - Poblado inicial
+            responses:
+                '200':
+                    description: Poblado realizado con éxito.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                description: Mensaje de confirmación
+                                example:
+                                    message: 'Populate complete'
+
+                '500':
+                    description: Error interno del servidor.

@@ -15,7 +15,7 @@ paths:
                   schema:
                       type: string
             security:
-                - bearerAuth: []
+                - BearerAuth: []
             responses:
                 '200':
                     description: Orden de compra asociada al producto.

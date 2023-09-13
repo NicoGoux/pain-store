@@ -6,7 +6,7 @@ paths:
                 Esta ruta permite obtener todos los tipos de métodos de pago que están disponibles.
 
             security:
-                - bearerAuth: []
+                - BearerAuth: []
             tags:
                 - Tipos de métodos de pago
 

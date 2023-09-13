@@ -1,1 +1,1 @@
-# pain-store
+# Backend para eCommerce de pain store

@@ -6,7 +6,7 @@ paths:
             tags:
                 - Autenticación de usuarios
             security:
-                - bearerAuth: []
+                - BearerAuth: []
             responses:
                 '200':
                     description: Usuario actualmente autenticado.

@@ -17,7 +17,7 @@ paths:
             tags:
                 - Pedidos de compra
             security:
-                - bearerAuth: []
+                - BearerAuth: []
 
             parameters:
                 - name: page

@@ -7,7 +7,7 @@ paths:
             tags:
                 - Pedidos de compra
             security:
-                - bearerAuth: []
+                - BearerAuth: []
             responses:
                 '200':
                     description: Lista de pedidos de compra del usuario autenticado.

@@ -6,7 +6,7 @@ paths:
             tags:
                 - Validación de email de usuario.
             security:
-                - bearerAuth: []
+                - BearerAuth: []
             requestBody:
                 description: Dominio donde se encuentra alojado el frontend.
                 required: true

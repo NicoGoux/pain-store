@@ -6,7 +6,7 @@ paths:
             tags:
                 - Validación de email de usuario.
             security:
-                - bearerAuth: []
+                - BearerAuth: []
             requestBody:
                 description: Token JWT para la validación.
                 required: true
