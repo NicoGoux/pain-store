@@ -57,14 +57,14 @@ purchaseOrderRouter.post(
 );
 
 // Change pending status
-purchaseOrderRouter.post(
+purchaseOrderRouter.patch(
 	'/update-order-status',
 	passportAuthJwt,
 	checkRoles(accessLevel.LEVEL_1),
 	updatePurchaseOrderStatus
 );
 
-purchaseOrderRouter.post(
+purchaseOrderRouter.patch(
 	'/reject-purchase-order',
 	passportAuthJwt,
 	checkRoles(accessLevel.LEVEL_2),

@@ -6,7 +6,6 @@ const purchaseOrderService = PurchaseOrderService.getInstance();
 const getPurchaseOrders = async (req, res, next) => {
 	try {
 		const filters = req.query;
-		// TODO FILTERS
 		const purchaseOrders = await purchaseOrderService.getPurchaseOrders(filters);
 		return res.json(purchaseOrders);
 	} catch (err) {
@@ -17,7 +16,6 @@ const getPurchaseOrders = async (req, res, next) => {
 const getUserPurchaseOrders = async (req, res, next) => {
 	try {
 		const user = req.user;
-		// TODO FILTERS
 		const purchaseOrders = await purchaseOrderService.getUserPurchaseOrders(user);
 		return res.json(purchaseOrders);
 	} catch (err) {

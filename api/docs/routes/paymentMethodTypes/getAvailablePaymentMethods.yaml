@@ -1,0 +1,25 @@
+paths:
+    /payment-methods/payment-method-types/available-payment-method-types:
+        get:
+            summary: Obtener tipos de métodos de pago disponibles.
+            description: |
+                Esta ruta permite obtener todos los tipos de métodos de pago que están disponibles.
+
+            security:
+                - bearerAuth: []
+            tags:
+                - Tipos de métodos de pago
+
+            responses:
+                '200':
+                    description: Tipos de métodos de pago obtenidos con éxito.
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/PaymentMethodType'
+                '401':
+                    description: No estás autorizado para realizar esta acción.
+                '500':
+                    description: Error interno del servidor.

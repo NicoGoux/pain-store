@@ -1,0 +1,37 @@
+paths:
+    /payment-methods/{paymentMethodType}:
+        get:
+            summary: Obtener métodos de pago.
+            description: |
+                Obtiene los métodos de pago del tipo especificado.
+                Se requiere autenticación y autorización ADMIN mediante el token JWT proporcionado como Bearer Token en la solicitud.
+            tags:
+                - Métodos de Pago
+            security:
+                - BearerAuth: []
+            parameters:
+                - in: path
+                  name: paymentMethodType
+                  description: Tipo de método de pago (opcional). Si se proporciona, se filtran los métodos de pago disponibles de ese tipo.
+                  required: false
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    description: Métodos de pago disponibles.
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/PaymentMethod'
+                '401':
+                    description: No estás autorizado para realizar esta acción.
+                '403':
+                    description: No tienes los permisos necesarios.
+                '404':
+                    description: Alguno de los elementos indicados no fue encontrado.
+                '409':
+                    description: Hubo un conflicto al insertar el método de pago.
+                '500':
+                    description: Error interno del servidor.

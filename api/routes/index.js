@@ -23,8 +23,8 @@ function routerApi(app) {
 	router.use('/populate', populateRouter);
 }
 
-export { routerApi };
-
 router.get('/', (req, res) => {
 	res.send('[Server] connected');
 });
+
+export { routerApi };

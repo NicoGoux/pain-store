@@ -1,0 +1,21 @@
+components:
+    schemas:
+        PaymentMethod:
+            type: object
+            properties:
+                paymentMethodType:
+                    $ref: '#/components/schemas/PaymentMethodType'
+                paymentMethodData:
+                    type: object
+                    description: Datos asociados al método de pago.
+                    example:
+                        cbu_cvu: '123456789123456789'
+                        alias: 'alias1.example'
+                        nombre: 'name'
+                isActive:
+                    type: boolean
+                    description: Indica si el método de pago está activo.
+                    example: true
+            required:
+                - paymentMethodType
+                - paymentMethodData

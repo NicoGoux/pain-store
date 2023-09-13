@@ -1,0 +1,65 @@
+# Product
+components:
+    schemas:
+        Product:
+            type: object
+            properties:
+                name:
+                    type: string
+                    description: Nombre del producto.
+                float:
+                    type: number
+                    description: Valor de desgaste asociado al producto.
+                tradeLock:
+                    type: string
+                    format: date-time
+                    description: Fecha de fin de bloqueo de intercambio del producto.
+                price:
+                    type: number
+                    description: Precio del producto.
+                imageUrl:
+                    type: string
+                    description: URL imagen del producto.
+                marketHash:
+                    type: object
+                    properties:
+                        marketHashString:
+                            type: string
+                            description: Nombre de mercado asociado al producto.
+                    description: Objeto que contiene el nombre de mercado.
+                    required:
+                        - marketHashString
+                skinCondition:
+                    type: object
+                    properties:
+                        skinConditionString:
+                            type: string
+                            description: Condición del producto.
+                    description: Objeto que contiene la condición del producto.
+                productStatus:
+                    type: object
+                    properties:
+                        productStatusString:
+                            type: string
+                            description: Estado del producto.
+                    description: Objeto que contiene el estado del producto.
+                    required:
+                        - productStatusString
+            required:
+                - name
+                - price
+                - marketHash
+                - productStatus
+
+            example:
+                name: awp dragon lore
+                float: 0.59
+                tradeLock: '2023-09-11T12:00:00Z'
+                price: 3000
+                imageUrl: https://ejemplo.com/imagen.jpg
+                marketHash:
+                    marketHashString: AWP | Dragon Lore
+                skinCondition:
+                    skinConditionString: Factory New
+                productStatus:
+                    productStatusString: DISPONIBLE

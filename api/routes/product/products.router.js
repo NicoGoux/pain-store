@@ -34,7 +34,7 @@ productsRouter.use('/categories', categoriesRouter);
 productsRouter.use('/skin-conditions', skinConditionsRouter);
 
 // Market hashes router
-productsRouter.use('/market_hashes', marketHashesRouter);
+productsRouter.use('/market-hashes', marketHashesRouter);
 
 // Product statuses router
 productsRouter.use('/product-statuses', productStatusesRouter);
@@ -45,7 +45,7 @@ productsRouter.get('/', passportAuthJwt, checkRoles(accessLevel.LEVEL_1), getPro
 productsRouter.get('/available', getAvailableProducts);
 
 // Get product by id
-productsRouter.get('/:id', getProduct);
+productsRouter.get('/:id', passportAuthJwt, checkRoles(accessLevel.LEVEL_1), getProduct);
 
 //Add product
 productsRouter.post(

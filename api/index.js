@@ -14,14 +14,18 @@ import { boomErrorHandler, logError } from './middlewares/error.handler.js';
 import { errorHandler } from './middlewares/error.handler.js';
 import passport from 'passport';
 
+//Swagger
+import swaggerUi from 'swagger-ui-express';
+import swaggerJSDoc from 'swagger-jsdoc';
+import * as path from 'path';
+import { fileURLToPath } from 'url';
+
 const app = express();
 dotenv.config();
 
 const port = process.env.PORT || '3030';
 
 connectDB();
-
-// TODO VALIDATION
 
 //cors
 // TODO
@@ -48,9 +52,23 @@ app.use(cors({ origin: '*' }));
 app.use(express.json());
 app.use(passport.initialize());
 
-app.get('/api', (req, res) => {
-	res.send('[Express] server running - ruta: /api');
-});
+// Swagger
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const swaggerSpec = {
+	swaggerDefinition: {
+		openapi: '3.0.3',
+		info: {
+			title: 'PAIN STORE API',
+			version: '1.0.0',
+		},
+		servers: [{ url: 'https://pain-store.vercel.app/api/v1' }],
+	},
+	apis: [`${path.join(__dirname, './docs/**/*.yaml')}`],
+};
+
+app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerJSDoc(swaggerSpec)));
 
 routerApi(app);
 

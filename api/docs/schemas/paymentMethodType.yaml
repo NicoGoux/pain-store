@@ -1,0 +1,16 @@
+components:
+    schemas:
+        PaymentMethodType:
+            type: object
+            properties:
+                paymentMethodTypeString:
+                    type: string
+                    description: Nombre del tipo de método de pago.
+                    example: TRANSFERENCIA
+                paymentMethodTypeInfo:
+                    type: string
+                    description: Información del tipo de método de pago.
+                    example: info example
+            required:
+                - paymentMethodTypeString
+                - paymentMethodTypeInfo

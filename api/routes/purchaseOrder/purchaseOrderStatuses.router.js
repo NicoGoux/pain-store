@@ -3,7 +3,6 @@ import { getPurchaseOrderStatuses } from '../../controllers/purchaseOrderControl
 
 const purchaseOrderStatusesRouter = express.Router();
 
-//TODO
 purchaseOrderStatusesRouter.get('/', getPurchaseOrderStatuses);
 
 export { purchaseOrderStatusesRouter };

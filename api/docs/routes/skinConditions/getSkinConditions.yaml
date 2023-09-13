@@ -1,0 +1,16 @@
+paths:
+    /products/skin-conditions:
+        get:
+            summary: Obtener todas las condiciones de skin
+            description: Obtiene una lista de todas las condiciones de skin.
+            tags:
+                - Condiciones de skin
+            responses:
+                '200':
+                    description: Lista de condiciones recuperada con éxito.
+                    content:
+                        application/json:
+                            type: array
+
+                '500':
+                    description: Error interno del servidor.

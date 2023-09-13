@@ -1,0 +1,59 @@
+paths:
+    /products/{productId}:
+        patch:
+            summary: Actualiza parcialmente un producto
+            description: >
+                Actualiza parcialmente un producto existente. Se requiere autenticación y autorización ADMIN mediante el token JWT proporcionado como Bearer Token en la solicitud.
+            tags:
+                - Productos
+            security:
+                - BearerAuth: []
+            parameters:
+                - in: path
+                  name: productId
+                  required: true
+                  description: ID del producto que se va a actualizar
+                  schema:
+                      type: string
+            requestBody:
+                description: Datos que se desean actualizar del producto.
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                patch:
+                                    $ref: '#/components/schemas/Product'
+                        example:
+                            patch:
+                                name: 'awp dragon lore actualizada'
+                                price: 12345
+                                imageUrl: 'https://nuevaimagen/imagen.jpg'
+            responses:
+                '200':
+                    description: Respuesta exitosa
+                    content:
+                        application/json:
+                            example:
+                                id: '64ffc1c2c39ebba3a2b20306'
+                                name: 'awp dragon lore actualizada'
+                                tradeLock: '2023-09-11T12:00:00.000Z'
+                                price: 12345
+                                marketHash: '64ffc167c39ebba3a2b202fc'
+                                skinCondition: '644db0510687f26e0e8d7cea'
+                                productStatus: '644db0510687f26e0e8d7cf0'
+                                createdAt: '2023-09-12T01:41:22.188Z'
+                                updatedAt: '2023-09-12T02:25:08.293Z'
+                                __v: 0
+                                imageUrl: 'https://nuevaimagen/imagen.jpg'
+                '401':
+                    description: No estás autorizado para realizar esta acción.
+                '403':
+                    description: No tienes los permisos necesarios para crear un producto.
+                '404':
+                    description: Alguno de los elementos indicados no fue encontrado.
+                '409':
+                    description: Hubo un conflicto al crear el producto.
+                '500':
+                    description: Error interno del servidor.

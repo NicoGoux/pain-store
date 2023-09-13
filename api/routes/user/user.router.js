@@ -52,7 +52,6 @@ usersRouter.get('/autologin', passportAuthJwt, checkRoles(accessLevel.LEVEL_2), 
 usersRouter.get('/user-logged', passportAuthJwt, checkRoles(accessLevel.LEVEL_2), getUserLogged);
 
 // Change password
-//TODO validator
 usersRouter.patch(
 	'/change-password',
 	passportAuthJwt,
@@ -88,7 +87,6 @@ usersRouter.post(
 );
 
 // User cart
-//TODO validator
 usersRouter.get('/cart', passportAuthJwt, checkRoles(accessLevel.LEVEL_2), getUserCart);
 
 usersRouter.post('/cart', passportAuthJwt, checkRoles(accessLevel.LEVEL_2), insertProductToCart);

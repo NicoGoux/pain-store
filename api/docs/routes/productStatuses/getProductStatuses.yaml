@@ -1,0 +1,16 @@
+paths:
+    /products/product-statuses:
+        get:
+            summary: Obtener todos los estados de producto
+            description: Obtiene una lista de todos los estados de producto.
+            tags:
+                - Estados de producto
+            responses:
+                '200':
+                    description: Lista de estados de producto recuperada con éxito.
+                    content:
+                        application/json:
+                            type: array
+
+                '500':
+                    description: Error interno del servidor.

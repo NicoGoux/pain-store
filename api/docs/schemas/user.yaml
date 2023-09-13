@@ -1,0 +1,40 @@
+components:
+    schemas:
+        User:
+            type: object
+            properties:
+                email:
+                    type: string
+                    example: 'user@example.com'
+                emailConfirm:
+                    type: boolean
+                    example: false
+                username:
+                    type: string
+                    example: 'username'
+                firstName:
+                    type: string
+                    example: 'John'
+                lastName:
+                    type: string
+                    example: 'Doe'
+                role:
+                    type: string
+                    example: 'CUSTOMER'
+                createdAt:
+                    type: string
+                    format: date-time
+                    example: '2023-09-20T14:30:00.000Z'
+                updatedAt:
+                    type: string
+                    format: date-time
+                    example: '2023-09-21T10:15:00.000Z'
+            required:
+                - email
+                - emailConfirm
+                - username
+                - firstName
+                - lastName
+                - role
+                - createdAt
+                - updatedAt

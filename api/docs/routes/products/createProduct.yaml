@@ -1,0 +1,50 @@
+paths:
+    /products:
+        post:
+            summary: Crear un nuevo producto
+            description: >
+                Crea un nuevo producto. Se requiere autenticación y autorización ADMIN mediante el token JWT proporcionado como Bearer Token en la solicitud.
+            tags:
+                - Productos
+            security:
+                - BearerAuth: []
+            requestBody:
+                description: Datos del producto a crear.
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                product:
+                                    $ref: '#/components/schemas/Product'
+            responses:
+                '200':
+                    description: Producto creado exitosamente
+                    content:
+                        application/json:
+                            example:
+                                name: 'awp dragon lore'
+                                tradeLock: '2023-09-11T12:00:00.000Z'
+                                price: 200000
+                                imageUrl: 'https://ejemplo.com/imagen.jpg'
+                                marketHash:
+                                    marketHashString: 'AWP | Dragon Lore'
+                                    category:
+                                        name: 'RIFLES'
+                                skinCondition:
+                                    skinConditionString: 'Factory New'
+                                productStatus:
+                                    productStatusString: 'DISPONIBLE'
+                                createdAt: '2023-09-12T01:41:22.188Z'
+                                updatedAt: '2023-09-12T01:41:22.188Z'
+                '401':
+                    description: No estás autorizado para realizar esta acción.
+                '403':
+                    description: No tienes los permisos necesarios para crear un producto.
+                '404':
+                    description: Alguno de los elementos indicados no fue encontrado.
+                '409':
+                    description: Hubo un conflicto al crear el producto.
+                '500':
+                    description: Error interno del servidor.

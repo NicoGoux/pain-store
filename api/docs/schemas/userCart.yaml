@@ -1,0 +1,39 @@
+components:
+    schemas:
+        UserCart:
+            type: object
+            properties:
+                availableProductsOnCart:
+                    type: array
+                    description: Lista de productos disponibles en el carrito.
+                    items:
+                        $ref: '#/components/schemas/Product'
+                    example:
+                        - name: 'awp dragon lore'
+                          float: 0.59
+                          tradeLock: '2023-09-11T12:00:00Z'
+                          price: 3000
+                          imageUrl: 'https://ejemplo.com/imagen.jpg'
+                          marketHash:
+                              marketHashString: 'AWP | Dragon Lore'
+                          skinCondition:
+                              skinConditionString: 'Factory New'
+                          productStatus:
+                              productStatusString: 'DISPONIBLE'
+                nonAvailableProductsOnCart:
+                    type: array
+                    description: Lista de productos no disponibles en el carrito.
+                    items:
+                        $ref: '#/components/schemas/Product'
+                    example:
+                        - name: 'm4a4 howl'
+                          float: 0.2
+                          tradeLock: '2023-09-10T12:00:00Z'
+                          price: 2500
+                          imageUrl: 'https://ejemplo.com/imagen2.jpg'
+                          marketHash:
+                              marketHashString: 'M4A4 | Howl'
+                          skinCondition:
+                              skinConditionString: 'Field-Tested'
+                          productStatus:
+                              productStatusString: 'VENDIDO'

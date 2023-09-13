@@ -1,0 +1,38 @@
+paths:
+    /products/check-availability:
+        post:
+            summary: Verificar la disponibilidad de productos
+            description: Verifica la disponibilidad de una lista de productos.
+            tags:
+                - Productos
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                products:
+                                    type: array
+                                    items:
+                                        type: object
+                                        properties:
+                                            _id:
+                                                type: string
+                                    example:
+                                        - { '_id': '6452868f07491b30fed2c358' }
+                                        - { '_id': '64ffc1c2c39ebba3a2b20306' }
+                                        - { '_id': '64696b3d01112c3e61b9301d' }
+            responses:
+                '200':
+                    description: Respuesta exitosa
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Product'
+                '404':
+                    description: Alguno de los elementos indicados no fue encontrado.
+                '500':
+                    description: Error interno del servidor.

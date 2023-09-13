@@ -1,0 +1,27 @@
+paths:
+    /payment-methods/payment-method-types:
+        get:
+            summary: Obtener todos los tipos de métodos de pago.
+            description: |
+                Esta ruta permite obtener todos los tipos de métodos de pago disponibles.
+                Se requiere autenticación y autorización ADMIN mediante el token JWT proporcionado como Bearer Token en la solicitud.
+            tags:
+                - Tipos de métodos de pago
+            security:
+                - bearerAuth: []
+
+            responses:
+                '200':
+                    description: Tipos de métodos de pago obtenidos con éxito.
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/PaymentMethodType'
+                '401':
+                    description: No estás autorizado para realizar esta acción.
+                '403':
+                    description: No tienes los permisos.
+                '500':
+                    description: Error interno del servidor.

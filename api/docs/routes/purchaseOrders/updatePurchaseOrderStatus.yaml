@@ -1,0 +1,44 @@
+paths:
+    /purchase-orders/update-order-status:
+        patch:
+            summary: Modifica el estado de un pedido de compra.
+            description: |
+                Esta ruta permite modificar el estado de un pedido de compra. El cuerpo de la solicitud debe incluir el ID del pedido de compra y el nuevo estado que se desea asignar.
+                Se requiere autenticación y autorización ADMIN mediante el token JWT proporcionado como Bearer Token en la solicitud.
+            tags:
+                - Pedidos de compra
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                purchaseOrderId:
+                                    type: string
+                                    description: ID del pedido de compra.
+                                    example: 64e6721fe59a46455dffe085
+                                purchaseOrderStatus:
+                                    type: string
+                                    description: Nuevo estado del pedido de compra.
+                                    example: PENDIENTE DE PAGO
+                            required:
+                                - purchaseOrderId
+                                - purchaseOrderStatus
+            responses:
+                '200':
+                    description: Pedido de compra modificado con éxito.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PurchaseOrder'
+                '401':
+                    description: No estás autorizado para realizar esta acción.
+                '403':
+                    description: No tienes los permisos necesarios.
+                '404':
+                    description: Pedido de compra o estado no encontrado.
+                '500':
+                    description: Error interno del servidor.

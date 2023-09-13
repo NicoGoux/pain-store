@@ -1,0 +1,59 @@
+paths:
+    /products/available:
+        get:
+            summary: Obtener productos disponibles
+            description: Obtiene una lista de productos disponibles basados en los parámetros de consulta.
+            tags:
+                - Productos
+            parameters:
+                - name: name
+                  in: query
+                  description: Filtrar por nombre de producto.
+                  schema:
+                      type: string
+                - name: minPrice
+                  in: query
+                  description: Precio mínimo.
+                  schema:
+                      type: number
+                - name: maxPrice
+                  in: query
+                  description: Precio máximo.
+                  schema:
+                      type: number
+                - name: category
+                  in: query
+                  description: Filtrar por categoría.
+                  schema:
+                      type: string
+                - name: condition
+                  in: query
+                  description: Filtrar por condición.
+                  schema:
+                      type: string
+                - name: minFloat
+                  in: query
+                  description: Float mínimo.
+                  schema:
+                      type: number
+                - name: maxFloat
+                  in: query
+                  description: Float máximo.
+                  schema:
+                      type: number
+                - name: nonTradeLock
+                  in: query
+                  description: Filtrar por productos sin bloqueo de intercambio.
+                  schema:
+                      type: boolean
+            responses:
+                '200':
+                    description: Respuesta exitosa
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Product'
+                '500':
+                    description: Error interno del servidor.

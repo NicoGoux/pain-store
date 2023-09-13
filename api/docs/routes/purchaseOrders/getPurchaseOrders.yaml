@@ -1,0 +1,92 @@
+paths:
+    /purchase-orders:
+        get:
+            summary: Obtiene la lista de pedidos de compra.
+            description: |
+                Esta ruta permite obtener la lista de pedidos de compra con opciones de filtrado.
+                Se requiere autenticación y autorización ADMIN mediante el token JWT proporcionado como Bearer Token en la solicitud.
+
+                Los parámetros de consulta permitidos son:
+                - `page`: Número de página que se desea obtener.
+                - `orderNumber`: Número de orden específico para la búsqueda.
+                - `username`: Nombre de usuario para la búsqueda.
+                - `paymentMethodType`: Tipo de método de pago para la búsqueda (por ejemplo, TRANSFERENCIA).
+                - `purchaseOrderStatus`: Estado de la orden para la búsqueda (por ejemplo, PENDIENTE DE PAGO).
+                - `minDate`: Permite buscar órdenes de compra desde esta fecha hasta la fecha actual o `maxDate`.
+                - `maxDate`: Permite buscar órdenes de compra hasta esta fecha o entre esta y `minDate`.
+            tags:
+                - Pedidos de compra
+            security:
+                - bearerAuth: []
+
+            parameters:
+                - name: page
+                  in: query
+                  description: Número de página que se desea obtener.
+                  schema:
+                      type: integer
+                  example: 1
+                - name: orderNumber
+                  in: query
+                  description: Número de orden específico para la búsqueda.
+                  schema:
+                      type: integer
+                  example: 12345
+                - name: username
+                  in: query
+                  description: Nombre de usuario para la búsqueda.
+                  schema:
+                      type: string
+                  example: 'john_doe'
+                - name: paymentMethodType
+                  in: query
+                  description: Tipo de método de pago para la búsqueda.
+                  schema:
+                      type: string
+                  example: 'TRANSFERENCIA'
+                - name: purchaseOrderStatus
+                  in: query
+                  description: Estado de la orden para la búsqueda.
+                  schema:
+                      type: string
+                  example: 'PENDIENTE DE PAGO'
+                - name: minDate
+                  in: query
+                  description: Fecha mínima para buscar órdenes de compra desde esta fecha.
+                  schema:
+                      type: string
+                      format: date
+                  example: '2023-09-01'
+                - name: maxDate
+                  in: query
+                  description: Fecha máxima para buscar órdenes de compra hasta esta fecha o entre esta y `minDate`.
+                  schema:
+                      type: string
+                      format: date
+                  example: '2023-09-30'
+
+            responses:
+                '200':
+                    description: Lista de órdenes de compra filtradas y número total de páginas.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    purchaseOrders:
+                                        type: array
+                                        description: Lista de órdenes de compra filtradas.
+                                        items:
+                                            $ref: '#/components/schemas/PurchaseOrder'
+                                    totalPages:
+                                        type: integer
+                                        description: Valor numérico que representa la cantidad de páginas de órdenes de compra con el filtro actual.
+                                        example: 1
+                '401':
+                    description: No estás autorizado para realizar esta acción.
+                '403':
+                    description: No tienes los permisos necesarios.
+                '404':
+                    description: Alguno de los elementos indicados no fue encontrado.
+                '500':
+                    description: Error interno del servidor.

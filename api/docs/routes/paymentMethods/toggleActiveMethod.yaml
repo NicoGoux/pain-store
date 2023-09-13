@@ -1,0 +1,33 @@
+paths:
+    /payment-methods/toggle-active-method/{id}:
+        get:
+            summary: Habilitar o deshabilitar método de pago.
+            description: |
+                Permite habilitar o deshabilitar un método de pago específico proporcionando su ID como parámetro.
+                Se requiere autenticación y autorización ADMIN mediante el token JWT proporcionado como Bearer Token en la solicitud.
+            tags:
+                - Métodos de Pago
+            security:
+                - BearerAuth: []
+            parameters:
+                - in: path
+                  name: id
+                  description: ID del método de pago que se desea habilitar o deshabilitar.
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    description: Método de pago actualizado.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PaymentMethod'
+                '401':
+                    description: No estás autorizado para realizar esta acción.
+                '403':
+                    description: No tienes los permisos necesarios.
+                '404':
+                    description: Método de pago no encontrado.
+                '500':
+                    description: Error interno del servidor.

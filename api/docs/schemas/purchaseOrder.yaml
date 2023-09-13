@@ -1,0 +1,55 @@
+# Purchase Order
+components:
+    schemas:
+        PurchaseOrder:
+            type: object
+            properties:
+                orderNumber:
+                    type: number
+                    description: Número de orden único.
+                    example: 12345
+                user:
+                    $ref: '#/components/schemas/User'
+                    description: Usuario asociado a la orden.
+                firstName:
+                    type: string
+                    description: Nombre del comprador.
+                    example: John
+                lastName:
+                    type: string
+                    description: Apellido del comprador.
+                    example: Doe
+                tradeLink:
+                    type: string
+                    description: Enlace de intercambio de la plataforma steam del comprador.
+                    example: https://steamcommunity.com/tradeoffer/new/?partner=407683959&token=4WdlaF-E
+                products:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Product'
+                    description: Lista de productos en la orden.
+                paymentMethodType:
+                    $ref: '#/components/schemas/PaymentMethodType'
+                    description: Tipo de método de pago utilizado en la orden.
+                totalPrice:
+                    type: number
+                    description: Precio total de la orden.
+                    example: 4500
+                purchaseOrderStatus:
+                    description: Estado de la orden de compra.
+                    type: object
+                    properties:
+                        purchaseOrderStatusString:
+                            type: string
+                            description: Estado de la orden de compra.
+                            example: 'PENDIENTE DE PAGO'
+            required:
+                - orderNumber
+                - user
+                - firstName
+                - lastName
+                - tradeLink
+                - products
+                - paymentMethodType
+                - totalPrice
+                - purchaseOrderStatus

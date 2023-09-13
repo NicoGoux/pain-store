@@ -83,7 +83,6 @@ class UserService {
 				throw boom.conflict("Can't update confirmToken");
 			}
 
-			//TODO
 			const link = `http://${domain}/#/account/validate-email?emailToken=${emailConfirmToken}`;
 
 			// email message
@@ -228,12 +227,14 @@ class UserService {
 		return this.userCartDAO.getUserCart(user.sub);
 	}
 
-	insertProductToCart(user, productId) {
-		return this.userCartDAO.insertProductToCart(user.sub, productId);
+	async insertProductToCart(user, productId) {
+		await this.userCartDAO.insertProductToCart(user.sub, productId);
+		return { message: 'Product added' };
 	}
 
-	removeProductToCart(user, productId) {
-		return this.userCartDAO.removeProductToCart(user.sub, productId);
+	async removeProductToCart(user, productId) {
+		await this.userCartDAO.removeProductToCart(user.sub, productId);
+		return { message: 'Product removed' };
 	}
 	//#endregion
 

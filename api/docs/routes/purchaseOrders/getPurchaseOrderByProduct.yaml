@@ -1,0 +1,33 @@
+paths:
+    /purchase-orders/product-purchase-order/{productId}:
+        get:
+            summary: Obtiene una orden de compra asociada a un producto por su ID.
+            description: |
+                Esta ruta permite obtener una orden de compra de estado PENDIENTE o COMPLETADO asociada al producto que posea el ID pasado como parámetro.
+                Se requiere autenticación y autorización ADMIN mediante el token JWT proporcionado como Bearer Token en la solicitud.
+            tags:
+                - Pedidos de compra
+            parameters:
+                - in: path
+                  name: productId
+                  required: true
+                  description: ID del producto para el cual se busca la orden de compra.
+                  schema:
+                      type: string
+            security:
+                - bearerAuth: []
+            responses:
+                '200':
+                    description: Orden de compra asociada al producto.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PurchaseOrder'
+                '401':
+                    description: No estás autorizado para realizar esta acción.
+                '403':
+                    description: No tienes los permisos necesarios.
+                '404':
+                    description: Producto no encontrado.
+                '500':
+                    description: Error interno del servidor.

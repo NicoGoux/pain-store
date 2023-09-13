@@ -1,0 +1,32 @@
+paths:
+    /products/market-hashes:
+        get:
+            summary: Obtener market hashes
+            description: Obtiene una lista de market hashes.
+            tags:
+                - Market hashes
+            parameters:
+                - name: marketHash
+                  in: query
+                  description: Filtrar por marketHash.
+                  schema:
+                      type: string
+                - name: category
+                  in: query
+                  description: Filtrar por categoría.
+                  schema:
+                      type: string
+                - name: limit
+                  in: query
+                  description: Cantidad máxima de elementos a obtener.
+                  schema:
+                      type: number
+            responses:
+                '200':
+                    description: Lista de market hashes recuperada con éxito.
+                    content:
+                        application/json:
+                            type: array
+
+                '500':
+                    description: Error interno del servidor.

@@ -1,0 +1,67 @@
+paths:
+    /purchase-orders:
+        post:
+            summary: Crea un nuevo pedido de compra.
+            description: |
+                Esta ruta permite a un usuario actualmente autenticado mediante el token JWT proporcionado como Bearer Token en la solicitud crear un nuevo pedido de compra.
+                El cuerpo de la solicitud debe incluir la información del comprador, los productos que se incluirán en el pedido, 
+                el tipo de método de pago y un indicador que define si la acción se realizó desde el carrito de compra o no.
+            tags:
+                - Pedidos de compra
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                userData:
+                                    type: object
+                                    properties:
+                                        firstName:
+                                            type: string
+                                            description: Nombre del comprador.
+                                            example: 'John'
+                                        lastName:
+                                            type: string
+                                            description: Apellido del comprador.
+                                            example: 'Doe'
+                                        tradeLink:
+                                            type: string
+                                            description: Tradelink de la plataforma steam.
+                                            example: https://steamcommunity.com/tradeoffer/new/?partner=407683959&token=4WdlaF-E
+                                products:
+                                    type: array
+                                    items:
+                                        type: string
+                                        description: ID de los productos que se incluirán en el pedido.
+                                        example:
+                                            - { '_id': '64ffc1c2c39ebba3a2b20306' }
+                                paymentMethodType:
+                                    type: string
+                                    description: Tipo de método de pago.
+                                    example: TRANSFERENCIA
+                                isCart:
+                                    type: boolean
+                                    description: Define si la acción se realizó desde el carrito de compra o no.
+                                    example: true
+                            required:
+                                - userData
+                                - products
+                                - paymentMethodType
+                                - isCart
+            responses:
+                '201':
+                    description: Pedido de compra creado con éxito.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PurchaseOrder'
+                '400':
+                    $ref: '#/components/responses/BadRequestError'
+                '401':
+                    $ref: '#/components/responses/UnauthorizedError'
+                '403':
+                    $ref: '#/components/responses/ForbiddenError'

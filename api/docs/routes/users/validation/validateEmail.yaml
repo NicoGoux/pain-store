@@ -1,0 +1,35 @@
+paths:
+    /validate-email:
+        post:
+            summary: Validar correo electrónico
+            description: Valida el correo electrónico del usuario actualmente autenticado mediante el token JWT proporcionado como Bearer Token en la solicitud.
+            tags:
+                - Validación de email de usuario.
+            security:
+                - bearerAuth: []
+            requestBody:
+                description: Token JWT para la validación.
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                emailConfirmToken:
+                                    type: string
+                                    description: Token JWT para la validación.
+                                    example: 'JWTtoken'
+                            required:
+                                - emailConfirmToken
+            responses:
+                '200':
+                    description: El correo electrónico se ha validado correctamente.
+                    content:
+                        application/json:
+                            schema:
+                                example:
+                                    message: 'Email confirmed'
+                '401':
+                    description: No estás autorizado para realizar esta acción.
+                '500':
+                    description: Error interno del servidor.

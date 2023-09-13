@@ -1,0 +1,37 @@
+paths:
+    /send-validate-email:
+        post:
+            summary: Enviar correo electrónico para la validación de correo electrónico
+            description: Envía un correo electrónico junto con el enlace que se utilizara para validar el correo electrónico del usuario actualmente autenticado mediante el token JWT proporcionado como Bearer Token en la solicitud.
+            tags:
+                - Validación de email de usuario.
+            security:
+                - bearerAuth: []
+            requestBody:
+                description: Dominio donde se encuentra alojado el frontend.
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                domain:
+                                    type: string
+                                    description: Dominio actual del frontend.
+                                    example: 'domain.com'
+                            required:
+                                - domain
+            responses:
+                '200':
+                    description: Se ha enviado el correo electrónico de confirmación.
+                    content:
+                        application/json:
+                            schema:
+                                example:
+                                    message: 'mail sent'
+                '404':
+                    description: Usuario no encontrado.
+                '409':
+                    description: Conflicto al intentar enviar el email.
+                '500':
+                    description: Error interno del servidor.

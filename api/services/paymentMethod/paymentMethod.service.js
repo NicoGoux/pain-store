@@ -1,6 +1,7 @@
 import { paymentMethodTypeStrings } from '../../config/paymentMethodTypeStrings.js';
 import { PaymentMethodDAO } from '../../database/modelDAO/paymentMethod/paymentMethodDAO.js';
 import { PaymentMethodTypeDAO } from '../../database/modelDAO/paymentMethod/paymentMethodTypeDAO.js';
+import boom from '@hapi/boom';
 
 let instance;
 
@@ -39,6 +40,9 @@ class PaymentMethodService {
 		paymentMethodType = await this.paymentMethodTypeDAO.getPaymentMethodType({
 			paymentMethodTypeString: paymentMethodType,
 		});
+		if (!paymentMethodType) {
+			throw boom.notFound('Payment method type not found');
+		}
 
 		if (
 			paymentMethodType.paymentMethodTypeString ===
@@ -46,7 +50,7 @@ class PaymentMethodService {
 		) {
 			paymentMethodTypeStrings.TRANSFERENCIA.data.forEach((data) => {
 				if (!Object.hasOwnProperty.call(paymentMethodData, data)) {
-					throw new Error('The ' + data + ' data is missing');
+					throw boom.conflict('The ' + data + ' data is missing');
 				}
 			});
 		} else if (
@@ -54,7 +58,7 @@ class PaymentMethodService {
 		) {
 			paymentMethodTypeStrings.CRIPTOMONEDA.data.forEach((data) => {
 				if (!Object.hasOwnProperty.call(paymentMethodData, data)) {
-					throw new Error('The ' + data + ' data is missing');
+					throw boom.conflict('The ' + data + ' data is missing');
 				}
 			});
 		}
@@ -100,8 +104,9 @@ class PaymentMethodService {
 		return this.paymentMethodDAO.toggleActivePaymentMethod(id);
 	}
 
-	deletePaymentMethod(id) {
-		return this.paymentMethodDAO.deletePaymentMethod(id);
+	async deletePaymentMethod(id) {
+		await this.paymentMethodDAO.deletePaymentMethod(id);
+		return { message: 'Payment method deleted' };
 	}
 
 	/**

@@ -1,0 +1,70 @@
+paths:
+    /products:
+        get:
+            summary: Obtener productos
+            description: Obtiene una lista de productos basados en los parámetros de consulta. Se requiere autenticación y autorización ADMIN mediante el token JWT proporcionado como Bearer Token en la solicitud.
+            tags:
+                - Productos
+            security:
+                - BearerAuth: []
+            parameters:
+                - name: name
+                  in: query
+                  description: Filtrar por nombre de producto.
+                  schema:
+                      type: string
+                - name: minPrice
+                  in: query
+                  description: Precio mínimo.
+                  schema:
+                      type: number
+                - name: maxPrice
+                  in: query
+                  description: Precio máximo.
+                  schema:
+                      type: number
+                - name: category
+                  in: query
+                  description: Filtrar por categoría.
+                  schema:
+                      type: string
+                - name: condition
+                  in: query
+                  description: Filtrar por condición.
+                  schema:
+                      type: string
+                - name: minFloat
+                  in: query
+                  description: Float mínimo.
+                  schema:
+                      type: number
+                - name: maxFloat
+                  in: query
+                  description: Float máximo.
+                  schema:
+                      type: number
+                - name: nonTradeLock
+                  in: query
+                  description: Filtrar por productos sin bloqueo de intercambio.
+                  schema:
+                      type: boolean
+                - name: productStatus
+                  in: query
+                  description: Filtrar por estado de producto.
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    description: Respuesta exitosa
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Product'
+                '401':
+                    description: No estás autorizado para realizar esta acción.
+                '403':
+                    description: No tienes los permisos necesarios para crear un producto.
+                '500':
+                    description: Error interno del servidor.

@@ -1,0 +1,39 @@
+paths:
+    /users/recovery:
+        post:
+            summary: Enviar correo de recuperación
+            description: Envía un correo de recuperación a la dirección de correo electrónico proporcionada.
+            tags:
+                - Restablecimiento de contraseña de usuario.
+            requestBody:
+                description: Email donde enviar y el dominio donde se encuentra alojado el frontend.
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                email:
+                                    type: string
+                                    description: Dirección de correo electrónico donde se enviará el correo de recuperación.
+                                    example: 'user@example.com'
+                                domain:
+                                    type: string
+                                    description: Dominio actual del frontend.
+                                    example: 'domain.com'
+                            required:
+                                - email
+                                - domain
+            responses:
+                '200':
+                    description: Correo de recuperación enviado exitosamente.
+                    content:
+                        application/json:
+                            example:
+                                message: 'mail sent'
+                '404':
+                    description: Usuario no encontrado.
+                '409':
+                    description: Conflicto al intentar enviar el email.
+                '500':
+                    description: Error interno del servidor.

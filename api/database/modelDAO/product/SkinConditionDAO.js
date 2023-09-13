@@ -41,15 +41,6 @@ class SkinConditionDAO {
 
 		return skinConditionsInserted;
 	}
-
-	//TODO
-
-	// async updateSkinCondition(skinCondition) {
-	// 	return SkinConditionDTO.updateOne(
-	// 		{ skinConditionString: skinCondition.skinConditionString },
-	// 		{ initials: skinCondition.initials, order: skinCondition.order }
-	// 	);
-	// }
 }
 
 export { SkinConditionDAO };
