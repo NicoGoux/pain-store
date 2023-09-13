@@ -68,7 +68,7 @@ const swaggerSpec = {
 	apis: [`${path.join(__dirname, './docs/**/*.yaml')}`],
 };
 
-app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerJSDoc(swaggerSpec)));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJSDoc(swaggerSpec)));
 
 routerApi(app);
 
