@@ -15,6 +15,7 @@ const ProductSchema = new Schema(
 
 		tradeLock: {
 			type: Date,
+			default: new Date(Date.now() - 86400000),
 		},
 
 		price: {
