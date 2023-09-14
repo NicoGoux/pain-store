@@ -1,21 +1,31 @@
 import Joi from 'joi';
 
 // Check user data
-const firstName = Joi.string().alphanum().min(2).max(50).messages({
-	'string.base': 'FirstName must be a string',
-	'string.empty': 'FirstName cannot be empty',
-	'string.min': 'FirstName must have at least {#limit} characters',
-	'string.max': 'FirstName must have at most {#limit} characters',
-	'any.required': 'FirstName is required',
-});
+const firstName = Joi.string()
+	.regex(/^[a-zA-Z\sáéíóúÁÉÍÓÚüÜñÑ'-]+$/)
+	.min(2)
+	.max(50)
+	.messages({
+		'string.base': 'FirstName must be a string',
+		'string.empty': 'FirstName cannot be empty',
+		'string.pattern.base': 'FirstName can only contain letters and spaces',
+		'string.min': 'FirstName must have at least {#limit} characters',
+		'string.max': 'FirstName must have at most {#limit} characters',
+		'any.required': 'FirstName is required',
+	});
 
-const lastName = Joi.string().min(2).max(50).messages({
-	'string.base': 'LastName must be a string',
-	'string.empty': 'LastName cannot be empty',
-	'string.min': 'LastName must have at least {#limit} characters',
-	'string.max': 'LastName must have at most {#limit} characters',
-	'any.required': 'LastName is required',
-});
+const lastName = Joi.string()
+	.regex(/^[a-zA-Z\sáéíóúÁÉÍÓÚüÜñÑ'-]+$/)
+	.min(2)
+	.max(50)
+	.messages({
+		'string.base': 'LastName must be a string',
+		'string.empty': 'LastName cannot be empty',
+		'string.pattern.base': 'LastName can only contain letters and spaces',
+		'string.min': 'LastName must have at least {#limit} characters',
+		'string.max': 'LastName must have at most {#limit} characters',
+		'any.required': 'LastName is required',
+	});
 
 const tradeLink = Joi.string()
 	.pattern(

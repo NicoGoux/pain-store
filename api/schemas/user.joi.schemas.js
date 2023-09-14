@@ -16,7 +16,7 @@ const username = Joi.string().alphanum().min(3).max(16).messages({
 });
 
 const firstName = Joi.string()
-	.regex(/^[a-zA-Z\s]+$/)
+	.regex(/^[a-zA-Z\sáéíóúÁÉÍÓÚüÜñÑ'-]+$/)
 	.min(2)
 	.max(25)
 	.messages({
@@ -29,7 +29,7 @@ const firstName = Joi.string()
 	});
 
 const lastName = Joi.string()
-	.regex(/^[a-zA-Z\s]+$/)
+	.regex(/^[a-zA-Z\sáéíóúÁÉÍÓÚüÜñÑ'-]+$/)
 	.min(2)
 	.max(25)
 	.messages({
