@@ -27,7 +27,7 @@ const port = process.env.PORT || '3030';
 
 connectDB();
 
-//cors
+// cors
 const whitelist = ['https://painstore.netlify.app'];
 const corsOptions = {
 	origin: function (origin, callback) {

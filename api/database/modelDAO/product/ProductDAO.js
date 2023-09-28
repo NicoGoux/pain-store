@@ -22,6 +22,10 @@ class ProductDAO {
 			},
 		};
 
+		const sort = {};
+
+		sort.price = 'asc';
+
 		if (filters.category != null) {
 			const marketHashDAO = new MarketHashDAO();
 			const marketHashesInCategory = await marketHashDAO.getMarketHashes({
@@ -53,7 +57,7 @@ class ProductDAO {
 		if (filters.productStatus != null) {
 			query.productStatus = filters.productStatus;
 		}
-		return await ProductDTO.find(query).lean();
+		return await ProductDTO.find(query).sort(sort).lean();
 	}
 
 	async getProduct(id) {
