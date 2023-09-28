@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# Backend para eCommerce de pain store
-=======
 # Backend de Pain Store
 
 Este es el backend para el eCommerce **PAIN STORE**. A continuación se mencionan los pasos para llevar a cabo la inicialización del proyecto.
